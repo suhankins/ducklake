@@ -1,17 +1,35 @@
 import { Object3D, Vector3 } from 'three';
-import Entity from './Entity';
+import { Entity, PhysicsEntity } from './Entity';
 
-export default class Bread extends Entity {
+/**
+ * Bread. Intended for ducks to be eaten.
+ *
+ * Physics are very unrealistic,
+ * but I think it looks more fun this way.
+ */
+export default class Bread extends PhysicsEntity {
     model: Object3D;
 
-    private static GRAVITY: number = -2;
-    private static WATER_PRESSURE: number = 2;
+    /**
+     * Falling acceleration
+     */
+    private static readonly GRAVITY: number = -30;
+    /**
+     * Acceleration that pushes bread out of water
+     */
+    private static readonly WATER_PRESSURE: number = 40;
 
-    private static TERMINAL_VELOCITY: number = 2;
+    /**
+     * Max speed
+     */
+    private static readonly TERMINAL_VELOCITY: number = 999;
 
+    /**
+     * Flag that stops calculating falling
+     */
     private gravityDisabled: boolean = false;
 
-    private velocity: Vector3 = new Vector3(0, 0, 0);
+    velocity: Vector3 = new Vector3(0, 0, 0);
 
     constructor(position: Vector3) {
         super();
@@ -26,7 +44,11 @@ export default class Bread extends Entity {
 
     updateGravity(dt: number) {
         // If bread pretty much stopped moving, we stop updating gravity
-        if (this.model.position.y > 0 && this.model.position.y < 0.05 && Math.abs(this.velocity.y) < 0.03) {
+        if (
+            this.model.position.y > 0 &&
+            this.model.position.y < 0.05 &&
+            Math.abs(this.velocity.y) < 0.03
+        ) {
             this.gravityDisabled = true;
             return;
         }
@@ -45,9 +67,9 @@ export default class Bread extends Entity {
         if (this.velocity.length() > Bread.TERMINAL_VELOCITY) {
             this.velocity.normalize().multiplyScalar(Bread.TERMINAL_VELOCITY);
         }
-        
+
         // Adding velocity to our position, so moving the bread
-        this.model.position.add(this.velocity);
+        this.applyVelocity(dt);
 
         // Bread entered water
         if (this.model.position.y < 0 && direction == 'down') {

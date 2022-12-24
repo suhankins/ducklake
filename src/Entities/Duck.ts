@@ -1,15 +1,21 @@
 import { Clock, Object3D, Vector2, Vector3 } from 'three';
 import Bread from './Bread';
-import Entity from './Entity';
+import { PhysicsEntity } from './Entity';
 import { State, StateIdle } from './DuckStates';
 
-export default class Duck extends Entity {
+export default class Duck extends PhysicsEntity {
     model: Object3D;
 
     // Behaviour
+    /**
+     * Target, that duck should chase.
+     */
     target: Bread | Vector3 | null;
 
     private _state: State = new StateIdle(this);
+    /**
+     * Duck's state. Controls its behaviour.
+     */
     public get state() {
         return this._state;
     }
@@ -19,6 +25,9 @@ export default class Duck extends Entity {
     }
 
     private stateEntered: Clock = new Clock();
+    /**
+     * Time which duck has spent in the current state.
+     */
     public get timeInState() {
         return this.stateEntered.getElapsedTime();
     }
@@ -26,16 +35,8 @@ export default class Duck extends Entity {
         this.stateEntered.start();
     }
 
-    // Movement 
+    // Movement
     velocity: Vector3 = new Vector3();
-
-    deceleration = 2;
-
-    idleAcceleration = 1;
-    breadAcceleration = 3;
-
-    idleSpeed = 1;
-    breadSpeed = 2;
 
     constructor() {
         super();
@@ -45,14 +46,19 @@ export default class Duck extends Entity {
     }
 
     update(dt: number) {
-        //this.state.update(dt);
-        //this.applyVelocity(dt);
-        //this.decelerate(dt);
+        this.state.update(dt);
+        this.applyVelocity(dt);
     }
 
     lookAt(position: Vector3) {
-        const convertedVector = position.clone().sub(this.model.position).setY(0).normalize();
-        const angle = new Vector2(-convertedVector.x, convertedVector.z).angle() - Math.PI / 2;
+        const convertedVector = position
+            .clone()
+            .sub(this.model.position) // if we substract one vector from another,
+            .setY(0)                  // we get a vector pointing from one to another
+            .normalize();
+        const angle =
+            new Vector2(-convertedVector.x, convertedVector.z).angle() -
+            Math.PI / 2;
         this.model.rotation.y = angle;
     }
 }
