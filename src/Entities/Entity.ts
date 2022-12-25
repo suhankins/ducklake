@@ -45,11 +45,19 @@ export abstract class Entity {
 export abstract class PhysicsEntity extends Entity {
     abstract velocity: Vector3;
 
+    abstract TERMINAL_VELOCITY: number;
+
     /**
      * Adds velocity to the position of the model
      * @param dt delta time
      */
     applyVelocity(dt: number): void {
         this.model.position.addScaledVector(this.velocity, dt);
+    }
+
+    capVelocity(dt: number): void {
+        if (this.velocity.length() > this.TERMINAL_VELOCITY) {
+            this.velocity.normalize().multiplyScalar(this.TERMINAL_VELOCITY);
+        }
     }
 }

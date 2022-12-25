@@ -22,7 +22,7 @@ export default class Bread extends PhysicsEntity {
     /**
      * Max speed
      */
-    private static readonly TERMINAL_VELOCITY: number = 10;
+    TERMINAL_VELOCITY: number = 10;
 
     /**
      * Flag that stops calculating falling
@@ -63,10 +63,7 @@ export default class Bread extends PhysicsEntity {
             this.velocity.add(new Vector3(0, Bread.WATER_PRESSURE * dt, 0));
         }
 
-        // Stopping bread from moving too fast
-        if (this.velocity.length() > Bread.TERMINAL_VELOCITY) {
-            this.velocity.normalize().multiplyScalar(Bread.TERMINAL_VELOCITY);
-        }
+        this.capVelocity(dt);
 
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);

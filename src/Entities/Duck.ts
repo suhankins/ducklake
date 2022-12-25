@@ -38,6 +38,8 @@ export default class Duck extends PhysicsEntity {
     // Movement
     velocity: Vector3 = new Vector3();
 
+    TERMINAL_VELOCITY = 10;
+
     constructor() {
         super();
         this.target = null;
@@ -47,6 +49,7 @@ export default class Duck extends PhysicsEntity {
 
     update(dt: number) {
         this.state.update(dt);
+        this.capVelocity(dt);
         this.applyVelocity(dt);
     }
 
