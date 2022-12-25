@@ -1,5 +1,5 @@
 import { Object3D, Vector3 } from 'three';
-import { Entity, PhysicsEntity } from './Entity';
+import { PhysicsEntity } from './Entity';
 
 /**
  * Bread. Intended for ducks to be eaten.
@@ -22,7 +22,7 @@ export default class Bread extends PhysicsEntity {
     /**
      * Max speed
      */
-    private static readonly TERMINAL_VELOCITY: number = 999;
+    private static readonly TERMINAL_VELOCITY: number = 5;
 
     /**
      * Flag that stops calculating falling
