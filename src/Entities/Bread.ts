@@ -63,7 +63,8 @@ export default class Bread extends PhysicsEntity {
             this.velocity.add(new Vector3(0, Bread.WATER_PRESSURE * dt, 0));
         }
 
-        this.capVelocity(dt);
+        // Capping velocity
+        this.capVelocity();
 
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);

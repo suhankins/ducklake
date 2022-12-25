@@ -55,7 +55,7 @@ export abstract class PhysicsEntity extends Entity {
         this.model.position.addScaledVector(this.velocity, dt);
     }
 
-    capVelocity(dt: number): void {
+    capVelocity(): void {
         if (this.velocity.length() > this.TERMINAL_VELOCITY) {
             this.velocity.normalize().multiplyScalar(this.TERMINAL_VELOCITY);
         }

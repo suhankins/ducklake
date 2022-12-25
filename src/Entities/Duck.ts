@@ -49,7 +49,7 @@ export default class Duck extends PhysicsEntity {
 
     update(dt: number) {
         this.state.update(dt);
-        this.capVelocity(dt);
+        this.capVelocity();
         this.applyVelocity(dt);
     }
 
