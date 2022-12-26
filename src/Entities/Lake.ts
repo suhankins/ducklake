@@ -1,15 +1,13 @@
 import { PlaneGeometry, Mesh, Object3D, MeshBasicMaterial } from 'three';
-import { Entity } from './Entity';
 
 /**
  * Lake itself.
  * Fills the whole screen.
  */
-export default class Lake extends Entity {
+export default class Lake {
     model: Object3D;
 
     constructor() {
-        super();
         const geometry = new PlaneGeometry(1, 36, 1, 1);
         const material = new MeshBasicMaterial({ color: 0x86a1cc });
         this.model = new Mesh(geometry, material);
@@ -27,6 +25,4 @@ export default class Lake extends Entity {
         const aspectRatio = window.innerWidth / window.innerHeight;
         this.model.scale.setX(aspectRatio * 36);
     }
-
-    update() {}
 }
