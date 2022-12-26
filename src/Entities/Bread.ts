@@ -35,7 +35,7 @@ export default class Bread extends PhysicsEntity {
         super();
         this.model = Bread.MODEL.clone(true);
         this.model.position.copy(position);
-        this.model.rotation.y = Math.random() * Math.PI - Math.PI;
+        this.model.rotation.y = Math.random() * Math.PI * 2 - Math.PI;
     }
 
     update(dt: number): void {
