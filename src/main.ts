@@ -4,7 +4,7 @@ import WebGL from 'three/examples/jsm/capabilities/WebGL';
 import Duck from './Entities/Duck';
 import LoadAssets from './LoadAssets';
 import IsometricCamera from './IsometricCamera';
-import Lake from './Entities/Lake';
+import Lake from './Lake';
 import WindowToWorld from './WindowToWorld';
 import { Entity } from './Entities/Entity';
 import Bread from './Entities/Bread';
