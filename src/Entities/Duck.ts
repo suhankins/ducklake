@@ -1,16 +1,24 @@
-import { Clock, Object3D, Vector2, Vector3 } from 'three';
+import { Clock, Euler, Object3D, Vector3 } from 'three';
 import Bread from './Bread';
 import { PhysicsEntity } from './Entity';
 import { State, StateIdle } from './DuckStates';
 
 export default class Duck extends PhysicsEntity {
+    velocity: Vector3 = new Vector3();
+    angularVelocity: Euler = new Euler();
+
+    terminalVelocity: number = 10;
+    angularTerminalVelocity: number = 1;
+
+    deceleration: number = 5;
+
     model: Object3D;
 
     // Behaviour
     /**
      * Target, that duck should chase.
      */
-    target: Bread | Vector3 | null;
+    target: Bread | Vector3;
 
     private _state: State = new StateIdle(this);
     /**
@@ -35,14 +43,9 @@ export default class Duck extends PhysicsEntity {
         this.stateEntered.start();
     }
 
-    // Movement
-    velocity: Vector3 = new Vector3();
-
-    TERMINAL_VELOCITY = 10;
-
     constructor() {
         super();
-        this.target = null;
+        this.target = new Vector3();
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
     }
@@ -51,17 +54,5 @@ export default class Duck extends PhysicsEntity {
         this.state.update(dt);
         this.capVelocity();
         this.applyVelocity(dt);
-    }
-
-    lookAt(position: Vector3) {
-        const convertedVector = position
-            .clone()
-            .sub(this.model.position) // if we substract one vector from another,
-            .setY(0)                  // we get a vector pointing from one to another
-            .normalize();
-        const angle =
-            new Vector2(-convertedVector.x, convertedVector.z).angle() -
-            Math.PI / 2;
-        this.model.rotation.y = angle;
     }
 }

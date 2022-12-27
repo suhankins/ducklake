@@ -8,6 +8,7 @@ import Lake from './Lake';
 import WindowToWorld from './WindowToWorld';
 import { Entity } from './Entities/Entity';
 import Bread from './Entities/Bread';
+import { DebugDuck } from './Entities/DebugDuck';
 
 // Checking if WebGL is supported
 if (WebGL.isWebGLAvailable()) {
@@ -64,7 +65,7 @@ async function init() {
     scene.add(lake.model);
 
     for (let i = 0; i < 1; i++) {
-        const duck = new Duck();
+        const duck = new DebugDuck();
         duck.model.position.copy(
             WindowToWorld(
                 Math.random() * window.innerWidth,

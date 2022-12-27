@@ -1,4 +1,4 @@
-import { Object3D, Vector3 } from 'three';
+import { Euler, Object3D, Vector3 } from 'three';
 import { PhysicsEntity } from './Entity';
 
 /**
@@ -8,6 +8,14 @@ import { PhysicsEntity } from './Entity';
  * but I think it looks more fun this way.
  */
 export default class Bread extends PhysicsEntity {
+    velocity: Vector3 = new Vector3();
+    angularVelocity: Euler = new Euler();
+
+    terminalVelocity: number = 10;
+    angularTerminalVelocity: number = 2;
+
+    deceleration: number = 10;
+
     model: Object3D;
 
     /**
@@ -20,16 +28,9 @@ export default class Bread extends PhysicsEntity {
     private static readonly WATER_PRESSURE: number = 40;
 
     /**
-     * Max speed
-     */
-    TERMINAL_VELOCITY: number = 10;
-
-    /**
      * Flag that stops calculating falling
      */
     private gravityDisabled: boolean = false;
-
-    velocity: Vector3 = new Vector3(0, 0, 0);
 
     constructor(position: Vector3) {
         super();

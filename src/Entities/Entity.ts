@@ -1,4 +1,4 @@
-import { Object3D, Vector3 } from 'three';
+import { Euler, Object3D, Vector2, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 /**
@@ -44,8 +44,21 @@ export abstract class Entity {
 
 export abstract class PhysicsEntity extends Entity {
     abstract velocity: Vector3;
+    abstract angularVelocity: Euler;
 
-    abstract TERMINAL_VELOCITY: number;
+    /**
+     * Max speed in, units per second
+     */
+    abstract terminalVelocity: number;
+    /**
+     * Max angular velocity ,in radians per second
+     */
+    abstract angularTerminalVelocity: number;
+
+    /**
+     * Deceleration, in units per second
+     */
+    abstract deceleration: number;
 
     /**
      * Adds velocity to the position of the model
@@ -53,11 +66,54 @@ export abstract class PhysicsEntity extends Entity {
      */
     applyVelocity(dt: number): void {
         this.model.position.addScaledVector(this.velocity, dt);
+        this.model.rotation.x += this.angularVelocity.x * dt;
+        this.model.rotation.y += this.angularVelocity.y * dt;
+        this.model.rotation.z += this.angularVelocity.z * dt;
     }
 
+    /**
+     * Prevents velocity from getting too high
+     */
     capVelocity(): void {
-        if (this.velocity.length() > this.TERMINAL_VELOCITY) {
-            this.velocity.normalize().multiplyScalar(this.TERMINAL_VELOCITY);
+        // Linear velocity
+        if (this.velocity.length() > this.terminalVelocity) {
+            this.velocity.normalize().multiplyScalar(this.terminalVelocity);
         }
+
+        // Angular velocity
+        const rotationToVector3 = new Vector3().setFromEuler(
+            this.angularVelocity
+        );
+        if (rotationToVector3.length() > this.angularTerminalVelocity) {
+            rotationToVector3.normalize().multiplyScalar(this.terminalVelocity);
+        }
+        this.angularVelocity.setFromVector3(rotationToVector3);
+    }
+
+    /**
+     * Slows the object down, like friction.
+     * @param dt
+     */
+    decelerate(dt: number): void {
+        const length = this.velocity.length();
+        if (length == 0) return;
+        // stopping any movement, instead of making the duck jump back and forth
+        if (length <= this.deceleration * dt) this.velocity.set(0, 0, 0);
+
+        this.velocity.subScalar(this.deceleration * dt);
+    }
+
+    /**
+     * Calculates Y angle towards the given position
+     * @param position
+     */
+    angleTowards(position: Vector3) {
+        const convertedVector = position
+            .clone()
+            .sub(this.model.position) // if we substract one vector from another,
+            .setY(0) // we get a vector pointing from one to another
+            .normalize();
+        const angle = new Vector2(convertedVector.z, convertedVector.x).angle(); // Value from 0 to 2*PI
+        return angle;
     }
 }
