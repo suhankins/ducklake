@@ -111,8 +111,8 @@ export class StateApproachingTarget extends State {
             this.duck.target instanceof Vector3
                 ? this.duck.target
                 : this.duck.target.model.position;
-        const currentAngle =
-            Math.abs(this.duck.model.rotation.y) % (Math.PI * 2); // To account for multiple circles of rotation
+        const currentAngle = // To account for multiple circles of rotation and negative angles
+            this.duck.model.rotation.y % (Math.PI * 2) + Math.PI * 2;
 
         this.duck.velocity.addScaledVector(
             new Vector3(Math.sin(currentAngle), 0, Math.cos(currentAngle)),
@@ -122,8 +122,9 @@ export class StateApproachingTarget extends State {
         const desiredAngle = this.duck.angleTowards(desiredPosition);
 
         var difference = currentAngle - desiredAngle;
-        if (Math.abs(difference) > Math.PI)
+        if (difference > Math.PI)
             difference += (difference > 0 ? -1 : 1) * Math.PI * 2; // Keeps difference between -PI and +PI
+        
         if (Math.abs(difference) < 0.01) {
             // Stop duck from jerking back and forth
             this.duck.angularVelocity.set(0, 0, 0);
@@ -131,11 +132,9 @@ export class StateApproachingTarget extends State {
         } else {
             this.duck.angularVelocity.set(
                 0,
-                this.duck.angularVelocity.y +
-                    this.angularAcceleration *
-                        dt * // Line below prevents duck from getting stuck in angle PI radians different from target
-                        (Math.abs(difference) > Math.PI - 0.01 ? -1 : 1) *
-                        (difference > 0 ? -1 : 1), // Reversing rotation if difference > 2*PI
+                this.duck.angularVelocity.y + this.angularAcceleration *
+                    dt * // duck will rotate in the direction that will get it to the desired angle asap
+                    (difference > 0 && difference < Math.PI ? -1 : 1),
                 0
             );
         }
