@@ -64,8 +64,8 @@ async function init() {
     lake = new Lake();
     scene.add(lake.model);
 
-    for (let i = 0; i < 1; i++) {
-        const duck = new DebugDuck();
+    for (let i = 0; i < 10; i++) {
+        const duck = new Duck();
         duck.model.position.copy(
             WindowToWorld(
                 Math.random() * window.innerWidth,

@@ -10,7 +10,7 @@ export default class Duck extends PhysicsEntity {
     terminalVelocity: number = 10;
     angularTerminalVelocity: number = 1;
 
-    deceleration: number = 5;
+    deceleration: number = 0.1;
 
     model: Object3D;
 

@@ -97,10 +97,20 @@ export abstract class PhysicsEntity extends Entity {
     decelerate(dt: number): void {
         const length = this.velocity.length();
         if (length == 0) return;
-        // stopping any movement, instead of making the duck jump back and forth
-        if (length <= this.deceleration * dt) this.velocity.set(0, 0, 0);
+        
+        const frameDeceleration = this.deceleration * dt;
 
-        this.velocity.subScalar(this.deceleration * dt);
+        function decelerateAxis(axisVelocity: number): number {
+            if (Math.abs(axisVelocity) < frameDeceleration) axisVelocity = 0;
+            else if (axisVelocity > 0) axisVelocity -= frameDeceleration;
+            else axisVelocity += frameDeceleration;
+
+            return axisVelocity;
+        }
+
+        this.velocity.x = decelerateAxis(this.velocity.x);
+        this.velocity.y = decelerateAxis(this.velocity.y);
+        this.velocity.z = decelerateAxis(this.velocity.z);
     }
 
     /**
