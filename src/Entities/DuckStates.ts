@@ -122,7 +122,7 @@ export class StateApproachingTarget extends State {
             ) {
                 this.duck.state = new this.stateToEnter(this.duck);
             }
-        } else if (this.duck.target instanceof Bread) {
+        } else {
             desiredPosition = this.duck.target.model.position;
         }
 
