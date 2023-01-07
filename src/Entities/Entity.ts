@@ -5,6 +5,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
  * Base class for all objects in the lake
  */
 export abstract class Entity {
+    id: number;
+    private static IdIndex = 0;
     /**
      * Model that is copied by each instance to be added to the scene.
      */
@@ -36,10 +38,22 @@ export abstract class Entity {
     }
 
     /**
+     * Creates a new entity, moving ID index forward
+     */
+    constructor() {
+        this.id = PhysicsEntity.IdIndex++;
+    }
+
+    /**
      * Called every tick, updates entity's state
      * @param dt delta time, so time since last tick
      */
     abstract update(dt: number): void;
+
+    /**
+     * Should be called before object is removed from the list.
+     */
+    destroy(): void {}
 }
 
 export abstract class PhysicsEntity extends Entity {
@@ -97,7 +111,7 @@ export abstract class PhysicsEntity extends Entity {
     decelerate(dt: number): void {
         const length = this.velocity.length();
         if (length == 0) return;
-        
+
         const frameDeceleration = this.deceleration * dt;
 
         function decelerateAxis(axisVelocity: number): number {

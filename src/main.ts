@@ -39,14 +39,14 @@ var lake: Lake;
 /**
  * List of all entities that should be updated on the scene.
  */
-const entities: Entity[] = [];
+const entities: { [id: number] : Entity } = {};
 
 /**
  * Adds an entity to the scene and to the list of entities to be updated.
  * @param entity
  */
 function addEntity(entity: Entity) {
-    entities.push(entity);
+    entities[entity.id] = entity;
     scene.add(entity.model);
 }
 
@@ -84,9 +84,9 @@ function animate() {
 
     const dt = clock.getDelta();
 
-    entities.forEach((entity) => {
-        entity.update(dt);
-    });
+    for (let entityId in entities) {
+        entities[entityId].update(dt);
+    }
 
     renderer.render(scene, camera);
 }
