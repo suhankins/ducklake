@@ -82,7 +82,12 @@ async function init() {
 function animate() {
     requestAnimationFrame(animate);
 
-    const dt = clock.getDelta();
+    let dt = clock.getDelta();
+
+    // if website is running at very low framerates, it can cause weird things to happen
+    // so we cap lowest possible framerate at 10
+    // below that it will be slow-mo
+    if (dt > 0.1) dt = 0.1;
 
     for (let entityId in entities) {
         entities[entityId].update(dt);
