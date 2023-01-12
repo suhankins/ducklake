@@ -1,4 +1,4 @@
-import { Euler, Object3D, Vector2, Vector3 } from 'three';
+import { Euler, Object3D, Sphere, Vector2, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 /**
@@ -12,6 +12,11 @@ export abstract class Entity {
      */
     static MODEL: Object3D;
     abstract model: Object3D;
+    
+    /**
+     * Gets set in destroy. Indicates to list of entities that this entity needs to be gone
+     */
+    shouldBeDeleted: boolean = false;
 
     /**
      * Loads model into this.MODEL of the class.
@@ -53,10 +58,51 @@ export abstract class Entity {
     /**
      * Should be called before object is removed from the list.
      */
-    destroy(): void {}
+    destroy(): void {
+        this.shouldBeDeleted = true;
+    }
 }
 
 export abstract class PhysicsEntity extends Entity {
+    // Basics
+    abstract name: string;
+
+    destroy(): void {
+        super.destroy();
+        delete PhysicsEntity.CollisionList[this.id];
+    }
+
+    /**
+     * Creates a new physics entity, adding it to the list of collidable entities
+     */
+    constructor() {
+        super();
+        PhysicsEntity.CollisionList[this.id] = this;
+    }
+
+    // Collision
+    /**
+     * List used for collision detection
+     */
+    static CollisionList: { [id: number] : PhysicsEntity } = {};
+
+    abstract collision: Sphere;
+
+    /**
+     * Returns a list of entities this object collided with
+     * @returns list of PhysicsEntity this object collided with
+     */
+    checkCollisions(): PhysicsEntity[] {
+        let collisions = [];
+        for (let id in PhysicsEntity.CollisionList) {
+            if (PhysicsEntity.CollisionList[id].collision.intersectsSphere(this.collision)) {
+                collisions.push(PhysicsEntity.CollisionList[id]);
+            }
+        }
+        return collisions;
+    }
+
+    // Movement
     abstract velocity: Vector3;
     abstract angularVelocity: Euler;
 

@@ -1,9 +1,13 @@
-import { Clock, Euler, Object3D, Vector3 } from 'three';
+import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
 import Bread from './Bread';
 import { PhysicsEntity } from './Entity';
 import { State, StateIdle } from './DuckStates';
 
 export default class Duck extends PhysicsEntity {
+    name: string = "duck";
+
+    collision: Sphere;
+
     velocity: Vector3 = new Vector3();
     angularVelocity: Euler = new Euler();
 
@@ -48,6 +52,7 @@ export default class Duck extends PhysicsEntity {
         this.target = new Vector3();
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
+        this.collision = new Sphere(this.model.position, 1);
     }
 
     update(dt: number) {

@@ -91,6 +91,9 @@ function animate() {
 
     for (let entityId in entities) {
         entities[entityId].update(dt);
+        if (entities[entityId].shouldBeDeleted) {
+            delete entities[entityId];
+        }
     }
 
     renderer.render(scene, camera);

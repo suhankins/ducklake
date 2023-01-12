@@ -1,4 +1,4 @@
-import { Euler, Object3D, Vector3 } from 'three';
+import { Euler, Object3D, Sphere, Vector3 } from 'three';
 import { PhysicsEntity } from './Entity';
 
 /**
@@ -8,6 +8,10 @@ import { PhysicsEntity } from './Entity';
  * but I think it looks more fun this way.
  */
 export default class Bread extends PhysicsEntity {
+    name: string = "bread";
+
+    collision: Sphere;
+
     velocity: Vector3 = new Vector3();
     angularVelocity: Euler = new Euler();
 
@@ -27,20 +31,22 @@ export default class Bread extends PhysicsEntity {
      */
     private static readonly WATER_PRESSURE: number = 40;
 
-    /**
-     * Flag that stops calculating falling
-     */
-    private gravityDisabled: boolean = false;
-
     constructor(position: Vector3) {
         super();
         this.model = Bread.MODEL.clone(true);
         this.model.position.copy(position);
         this.model.rotation.y = Math.random() * Math.PI * 2 - Math.PI;
+        this.collision = new Sphere(this.model.position, 0.7);
     }
 
     update(dt: number): void {
-        if (!this.gravityDisabled) this.updateGravity(dt);
+        this.updateGravity(dt);
+
+        // Capping velocity
+        this.capVelocity();
+
+        // Adding velocity to our position, so moving the bread
+        this.applyVelocity(dt);
     }
 
     updateGravity(dt: number) {
@@ -50,7 +56,6 @@ export default class Bread extends PhysicsEntity {
             this.model.position.y < 0.05 &&
             Math.abs(this.velocity.y) < 0.03
         ) {
-            this.gravityDisabled = true;
             return;
         }
 
@@ -64,14 +69,8 @@ export default class Bread extends PhysicsEntity {
             this.velocity.add(new Vector3(0, Bread.WATER_PRESSURE * dt, 0));
         }
 
-        // Capping velocity
-        this.capVelocity();
-
-        // Adding velocity to our position, so moving the bread
-        this.applyVelocity(dt);
-
-        // Bread entered water
-        if (this.model.position.y < 0 && direction == 'down') {
+        // Bread will enter water this frame
+        if (direction == 'down' && this.velocity.y * dt * -1 > this.model.position.y) {
             // TODO: Add riples
             this.velocity.y /= 2;
         }
