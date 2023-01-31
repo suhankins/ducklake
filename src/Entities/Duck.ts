@@ -1,10 +1,10 @@
 import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
 import Bread from './Bread';
-import { PhysicsEntity } from './Entity';
+import { PhysicsEntity } from './PhysicsEntity';
 import { State, StateIdle } from './DuckStates';
 
 export default class Duck extends PhysicsEntity {
-    name: string = "duck";
+    name: string = 'duck';
 
     collision: Sphere;
 

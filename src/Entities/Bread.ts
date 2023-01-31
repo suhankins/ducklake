@@ -1,5 +1,5 @@
 import { Euler, Object3D, Sphere, Vector3 } from 'three';
-import { PhysicsEntity } from './Entity';
+import { PhysicsEntity } from './PhysicsEntity';
 
 /**
  * Bread. Intended for ducks to be eaten.
@@ -8,7 +8,7 @@ import { PhysicsEntity } from './Entity';
  * but I think it looks more fun this way.
  */
 export default class Bread extends PhysicsEntity {
-    name: string = "bread";
+    name: string = 'bread';
 
     collision: Sphere;
 
@@ -70,7 +70,10 @@ export default class Bread extends PhysicsEntity {
         }
 
         // Bread will enter water this frame
-        if (direction == 'down' && this.velocity.y * dt * -1 > this.model.position.y) {
+        if (
+            direction == 'down' &&
+            this.velocity.y * dt * -1 > this.model.position.y
+        ) {
             // TODO: Add riples
             this.velocity.y /= 2;
         }
