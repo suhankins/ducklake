@@ -4,6 +4,8 @@ import { PhysicsEntity } from './PhysicsEntity';
 import { State, StateIdle } from './DuckStates';
 
 export default class Duck extends PhysicsEntity {
+    static DUCKS: { [id: number]: Duck } = {};
+
     name: string = 'duck';
 
     collision: Sphere;
@@ -49,6 +51,7 @@ export default class Duck extends PhysicsEntity {
 
     constructor() {
         super();
+        Duck.DUCKS[this.id] = this;
         this.target = new Vector3();
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
@@ -59,5 +62,10 @@ export default class Duck extends PhysicsEntity {
         this.state.update(dt);
         this.capVelocity();
         this.applyVelocity(dt);
+    }
+
+    destroy() {
+        super.destroy();
+        delete Duck.DUCKS[this.id];
     }
 }
