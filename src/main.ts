@@ -92,6 +92,7 @@ function animate() {
     for (let entityId in entities) {
         entities[entityId].update(dt);
         if (entities[entityId].shouldBeDeleted) {
+            entities[entityId].model.clear();
             delete entities[entityId];
         }
     }
