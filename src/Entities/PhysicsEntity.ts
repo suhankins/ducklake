@@ -22,6 +22,10 @@ export abstract class PhysicsEntity extends Entity {
      */
     static CollisionList: { [id: number]: PhysicsEntity } = {};
     abstract collision: Sphere;
+    /**
+     * Array of physics entities this entity collided with in this frame
+     */
+    collisions: PhysicsEntity[] = [];
 
     /**
      * Creates a new physics entity, adding it to the list of collidable entities
@@ -32,21 +36,35 @@ export abstract class PhysicsEntity extends Entity {
     }
 
     /**
-     * Returns a list of entities this object collided with
-     * @returns list of PhysicsEntity this object collided with
+     * Checks with which objects did this object collide in this frame
      */
-    checkCollisions(): PhysicsEntity[] {
-        let collisions = [];
+    checkCollisions() {
+        // resetting previous frame's collisions
+        this.collisions = [];
         for (let id in PhysicsEntity.CollisionList) {
             if (
                 PhysicsEntity.CollisionList[id].collision.intersectsSphere(
                     this.collision
                 )
             ) {
-                collisions.push(PhysicsEntity.CollisionList[id]);
+                this.collisions.push(PhysicsEntity.CollisionList[id]);
             }
         }
-        return collisions;
+    }
+
+    /**
+     * Pushes entities this object collided with away
+     */
+    pushAway() {
+        if (this.collisions.length === 0) return;
+        // TODO: Figure out some better way to do it
+        const force = 5;
+        this.collisions.forEach((entity) => {
+            entity.velocity.addScaledVector(
+                entity.position.clone().sub(this.position).normalize(),
+                force
+            );
+        });
     }
 
     /**
