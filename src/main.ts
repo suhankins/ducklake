@@ -1,5 +1,5 @@
 import './style.css';
-import { Clock, Raycaster, Scene, WebGLRenderer } from 'three';
+import { Clock, Euler, Raycaster, Scene, Vector3, WebGLRenderer } from 'three';
 import WebGL from 'three/examples/jsm/capabilities/WebGL';
 import Duck from './Entities/Duck';
 import LoadAssets from './LoadAssets';
@@ -39,7 +39,7 @@ var lake: Lake;
 /**
  * List of all entities that should be updated on the scene.
  */
-const entities: { [id: number] : Entity } = {};
+const entities: { [id: number]: Entity } = {};
 
 /**
  * Adds an entity to the scene and to the list of entities to be updated.
@@ -65,15 +65,12 @@ async function init() {
     scene.add(lake.model);
 
     for (let i = 0; i < 10; i++) {
-        const duck = new Duck();
-        duck.model.position.copy(
+        spawnDuck(
             WindowToWorld(
                 Math.random() * window.innerWidth,
                 Math.random() * window.innerHeight
             )
         );
-        duck.model.rotation.set(0, Math.random() * Math.PI * 2, 0);
-        addEntity(duck);
     }
 
     animate();
@@ -100,8 +97,20 @@ function animate() {
     renderer.render(scene, camera);
 }
 
+function spawnDuck(position?: Vector3) {
+    const duck = new Duck(position);
+    duck.rotation = new Euler(0, Math.random() * Math.PI * 2, 0);
+    addEntity(duck);
+}
+
+function spawnBread(position: Vector3) {
+    position.y = 2 + Math.random(); // So bread falls for a bit
+    const bread = new Bread(position);
+    addEntity(bread);
+}
+
 /**
- * Bread spawner
+ * Bread and duck spawner
  */
 addEventListener('mousedown', (event) => {
     raycaster.setFromCamera(
@@ -111,12 +120,17 @@ addEventListener('mousedown', (event) => {
         },
         camera
     );
-
     const intersect = raycaster.intersectObject(lake.model)[0].point;
-    intersect.y = 2 + Math.random(); // So bread falls for a bit
-
-    const bread = new Bread(intersect);
-    addEntity(bread);
+    switch (event.button) {
+        // Left mouse button
+        case 0:
+            spawnBread(intersect);
+            break;
+        // Right mouse button
+        case 2:
+            spawnDuck(intersect);
+            break;
+    }
 });
 
 addEventListener('resize', () => {
