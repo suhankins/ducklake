@@ -1,4 +1,4 @@
-import { Object3D } from 'three';
+import { Object3D, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 /**
@@ -12,7 +12,14 @@ export abstract class Entity {
      */
     static MODEL: Object3D;
     abstract model: Object3D;
-
+    public get position() {
+        return this.model.position;
+    }
+    public set position(v: Vector3) {
+        this.model.position.setX(v.x);
+        this.model.position.setY(v.y);
+        this.model.position.setZ(v.z);
+    }
     /**
      * Gets set in destroy. Indicates to list of entities that this entity needs to be gone
      */
