@@ -53,7 +53,8 @@ async function init() {
     renderer = new WebGLRenderer({ antialias: true });
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+
+    addListeners(document.body.appendChild(renderer.domElement));
 
     await LoadAssets();
 
@@ -108,32 +109,36 @@ function spawnBread(position: Vector3) {
     addEntity(bread);
 }
 
-/**
- * Bread and duck spawner
- */
-addEventListener('mousedown', (event) => {
-    raycaster.setFromCamera(
-        {
-            x: (event.clientX / window.innerWidth) * 2 - 1,
-            y: -(event.clientY / window.innerHeight) * 2 + 1,
-        },
-        camera
-    );
-    const intersect = raycaster.intersectObject(lake.model)[0].point;
-    switch (event.button) {
-        // Left mouse button
-        case 0:
-            spawnBread(intersect);
-            break;
-        // Right mouse button
-        case 2:
-            spawnDuck(intersect);
-            break;
-    }
-});
+function addListeners(element: HTMLCanvasElement) {
+    element.addEventListener('mousedown', (event) => {
+        event.preventDefault();
+        raycaster.setFromCamera(
+            {
+                x: (event.clientX / window.innerWidth) * 2 - 1,
+                y: -(event.clientY / window.innerHeight) * 2 + 1,
+            },
+            camera
+        );
+        const intersect = raycaster.intersectObject(lake.model)[0].point;
+        switch (event.button) {
+            // Left mouse button
+            case 0:
+                spawnBread(intersect);
+                break;
+            // Right mouse button
+            case 2:
+                spawnDuck(intersect);
+                break;
+        }
+    });
 
-addEventListener('resize', () => {
-    camera.updateAspectRatio();
-    lake.updateAspectRatio();
-    renderer.setSize(window.innerWidth, window.innerHeight, true);
-});
+    element.addEventListener('contextmenu', (event) => {
+        event.preventDefault();
+    });
+
+    addEventListener('resize', () => {
+        camera.updateAspectRatio();
+        lake.updateAspectRatio();
+        renderer.setSize(window.innerWidth, window.innerHeight, true);
+    });
+}
