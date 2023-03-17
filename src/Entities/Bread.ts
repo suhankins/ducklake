@@ -42,11 +42,11 @@ export default class Bread extends PhysicsEntity {
      */
     private static readonly WATER_PRESSURE: number = 40;
 
-    constructor(position: Vector3) {
+    constructor(position?: Vector3) {
         super();
         Bread.BREADS[this.id] = this;
         this.model = Bread.MODEL.clone(true);
-        this.model.position.copy(position);
+        this.position = position ?? new Vector3();
         this.model.rotation.y = Math.random() * Math.PI * 2 - Math.PI;
         this.collision = new Sphere(this.model.position, 0.7);
         Bread.CHECK_BREADS();
@@ -54,10 +54,8 @@ export default class Bread extends PhysicsEntity {
 
     update(dt: number): void {
         this.updateGravity(dt);
-
         // Capping velocity
         this.capVelocity();
-
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);
     }
