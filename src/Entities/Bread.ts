@@ -29,7 +29,7 @@ export default class Bread extends PhysicsEntity {
     terminalVelocity: number = 10;
     angularTerminalVelocity: number = 2;
 
-    deceleration: number = 10;
+    deceleration: number = 2;
 
     model: Object3D;
 
@@ -56,6 +56,7 @@ export default class Bread extends PhysicsEntity {
         this.updateGravity(dt);
         // Capping velocity
         this.capVelocity();
+        this.decelerate(dt);
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);
     }
