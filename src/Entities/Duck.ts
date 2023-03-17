@@ -49,12 +49,13 @@ export default class Duck extends PhysicsEntity {
         this.stateEntered.start();
     }
 
-    constructor() {
+    constructor(position?: Vector3) {
         super();
         Duck.DUCKS[this.id] = this;
         this.target = new Vector3();
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
+        this.position = position ?? new Vector3();
         this.collision = new Sphere(this.model.position, 1);
     }
 
