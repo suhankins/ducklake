@@ -8,7 +8,6 @@ import Lake from './Lake';
 import WindowToWorld from './WindowToWorld';
 import { Entity } from './Entities/Entity';
 import Bread from './Entities/Bread';
-import { DebugDuck } from './Entities/DebugDuck';
 
 // Checking if WebGL is supported
 if (WebGL.isWebGLAvailable()) {
