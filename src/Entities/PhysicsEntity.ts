@@ -26,6 +26,10 @@ export abstract class PhysicsEntity extends Entity {
     static CollisionList: { [id: number]: PhysicsEntity } = {};
     abstract collision: Sphere;
     /**
+     * Determines how hard should this object push other objects
+     */
+    abstract mass: number;
+    /**
      * Array of physics entities this entity collided with in this frame
      */
     collisions: PhysicsEntity[] = [];
@@ -46,6 +50,7 @@ export abstract class PhysicsEntity extends Entity {
         this.collisions = [];
         for (let id in PhysicsEntity.CollisionList) {
             if (
+                this.id !== parseInt(id) &&
                 PhysicsEntity.CollisionList[id].collision.intersectsSphere(
                     this.collision
                 )
@@ -57,16 +62,17 @@ export abstract class PhysicsEntity extends Entity {
 
     /**
      * Pushes entities this object collided with away
+     * @param dt delta time
      */
-    pushAway() {
-        if (this.collisions.length === 0) return;
-        // TODO: Figure out some better way to do it
-        const force = 5;
+    pushAway(dt: number) {
         this.collisions.forEach((entity) => {
-            entity.velocity.addScaledVector(
-                entity.position.clone().sub(this.position).normalize(),
-                force
-            );
+            const direction = entity.position
+                .clone()
+                .sub(this.position)
+                .normalize();
+            const force =
+                (this.mass / entity.mass) * this.collision.radius * 5 * dt;
+            entity.velocity.addScaledVector(direction, force);
         });
     }
 

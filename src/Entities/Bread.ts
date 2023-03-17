@@ -13,7 +13,6 @@ export default class Bread extends PhysicsEntity {
 
     static CHECK_BREADS() {
         const breadKeys = Object.keys(this.BREADS);
-        console.log(breadKeys.length);
         if (breadKeys.length <= this.BREAD_LIMIT) return;
         const oldestBreadIndex = parseInt(breadKeys.sort()[0]);
         this.BREADS[oldestBreadIndex].destroy();
@@ -22,6 +21,7 @@ export default class Bread extends PhysicsEntity {
     name: string = 'bread';
 
     collision: Sphere;
+    mass = 1;
 
     velocity: Vector3 = new Vector3();
     angularVelocity: Euler = new Euler();
@@ -56,6 +56,8 @@ export default class Bread extends PhysicsEntity {
         this.updateGravity(dt);
         // Capping velocity
         this.capVelocity();
+        this.checkCollisions();
+        this.pushAway(dt);
         this.decelerate(dt);
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);

@@ -10,6 +10,7 @@ export default class Duck extends PhysicsEntity {
     name: string = 'duck';
 
     collision: Sphere;
+    mass = 20;
 
     velocity: Vector3 = new Vector3();
     angularVelocity: Euler = new Euler();
@@ -64,7 +65,7 @@ export default class Duck extends PhysicsEntity {
         this.state.update(dt);
         this.capVelocity();
         this.checkCollisions();
-        this.pushAway();
+        this.pushAway(dt);
         this.applyVelocity(dt);
     }
 
