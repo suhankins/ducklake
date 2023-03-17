@@ -2,13 +2,26 @@ import { Euler, Sphere, Vector2, Vector3 } from 'three';
 import { Entity } from './Entity';
 
 export abstract class PhysicsEntity extends Entity {
-    // Basics
     abstract name: string;
-
-    destroy(): void {
-        super.destroy();
-        delete PhysicsEntity.CollisionList[this.id];
-    }
+    abstract velocity: Vector3;
+    abstract angularVelocity: Euler;
+    /**
+     * Max speed in, units per second
+     */
+    abstract terminalVelocity: number;
+    /**
+     * Max angular velocity ,in radians per second
+     */
+    abstract angularTerminalVelocity: number;
+    /**
+     * Deceleration, in units per second
+     */
+    abstract deceleration: number;
+    /**
+     * List used for collision detection
+     */
+    static CollisionList: { [id: number]: PhysicsEntity } = {};
+    abstract collision: Sphere;
 
     /**
      * Creates a new physics entity, adding it to the list of collidable entities
@@ -17,14 +30,6 @@ export abstract class PhysicsEntity extends Entity {
         super();
         PhysicsEntity.CollisionList[this.id] = this;
     }
-
-    // Collision
-    /**
-     * List used for collision detection
-     */
-    static CollisionList: { [id: number]: PhysicsEntity } = {};
-
-    abstract collision: Sphere;
 
     /**
      * Returns a list of entities this object collided with
@@ -43,24 +48,6 @@ export abstract class PhysicsEntity extends Entity {
         }
         return collisions;
     }
-
-    // Movement
-    abstract velocity: Vector3;
-    abstract angularVelocity: Euler;
-
-    /**
-     * Max speed in, units per second
-     */
-    abstract terminalVelocity: number;
-    /**
-     * Max angular velocity ,in radians per second
-     */
-    abstract angularTerminalVelocity: number;
-
-    /**
-     * Deceleration, in units per second
-     */
-    abstract deceleration: number;
 
     /**
      * Adds velocity to the position of the model
@@ -127,5 +114,10 @@ export abstract class PhysicsEntity extends Entity {
             .normalize();
         const angle = new Vector2(convertedVector.z, convertedVector.x).angle(); // Value from 0 to 2*PI
         return angle;
+    }
+
+    destroy(): void {
+        super.destroy();
+        delete PhysicsEntity.CollisionList[this.id];
     }
 }
