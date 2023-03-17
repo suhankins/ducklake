@@ -1,6 +1,6 @@
 import WindowToWorld from '../WindowToWorld';
-import Duck from './Duck';
-import { StateApproachingTarget, StateIdle } from './DuckStates';
+import Duck from './Duck/Duck';
+import { StateApproachingTarget, StateIdle } from './Duck/states/State';
 
 export class DebugDuck extends Duck {
     constructor() {

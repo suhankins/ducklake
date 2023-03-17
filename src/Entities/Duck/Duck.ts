@@ -1,7 +1,8 @@
 import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
-import Bread from './Bread';
-import { PhysicsEntity } from './PhysicsEntity';
-import { State, StateIdle } from './DuckStates';
+import Bread from '../Bread';
+import { PhysicsEntity } from '../PhysicsEntity';
+import { State } from './states/State';
+import { StateIdle } from './states/StateIdle';
 
 export default class Duck extends PhysicsEntity {
     static DUCKS: { [id: number]: Duck } = {};

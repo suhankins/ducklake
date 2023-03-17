@@ -1,7 +1,7 @@
 import './style.css';
 import { Clock, Euler, Raycaster, Scene, Vector3, WebGLRenderer } from 'three';
 import WebGL from 'three/examples/jsm/capabilities/WebGL';
-import Duck from './Entities/Duck';
+import Duck from './Entities/Duck/Duck';
 import LoadAssets from './LoadAssets';
 import IsometricCamera from './IsometricCamera';
 import Lake from './Lake';
