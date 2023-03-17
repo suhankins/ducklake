@@ -4,6 +4,9 @@ import { Entity } from './Entity';
 export abstract class PhysicsEntity extends Entity {
     abstract name: string;
     abstract velocity: Vector3;
+    public get speed() {
+        return this.velocity.length();
+    }
     abstract angularVelocity: Euler;
     /**
      * Max speed in, units per second
@@ -83,7 +86,7 @@ export abstract class PhysicsEntity extends Entity {
      */
     capVelocity(): void {
         // Linear velocity
-        if (this.velocity.length() > this.terminalVelocity) {
+        if (this.speed > this.terminalVelocity) {
             this.velocity.normalize().multiplyScalar(this.terminalVelocity);
         }
 
@@ -116,7 +119,6 @@ export abstract class PhysicsEntity extends Entity {
         }
 
         this.velocity.x = decelerateAxis(this.velocity.x);
-        this.velocity.y = decelerateAxis(this.velocity.y);
         this.velocity.z = decelerateAxis(this.velocity.z);
     }
 
