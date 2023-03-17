@@ -16,13 +16,13 @@ export abstract class Entity {
         return this.model.position;
     }
     public set position(v: Vector3) {
-        this.model.position.set(v.x, v.y, v.z);
+        this.model.position.copy(v);
     }
     public get rotation() {
         return this.model.rotation;
     }
     public set rotation(r: Euler) {
-        this.model.rotation.set(r.x, r.y, r.z);
+        this.model.rotation.copy(r);
     }
     /**
      * Gets set in destroy. Indicates to list of entities that this entity needs to be gone
