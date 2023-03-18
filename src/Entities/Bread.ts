@@ -12,9 +12,11 @@ export default class Bread extends PhysicsEntity {
     static BREAD_LIMIT = 24;
 
     static CHECK_BREADS() {
-        const breadKeys = Object.keys(this.BREADS);
+        const breadKeys = Object.keys(this.BREADS).map((value) =>
+            parseInt(value)
+        );
         if (breadKeys.length <= this.BREAD_LIMIT) return;
-        const oldestBreadIndex = parseInt(breadKeys.sort()[0]);
+        const oldestBreadIndex = breadKeys.sort((a, b) => a - b)[0];
         this.BREADS[oldestBreadIndex].destroy();
     }
 
