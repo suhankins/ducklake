@@ -15,7 +15,7 @@ export default class Duck extends PhysicsEntity {
     velocity: Vector3 = new Vector3();
     angularVelocity: Euler = new Euler();
 
-    terminalVelocity: number = 10;
+    terminalVelocity: number = 1.5;
     angularTerminalVelocity: number = 1;
 
     deceleration: number = 0.1;
@@ -62,6 +62,8 @@ export default class Duck extends PhysicsEntity {
     }
 
     update(dt: number) {
+        this.decelerate(dt);
+        this.updateGravity(dt);
         this.state.update(dt);
         this.capVelocity();
         this.checkCollisions();

@@ -33,15 +33,6 @@ export default class Bread extends PhysicsEntity {
 
     model: Object3D;
 
-    /**
-     * Falling acceleration
-     */
-    private static readonly GRAVITY: number = -30;
-    /**
-     * Acceleration that pushes bread out of water
-     */
-    private static readonly WATER_PRESSURE: number = 40;
-
     constructor(position?: Vector3) {
         super();
         Bread.BREADS[this.id] = this;
@@ -61,36 +52,6 @@ export default class Bread extends PhysicsEntity {
         this.decelerate(dt);
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);
-    }
-
-    updateGravity(dt: number) {
-        // If bread pretty much stopped moving, we stop updating gravity
-        if (
-            this.model.position.y > 0 &&
-            this.model.position.y < 0.05 &&
-            Math.abs(this.velocity.y) < 0.03
-        ) {
-            return;
-        }
-
-        // Adding vertical velocity to our bread piece
-        var direction: 'up' | 'down';
-        if (this.model.position.y > 0) {
-            direction = 'down';
-            this.velocity.add(new Vector3(0, Bread.GRAVITY * dt, 0));
-        } else {
-            direction = 'up';
-            this.velocity.add(new Vector3(0, Bread.WATER_PRESSURE * dt, 0));
-        }
-
-        // Bread will enter water this frame
-        if (
-            direction == 'down' &&
-            this.velocity.y * dt * -1 > this.model.position.y
-        ) {
-            // TODO: Add riples
-            this.velocity.y /= 2;
-        }
     }
 
     destroy() {

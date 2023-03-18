@@ -21,6 +21,14 @@ export abstract class PhysicsEntity extends Entity {
      */
     abstract deceleration: number;
     /**
+     * Falling acceleration
+     */
+    static readonly GRAVITY = -30;
+    /**
+     *
+     */
+    static readonly WATER_PRESSURE = 40;
+    /**
      * List used for collision detection
      */
     static CollisionList: { [id: number]: PhysicsEntity } = {};
@@ -59,6 +67,46 @@ export abstract class PhysicsEntity extends Entity {
             }
         }
     }
+
+    /**
+     * Applies gravity and water pressure to keep object on the surface of the lake
+     * @param dt delta time
+     */
+    updateGravity(dt: number) {
+        // If entity pretty much stopped moving, we stop updating gravity
+        if (
+            this.position.y > 0 &&
+            this.position.y < 0.05 &&
+            Math.abs(this.velocity.y) < 0.03
+        ) {
+            return;
+        }
+
+        // Adding vertical velocity to our bread piece
+        let direction: 'up' | 'down';
+        if (this.position.y > 0) {
+            direction = 'down';
+            this.velocity.add(new Vector3(0, PhysicsEntity.GRAVITY * dt, 0));
+        } else {
+            direction = 'up';
+            this.velocity.add(
+                new Vector3(0, PhysicsEntity.WATER_PRESSURE * dt, 0)
+            );
+        }
+
+        // Bread will enter water this frame
+        if (
+            direction == 'down' &&
+            this.velocity.y * dt * -1 > this.position.y
+        ) {
+            this.velocity.y /= 2;
+        }
+    }
+
+    /**
+     * Callback for when the entity has entered water
+     */
+    enteredWater() {}
 
     /**
      * Pushes entities this object collided with away
@@ -101,7 +149,7 @@ export abstract class PhysicsEntity extends Entity {
             this.angularVelocity
         );
         if (rotationToVector3.length() > this.angularTerminalVelocity) {
-            rotationToVector3.normalize().multiplyScalar(this.terminalVelocity);
+            rotationToVector3.normalize().multiplyScalar(this.angularTerminalVelocity);
         }
         this.angularVelocity.setFromVector3(rotationToVector3);
     }

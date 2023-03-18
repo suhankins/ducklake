@@ -20,8 +20,6 @@ export class StateIdle extends State {
     }
 
     update(dt: number): void {
-        this.duck.decelerate(dt);
-
         if (this.duck.timeInState > this.randomMovementTime) {
             this.duck.state = new StateApproachingTarget(
                 this.duck,

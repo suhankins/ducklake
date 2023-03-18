@@ -16,7 +16,7 @@ export class StateApproachingTarget extends State {
 
     acceleration: number;
 
-    angularAcceleration = 2;
+    angularAcceleration = 1;
 
     static IDLE_ACCELERATION = 1;
     static CHASE_ACCELERATION = 3;
@@ -39,11 +39,11 @@ export class StateApproachingTarget extends State {
         if (this.duck.target instanceof Vector3) {
             this.mode = 'idle';
             this.duck.target.y = 0;
-            this.duck.terminalVelocity = StateApproachingTarget.IDLE_SPEED;
+            //this.duck.terminalVelocity = StateApproachingTarget.IDLE_SPEED;
             this.acceleration = StateApproachingTarget.IDLE_ACCELERATION;
         } else {
             this.mode = 'chase';
-            this.duck.terminalVelocity = StateApproachingTarget.CHASE_SPEED;
+            //this.duck.terminalVelocity = StateApproachingTarget.CHASE_SPEED;
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
         }
     }
