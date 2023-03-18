@@ -19,7 +19,7 @@ export class StateIdle extends State {
         if (dontMove) this.randomMovementTime = 9999999999999;
     }
 
-    update(dt: number): void {
+    update(): void {
         if (this.duck.timeInState > this.randomMovementTime) {
             this.duck.state = new StateApproachingTarget(
                 this.duck,
