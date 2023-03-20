@@ -129,10 +129,10 @@ export abstract class PhysicsEntity extends Entity {
      * @param dt delta time
      */
     applyVelocity(dt: number): void {
-        this.model.position.addScaledVector(this.velocity, dt);
-        this.model.rotation.x += this.angularVelocity.x * dt;
-        this.model.rotation.y += this.angularVelocity.y * dt;
-        this.model.rotation.z += this.angularVelocity.z * dt;
+        this.position.addScaledVector(this.velocity, dt);
+        this.rotation.x += this.angularVelocity.x * dt;
+        this.rotation.y += this.angularVelocity.y * dt;
+        this.rotation.z += this.angularVelocity.z * dt;
     }
 
     /**
@@ -183,7 +183,7 @@ export abstract class PhysicsEntity extends Entity {
     angleTowards(position: Vector3) {
         const convertedVector = position
             .clone()
-            .sub(this.model.position) // if we substract one vector from another,
+            .sub(this.position) // if we substract one vector from another,
             .setY(0) // we get a vector pointing from one to another
             .normalize();
         const angle = new Vector2(convertedVector.z, convertedVector.x).angle(); // Value from 0 to 2*PI
