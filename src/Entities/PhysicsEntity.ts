@@ -94,11 +94,9 @@ export abstract class PhysicsEntity extends Entity {
             );
         }
 
-        // Bread will enter water this frame
-        if (
-            direction == 'down' &&
-            this.velocity.y * dt * -1 > this.position.y
-        ) {
+        // Entity will enter water this frame
+        if (direction === 'down' && -this.velocity.y * dt > this.position.y) {
+            this.enteredWater();
             this.velocity.y /= 2;
         }
     }
@@ -149,7 +147,9 @@ export abstract class PhysicsEntity extends Entity {
             this.angularVelocity
         );
         if (rotationToVector3.length() > this.angularTerminalVelocity) {
-            rotationToVector3.normalize().multiplyScalar(this.angularTerminalVelocity);
+            rotationToVector3
+                .normalize()
+                .multiplyScalar(this.angularTerminalVelocity);
         }
         this.angularVelocity.setFromVector3(rotationToVector3);
     }
