@@ -7,10 +7,10 @@ export class DebugDuck extends Duck {
     constructor() {
         super();
         this.state = new StateIdle(this, true);
-        
+
         addEventListener('mousedown', (event) => {
             if (event.button == 0) {
-                this.model.rotation.y = this.angleTowards(
+                this.model.rotation.y = this.getAngleTowards(
                     WindowToWorld(event.clientX, event.clientY)
                 );
             }
@@ -27,7 +27,7 @@ export class DebugDuck extends Duck {
             const desiredPosition = WindowToWorld(event.clientX, event.clientY);
             const currentAngle =
                 Math.abs(this.model.rotation.y) % (Math.PI * 2);
-            const desiredAngle = this.angleTowards(desiredPosition);
+            const desiredAngle = this.getAngleTowards(desiredPosition);
 
             console.log(
                 (currentAngle < desiredAngle ? 1 : -1) *

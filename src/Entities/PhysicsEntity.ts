@@ -13,7 +13,7 @@ export abstract class PhysicsEntity extends Entity {
      */
     abstract terminalVelocity: number;
     /**
-     * Max angular velocity ,in radians per second
+     * Max angular velocity, in radians per second
      */
     abstract angularTerminalVelocity: number;
     /**
@@ -180,7 +180,7 @@ export abstract class PhysicsEntity extends Entity {
      * Calculates Y angle towards the given position
      * @param position
      */
-    angleTowards(position: Vector3) {
+    getAngleTowards(position: Vector3) {
         const convertedVector = position
             .clone()
             .sub(this.position) // if we substract one vector from another,
@@ -193,5 +193,15 @@ export abstract class PhysicsEntity extends Entity {
     destroy(): void {
         super.destroy();
         delete PhysicsEntity.CollisionList[this.id];
+    }
+
+    /**
+     * Calculates difference between two given angles
+     */
+    static getAngleDifference(a: number, b: number): number {
+        const twoPi = 2 * Math.PI;
+        const difference = (((a - b) % twoPi) + twoPi) % twoPi;
+        if (difference > Math.PI) return difference - twoPi;
+        return difference;
     }
 }

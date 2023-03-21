@@ -1,7 +1,8 @@
-import { Vector3 } from "three";
-import Bread from "../../Bread";
-import Duck from "../Duck";
-import { IState, State } from "./State";
+import { Vector3 } from 'three';
+import Bread from '../../Bread';
+import { PhysicsEntity } from '../../PhysicsEntity';
+import Duck from '../Duck';
+import { IState, State } from './State';
 
 /**
  * * Duck moves towards its target
@@ -24,8 +25,8 @@ export class StateApproachingTarget extends State {
     static IDLE_SPEED = 1;
     static CHASE_SPEED = 2;
 
-    static ROTATION_THRESHOLD = 0.01;
-    static POSITION_THRESHOLD = 0.1;
+    static ROTATION_THRESHOLD = 0.005;
+    static POSITION_THRESHOLD = 1;
 
     /**
      * @param duck
@@ -39,59 +40,64 @@ export class StateApproachingTarget extends State {
         if (this.duck.target instanceof Vector3) {
             this.mode = 'idle';
             this.duck.target.y = 0;
-            //this.duck.terminalVelocity = StateApproachingTarget.IDLE_SPEED;
             this.acceleration = StateApproachingTarget.IDLE_ACCELERATION;
         } else {
             this.mode = 'chase';
-            //this.duck.terminalVelocity = StateApproachingTarget.CHASE_SPEED;
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
         }
     }
 
     update(dt: number): void {
-        var desiredPosition: Vector3;
+        let desiredPosition: Vector3;
 
-        if (this.duck.target instanceof Vector3) {
-            desiredPosition = this.duck.target;
+        if (this.target instanceof Vector3) {
+            desiredPosition = this.target;
             if (
-                desiredPosition
-                    .clone()
-                    .sub(this.duck.model.position)
-                    .length() <= StateApproachingTarget.POSITION_THRESHOLD
+                desiredPosition.clone().sub(this.duck.position).length() <=
+                StateApproachingTarget.POSITION_THRESHOLD
             ) {
                 this.duck.state = new this.stateToEnter(this.duck);
             }
         } else {
-            desiredPosition = this.duck.target.model.position;
+            desiredPosition = this.target.model.position;
         }
 
-        const currentAngle = // To account for multiple circles of rotation and negative angles
-            (this.duck.model.rotation.y % (Math.PI * 2)) + Math.PI * 2;
-
-        this.duck.velocity.addScaledVector(
-            new Vector3(Math.sin(currentAngle), 0, Math.cos(currentAngle)),
+        this.velocity.addScaledVector(
+            new Vector3(
+                Math.sin(this.rotation.y),
+                0,
+                Math.cos(this.rotation.y)
+            ),
             this.acceleration * dt
         );
 
-        const desiredAngle = this.duck.angleTowards(desiredPosition);
+        const targetAngle = this.duck.getAngleTowards(desiredPosition);
+        const angleDifference = PhysicsEntity.getAngleDifference(
+            targetAngle,
+            this.rotation.y
+        );
+        const proportionalTerm = angleDifference * this.angularAcceleration;
+        const acceleration =
+            Math.min(
+                Math.abs(proportionalTerm),
+                this.duck.angularTerminalVelocity
+            ) * Math.sign(proportionalTerm);
 
-        var difference = currentAngle - desiredAngle;
-        if (difference > Math.PI)
-            difference += (difference > 0 ? -1 : 1) * Math.PI * 2; // Keeps difference between -PI and +PI
+        this.angularVelocity.y =
+            this.angularVelocity.y + acceleration * dt;
 
-        if (Math.abs(difference) < 0.01) {
+        if (
+            Math.abs(angleDifference) <
+            StateApproachingTarget.ROTATION_THRESHOLD
+        ) {
             // Stop duck from jerking back and forth
-            this.duck.angularVelocity.set(0, 0, 0);
-            this.duck.model.rotation.y = desiredAngle; // Looks a bit rough stopping it like that
-        } else {
-            this.duck.angularVelocity.set(
-                0,
-                this.duck.angularVelocity.y +
-                    this.angularAcceleration *
-                        dt * // duck will rotate in the direction that will get it to the desired angle asap
-                        (difference > 0 && difference < Math.PI ? -1 : 1),
-                0
-            );
+            this.angularVelocity.set(0, 0, 0);
+            this.rotation.y = targetAngle; // Looks a bit rough stopping it like that
+        } else if (
+            Math.abs(this.angularVelocity.y) >
+            Math.abs(angleDifference) / dt
+        ) {
+            this.angularVelocity.y = angleDifference / dt;
         }
     }
 }

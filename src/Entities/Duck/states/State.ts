@@ -14,6 +14,22 @@ export abstract class State {
      */
     duck: Duck;
 
+    public get velocity() {
+        return this.duck.velocity;
+    }
+    public get angularVelocity() {
+        return this.duck.angularVelocity;
+    }
+    public get position() {
+        return this.duck.position;
+    }
+    public get target() {
+        return this.duck.target;
+    }
+    public get rotation() {
+        return this.duck.rotation;
+    }
+
     constructor(duck: Duck) {
         this.duck = duck;
     }
