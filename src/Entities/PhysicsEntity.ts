@@ -75,12 +75,14 @@ export abstract class PhysicsEntity extends Entity {
     updateGravity(dt: number) {
         // If entity pretty much stopped moving, we stop updating gravity
         if (
-            this.position.y > 0 &&
+            this.position.y >= 0 &&
             this.position.y < 0.05 &&
-            Math.abs(this.velocity.y) < 0.03
+            Math.abs(this.velocity.y) * dt < 0.002
         ) {
+            this.velocity.y = 0;
             return;
         }
+        console.log(Math.abs(this.velocity.y) * dt);
 
         // Adding vertical velocity to our bread piece
         let direction: 'up' | 'down';
