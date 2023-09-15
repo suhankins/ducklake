@@ -8,7 +8,7 @@ import Bread from './entities/Bread';
 import WindowToWorld from './utils/WindowToWorld';
 
 export class Game {
-    static LOWEST_ALLOWED_FRAMERATE: number = 20;
+    static LOWEST_ALLOWED_FRAMERATE: number = 1 / 20;
 
     renderer: WebGLRenderer = new WebGLRenderer({ antialias: true });
     scene: Scene = new Scene();
