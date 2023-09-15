@@ -11,7 +11,7 @@ import { IState, State } from './State';
 export class StateApproachingTarget extends State {
     name: string = 'approaching target';
 
-    mode: 'idle' | 'chase';
+    mode: 'roaming' | 'chase';
 
     stateToEnter: IState;
 
@@ -19,10 +19,10 @@ export class StateApproachingTarget extends State {
 
     angularAcceleration = 1;
 
-    static IDLE_ACCELERATION = 1;
+    static ROAMING_ACCELERATION = 1;
     static CHASE_ACCELERATION = 3;
 
-    static IDLE_SPEED = 1;
+    static ROAMING_SPEED = 1;
     static CHASE_SPEED = 2;
 
     static ROTATION_THRESHOLD = 0.005;
@@ -38,9 +38,9 @@ export class StateApproachingTarget extends State {
         this.duck.target = target;
         this.stateToEnter = state;
         if (this.duck.target instanceof Vector3) {
-            this.mode = 'idle';
+            this.mode = 'roaming';
             this.duck.target.y = 0;
-            this.acceleration = StateApproachingTarget.IDLE_ACCELERATION;
+            this.acceleration = StateApproachingTarget.ROAMING_ACCELERATION;
         } else {
             this.mode = 'chase';
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
@@ -50,15 +50,24 @@ export class StateApproachingTarget extends State {
     update(dt: number): void {
         let desiredPosition: Vector3;
 
+        // If target is a random point on the map
         if (this.target instanceof Vector3) {
             desiredPosition = this.target;
+            // If we are within the threshold, enter next state
             if (
                 desiredPosition.clone().sub(this.duck.position).length() <=
                 StateApproachingTarget.POSITION_THRESHOLD
             ) {
                 this.duck.state = new this.stateToEnter(this.duck);
+                return;
             }
-        } else {
+        } // If target is a bread
+        else {
+            // If we touched bread on the previous frame, enter next state
+            if (this.duck.collisions.includes(this.target)) {
+                this.duck.state = new this.stateToEnter(this.duck);
+                return;
+            }
             desiredPosition = this.target.model.position;
         }
 
@@ -83,8 +92,7 @@ export class StateApproachingTarget extends State {
                 this.duck.angularTerminalVelocity
             ) * Math.sign(proportionalTerm);
 
-        this.angularVelocity.y =
-            this.angularVelocity.y + acceleration * dt;
+        this.angularVelocity.y = this.angularVelocity.y + acceleration * dt;
 
         if (
             Math.abs(angleDifference) <
@@ -92,7 +100,7 @@ export class StateApproachingTarget extends State {
         ) {
             // Stop duck from jerking back and forth
             this.angularVelocity.set(0, 0, 0);
-            this.rotation.y = targetAngle; // Looks a bit rough stopping it like that
+            this.rotation.y = targetAngle; // TODO: Make it smoother. Looks a bit rough stopping it like that
         } else if (
             Math.abs(this.angularVelocity.y) >
             Math.abs(angleDifference) / dt
