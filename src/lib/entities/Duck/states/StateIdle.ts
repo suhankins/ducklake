@@ -1,4 +1,4 @@
-import WindowToWorld from "../../../WindowToWorld";
+import WindowToWorld from "../../../utls/WindowToWorld";
 import Duck from "../Duck";
 import { State } from "./State";
 import { StateApproachingTarget } from "./StateApproachingTarget";

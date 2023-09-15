@@ -1,5 +1,5 @@
-import Bread from './Entities/Bread';
-import Duck from './Entities/Duck/Duck';
+import Bread from '../entities/Bread';
+import Duck from '../entities/Duck/Duck';
 
 export default function LoadAssets(): Promise<void> {
     return new Promise<void>(async (resolve) => {
