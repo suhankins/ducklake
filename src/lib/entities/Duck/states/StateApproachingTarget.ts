@@ -71,6 +71,46 @@ export class StateApproachingTarget extends State {
             desiredPosition = this.target.model.position;
         }
 
+        const targetAngle = this.duck.getAngleTowards(desiredPosition);
+        const angleDifference = PhysicsEntity.getAngleDifference(
+            targetAngle,
+            this.rotation.y
+        );
+        const withinAngleThreshold =
+            Math.abs(angleDifference) <
+            StateApproachingTarget.ROTATION_THRESHOLD;
+
+        /*
+         * Linear Velocity
+         */
+        this.addLinearAccelerationToVelocity(dt);
+
+        /*
+         * Angular Velocity
+         */
+        const proportionalTerm = angleDifference * this.angularAcceleration;
+        const angularAcceleration =
+            Math.min(
+                Math.abs(proportionalTerm),
+                this.duck.angularTerminalVelocity
+            ) * Math.sign(proportionalTerm);
+
+        this.angularVelocity.y =
+            this.angularVelocity.y + angularAcceleration * dt;
+
+        if (withinAngleThreshold) {
+            // Stop duck from jerking back and forth
+            this.angularVelocity.set(0, 0, 0);
+            this.rotation.y = targetAngle; // TODO: Make it smoother. Looks a bit rough stopping it like that
+        } else if (
+            Math.abs(this.angularVelocity.y) >
+            Math.abs(angleDifference)
+        ) {
+            this.angularVelocity.y = angleDifference * dt;
+        }
+    }
+
+    addLinearAccelerationToVelocity(dt: number): void {
         this.velocity.addScaledVector(
             new Vector3(
                 Math.sin(this.rotation.y),
@@ -79,33 +119,5 @@ export class StateApproachingTarget extends State {
             ),
             this.acceleration * dt
         );
-
-        const targetAngle = this.duck.getAngleTowards(desiredPosition);
-        const angleDifference = PhysicsEntity.getAngleDifference(
-            targetAngle,
-            this.rotation.y
-        );
-        const proportionalTerm = angleDifference * this.angularAcceleration;
-        const acceleration =
-            Math.min(
-                Math.abs(proportionalTerm),
-                this.duck.angularTerminalVelocity
-            ) * Math.sign(proportionalTerm);
-
-        this.angularVelocity.y = this.angularVelocity.y + acceleration * dt;
-
-        if (
-            Math.abs(angleDifference) <
-            StateApproachingTarget.ROTATION_THRESHOLD
-        ) {
-            // Stop duck from jerking back and forth
-            this.angularVelocity.set(0, 0, 0);
-            this.rotation.y = targetAngle; // TODO: Make it smoother. Looks a bit rough stopping it like that
-        } else if (
-            Math.abs(this.angularVelocity.y) >
-            Math.abs(angleDifference) / dt
-        ) {
-            this.angularVelocity.y = angleDifference / dt;
-        }
     }
 }
