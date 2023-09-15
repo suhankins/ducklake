@@ -8,6 +8,8 @@ import Bread from './entities/Bread';
 import WindowToWorld from './utils/WindowToWorld';
 
 export class Game {
+    static LOWEST_ALLOWED_FRAMERATE: number = 20;
+
     renderer: WebGLRenderer = new WebGLRenderer({ antialias: true });
     scene: Scene = new Scene();
     /**
@@ -34,6 +36,9 @@ export class Game {
     mouseDownListener: (event: MouseEvent) => void;
     contextMenuListener: (event: MouseEvent) => void;
 
+    /*
+     * INITIALIZATION
+     */
     constructor() {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.resizeListener = this.getResizeListener();
@@ -69,10 +74,9 @@ export class Game {
     
         let dt = this.clock.getDelta();
     
-        // if website is running at very low framerates, it can cause weird things to happen
-        // so we cap lowest possible framerate at 10
-        // below that it will be slow-mo
-        if (dt > 0.1) dt = 0.1;
+        // If website is running at very low framerates, it can cause weird things to happen,
+        // so we cap lowest possible framerate. Below this threshold it will be slow-mo
+        if (dt > Game.LOWEST_ALLOWED_FRAMERATE) dt = Game.LOWEST_ALLOWED_FRAMERATE;
     
         for (let entityId in this.entities) {
             const entity = this.entities[entityId];
