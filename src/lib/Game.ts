@@ -8,7 +8,7 @@ import Bread from './entities/Bread';
 import WindowToWorld from './utils/WindowToWorld';
 
 export class Game {
-    static LOWEST_ALLOWED_FRAMERATE: number = 1 / 20;
+    static LOWEST_ALLOWED_DELTA: number = 1 / 20;
 
     renderer: WebGLRenderer = new WebGLRenderer({ antialias: true });
     scene: Scene = new Scene();
@@ -76,7 +76,7 @@ export class Game {
     
         // If website is running at very low framerates, it can cause weird things to happen,
         // so we cap lowest possible framerate. Below this threshold it will be slow-mo
-        if (dt > Game.LOWEST_ALLOWED_FRAMERATE) dt = Game.LOWEST_ALLOWED_FRAMERATE;
+        if (dt > Game.LOWEST_ALLOWED_DELTA) dt = Game.LOWEST_ALLOWED_DELTA;
     
         for (let entityId in this.entities) {
             const entity = this.entities[entityId];
