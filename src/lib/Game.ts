@@ -42,8 +42,12 @@ export class Game {
     constructor() {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.resizeListener = this.getResizeListener();
-        this.mouseDownListener = this.getMouseDownListener(this.renderer.domElement);
-        this.contextMenuListener = this.getContextMenuListener(this.renderer.domElement);
+        this.mouseDownListener = this.getMouseDownListener(
+            this.renderer.domElement
+        );
+        this.contextMenuListener = this.getContextMenuListener(
+            this.renderer.domElement
+        );
         document.body.appendChild(this.renderer.domElement);
         this.init();
     }
@@ -71,13 +75,13 @@ export class Game {
      */
     animate() {
         requestAnimationFrame(() => this.animate());
-    
+
         let dt = this.clock.getDelta();
-    
+
         // If website is running at very low framerates, it can cause weird things to happen,
         // so we cap lowest possible framerate. Below this threshold it will be slow-mo
         if (dt > Game.HIGHEST_ALLOWED_DELTA) dt = Game.HIGHEST_ALLOWED_DELTA;
-    
+
         for (let entityId in this.entities) {
             const entity = this.entities[entityId];
             entity.update(dt);
@@ -86,7 +90,7 @@ export class Game {
                 delete this.entities[entityId];
             }
         }
-    
+
         this.renderer.render(this.scene, this.camera.model);
     }
 
@@ -111,7 +115,8 @@ export class Game {
                 },
                 this.camera.model
             );
-            const intersect = this.raycaster.intersectObject(this.lake.model)[0].point;
+            const intersect = this.raycaster.intersectObject(this.lake.model)[0]
+                .point;
             switch (event.button) {
                 // Left mouse button
                 case 0:
@@ -122,7 +127,7 @@ export class Game {
                     this.spawnDuck(intersect);
                     break;
             }
-        }
+        };
         element.addEventListener('mousedown', mouseDownListener);
         return mouseDownListener;
     }
@@ -130,7 +135,7 @@ export class Game {
     getContextMenuListener(element: HTMLElement) {
         const contextMenuListener = (event: MouseEvent) => {
             event.preventDefault();
-        }
+        };
         element.addEventListener('contextmenu', contextMenuListener);
         return contextMenuListener;
     }
@@ -143,11 +148,9 @@ export class Game {
         duck.rotation = new Euler(0, Math.random() * Math.PI * 2, 0);
         this.addEntity(duck);
     }
-    
+
     spawnBread(position: Vector3) {
-        position.y = 2 + Math.random(); // So bread falls for a bit
-        const bread = new Bread(position);
-        this.addEntity(bread);
+        this.addEntity(new Bread(position.setY(2 + Math.random()))); // So bread falls for a bit
     }
 
     /**
