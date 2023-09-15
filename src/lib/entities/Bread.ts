@@ -11,6 +11,10 @@ export default class Bread extends PhysicsEntity {
     static BREADS: { [id: number]: Bread } = {};
     static BREAD_LIMIT = 24;
 
+    /**
+     * Checks if we have too many breads on the scene.
+     * If so, destroys the oldest one.
+     */
     static CHECK_BREADS() {
         const breadKeys = Object.keys(this.BREADS).map((value) =>
             parseInt(value)

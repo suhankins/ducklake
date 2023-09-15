@@ -1,7 +1,7 @@
 import Duck from '../Duck';
 
 /**
- * State that control duck's behaviour
+ * State that controls duck's behaviour
  */
 export abstract class State {
     /**
