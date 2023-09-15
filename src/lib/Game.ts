@@ -1,11 +1,11 @@
 import { Clock, Euler, Raycaster, Scene, Vector3, WebGLRenderer } from 'three';
 import { Entity } from './entities/Entity';
-import LoadAssets from './utls/LoadAssets';
+import LoadAssets from './utils/LoadAssets';
 import IsometricCamera from './entities/IsometricCamera';
 import Lake from './entities/Lake';
 import Duck from './entities/Duck/Duck';
 import Bread from './entities/Bread';
-import WindowToWorld from './utls/WindowToWorld';
+import WindowToWorld from './utils/WindowToWorld';
 
 export class Game {
     renderer: WebGLRenderer = new WebGLRenderer({ antialias: true });
