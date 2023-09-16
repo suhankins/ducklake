@@ -45,9 +45,14 @@ export abstract class Entity {
                 }, // On success
                 undefined, // On progress
                 (event) => {
-                    alert(
-                        `Error while loading model for ${this.name}: ${event.message}`
-                    );
+                    if (event instanceof ErrorEvent)
+                        alert(
+                            `Error while loading model for ${this.name}: ${event.message}`
+                        );
+                    else
+                        alert(
+                            `Unknown error while loading model for ${this.name}`
+                        );
                 } // On error
             );
         });

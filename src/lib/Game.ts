@@ -1,4 +1,12 @@
-import { Clock, Euler, Raycaster, Scene, Vector3, WebGLRenderer } from 'three';
+import {
+    Clock,
+    Euler,
+    Raycaster,
+    Scene,
+    Vector2,
+    Vector3,
+    WebGLRenderer,
+} from 'three';
 import { Entity } from './entities/Entity';
 import LoadAssets from './utils/LoadAssets';
 import IsometricCamera from './entities/IsometricCamera';
@@ -109,10 +117,10 @@ export class Game {
         const mouseDownListener = (event: MouseEvent) => {
             event.preventDefault();
             this.raycaster.setFromCamera(
-                {
-                    x: (event.clientX / window.innerWidth) * 2 - 1,
-                    y: -(event.clientY / window.innerHeight) * 2 + 1,
-                },
+                new Vector2(
+                    (event.clientX / window.innerWidth) * 2 - 1,
+                    -(event.clientY / window.innerHeight) * 2 + 1
+                ),
                 this.camera.model
             );
             const intersect = this.raycaster.intersectObject(this.lake.model)[0]
