@@ -36,26 +36,8 @@ export abstract class Entity {
      */
     static async loadModel(modelUrl: string): Promise<void> {
         const loader = new GLTFLoader();
-        return new Promise<void>((resolve) => {
-            loader.load(
-                modelUrl, // Path
-                (gltf) => {
-                    this.MODEL = gltf.scene;
-                    resolve();
-                }, // On success
-                undefined, // On progress
-                (event) => {
-                    if (event instanceof ErrorEvent)
-                        alert(
-                            `Error while loading model for ${this.name}: ${event.message}`
-                        );
-                    else
-                        alert(
-                            `Unknown error while loading model for ${this.name}`
-                        );
-                } // On error
-            );
-        });
+        const model = await loader.loadAsync(modelUrl);
+        this.MODEL = model.scene;
     }
 
     /**
