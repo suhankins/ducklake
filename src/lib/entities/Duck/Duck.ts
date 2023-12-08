@@ -24,6 +24,15 @@ export default class Duck extends PhysicsEntity {
      */
     target: Bread | Vector3;
 
+    /**
+     * Time until duck gets hungry
+     */
+    hunger: number = Math.random() * 20;
+    /**
+     * Threshold at which duck will get VERY hungry
+     */
+    static VERY_HUNGRY_THRESHOLD = -30;
+
     private _state: State = new StateIdle(this);
     /**
      * Duck's state. Controls its behaviour.
@@ -60,11 +69,16 @@ export default class Duck extends PhysicsEntity {
     update(dt: number) {
         this.decelerate(dt);
         this.updateGravity(dt);
+        this.updateHunger(dt)
         this.state.update(dt);
         this.capVelocity();
         this.checkCollisions();
         this.pushAway(dt);
         this.applyVelocity(dt);
+    }
+
+    updateHunger(dt: number) {
+        this.hunger -= dt;
     }
 
     destroy() {

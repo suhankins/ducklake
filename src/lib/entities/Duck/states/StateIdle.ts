@@ -1,11 +1,11 @@
-import WindowToWorld from "../../../utils/WindowToWorld";
-import Duck from "../Duck";
-import { State } from "./State";
-import { StateApproachingTarget } from "./StateApproachingTarget";
+import WindowToWorld from '../../../utils/WindowToWorld';
+import Bread from '../../Bread';
+import Duck from '../Duck';
+import { State } from './State';
+import { StateApproachingTarget } from './StateApproachingTarget';
 
 /**
  * * Duck waits for up to 10 seconds to move randomly on the screen
- * * Duck decelerates
  */
 export class StateIdle extends State {
     name: string = 'idle';
@@ -20,15 +20,37 @@ export class StateIdle extends State {
     }
 
     update(): void {
-        if (this.duck.timeInState > this.randomMovementTime) {
-            this.duck.state = new StateApproachingTarget(
-                this.duck,
-                WindowToWorld(
-                    window.innerWidth * Math.random(),
-                    window.innerHeight * Math.random()
-                ),
-                StateIdle
-            );
+        if (this.veryHungryCheck()) {
+            this.setStateToApproachClosestBread(true);
+            return;
         }
+        
+        if (this.duck.timeInState > this.randomMovementTime) {
+            if (this.duck.hunger < 0 && Bread.breadsExist()) {
+                this.setStateToApproachClosestBread();
+                return;
+            }
+            this.setStateToApproachRandomPosition()
+        }
+    }
+
+    setStateToApproachRandomPosition() {
+        this.duck.state = new StateApproachingTarget(
+            this.duck,
+            WindowToWorld(
+                window.innerWidth * Math.random(),
+                window.innerHeight * Math.random()
+            ),
+            StateIdle
+        );
+    }
+
+    setStateToApproachClosestBread(isEager?: boolean) {
+        this.duck.state = new StateApproachingTarget(
+            this.duck,
+            Bread.getClosestBreadToPosition(this.position),
+            StateIdle,
+            isEager
+        );
     }
 }

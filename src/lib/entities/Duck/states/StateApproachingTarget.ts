@@ -11,7 +11,7 @@ import { getAngleTowards, lerpAngle } from '../../../utils/AngleHelpers';
 export class StateApproachingTarget extends State {
     name: string = 'approaching target';
 
-    mode: 'roaming' | 'chase';
+    isEager: boolean;
 
     stateToEnter: IState;
 
@@ -29,22 +29,31 @@ export class StateApproachingTarget extends State {
      * @param duck
      * @param target Target that duck should approach
      * @param state state to which duck should transition after reaching target
+     * @param isEager should duck approach target qucikly
      */
-    constructor(duck: Duck, target: Vector3 | Bread, state: IState) {
+    constructor(
+        duck: Duck,
+        target: Vector3 | Bread,
+        state: IState,
+        isEager: boolean = false
+    ) {
         super(duck);
         this.duck.target = target;
         this.stateToEnter = state;
-        if (this.duck.target instanceof Vector3) {
-            this.mode = 'roaming';
-            this.duck.target.y = 0;
-            this.acceleration = StateApproachingTarget.ROAMING_ACCELERATION;
-        } else {
-            this.mode = 'chase';
+        this.isEager = isEager;
+        if (isEager) {
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
+        } else {
+            this.acceleration = StateApproachingTarget.ROAMING_ACCELERATION;
         }
     }
 
     update(dt: number): void {
+        if (!this.isEager && this.veryHungryCheck()) {
+            this.setStateToApproachClosestBread(true);
+            return;
+        }
+
         let desiredPosition: Vector3;
 
         // If target is a random point on the map
@@ -60,12 +69,26 @@ export class StateApproachingTarget extends State {
             }
         } // If target is a bread
         else {
-            // If we touched bread on the previous frame, enter next state
-            if (this.duck.collisions.includes(this.target)) {
-                this.duck.state = new this.stateToEnter(this.duck);
+            // Bread should be deleted by now, but we still have it because we think about it
+            if (this.target.shouldBeDeleted) {
+                if (Bread.breadsExist()) {
+                    this.setStateToApproachClosestBread(this.isEager);
+                } else {
+                    this.duck.state = new this.stateToEnter(this.duck);
+                }
                 return;
             }
             desiredPosition = this.target.model.position;
+            // If we touched bread on the previous frame, enter next state
+            const touchedBread = this.duck.collisions.find(
+                (object) => object instanceof Bread
+            );
+            if (touchedBread) {
+                (touchedBread as Bread).beEaten()
+                this.duck.hunger = Math.random() * 30;
+                this.duck.state = new this.stateToEnter(this.duck);
+                return;
+            }
         }
 
         /*
@@ -88,6 +111,15 @@ export class StateApproachingTarget extends State {
                 Math.cos(this.rotation.y)
             ),
             this.acceleration * dt
+        );
+    }
+
+    setStateToApproachClosestBread(isEager?: boolean) {
+        this.duck.state = new StateApproachingTarget(
+            this.duck,
+            Bread.getClosestBreadToPosition(this.position),
+            this.stateToEnter,
+            isEager
         );
     }
 }

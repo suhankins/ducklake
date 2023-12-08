@@ -1,3 +1,4 @@
+import Bread from '../../Bread';
 import Duck from '../Duck';
 
 /**
@@ -36,6 +37,10 @@ export abstract class State {
      * @param dt delta time
      */
     abstract update(dt: number): void;
+
+    veryHungryCheck() {
+        return this.duck.hunger < Duck.VERY_HUNGRY_THRESHOLD && Bread.breadsExist();
+    }
 }
 
 export interface IState {

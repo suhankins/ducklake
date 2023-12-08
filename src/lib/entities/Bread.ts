@@ -11,19 +11,6 @@ export default class Bread extends PhysicsEntity {
     static BREADS: { [id: number]: Bread } = {};
     static BREAD_LIMIT = 24;
 
-    /**
-     * Checks if we have too many breads on the scene.
-     * If so, destroys the oldest one.
-     */
-    static CHECK_BREADS() {
-        const breadKeys = Object.keys(this.BREADS).map((value) =>
-            parseInt(value)
-        );
-        if (breadKeys.length <= this.BREAD_LIMIT) return;
-        const oldestBreadIndex = breadKeys.sort((a, b) => a - b)[0];
-        this.BREADS[oldestBreadIndex].destroy();
-    }
-
     name: string = 'bread';
 
     collision: Sphere;
@@ -45,6 +32,37 @@ export default class Bread extends PhysicsEntity {
         Bread.CHECK_BREADS();
     }
 
+    /**
+     * Checks if we have too many breads on the scene.
+     * If so, destroys the oldest one.
+     */
+    static CHECK_BREADS() {
+        const breadKeys = Object.keys(this.BREADS);
+        if (breadKeys.length <= this.BREAD_LIMIT) return;
+        const oldestBreadIndex = parseInt(breadKeys[0]);
+        this.BREADS[oldestBreadIndex].destroy();
+    }
+
+    static breadsExist() {
+        return Object.keys(this.BREADS).length > 0;
+    }
+
+    static getClosestBreadToPosition(position: Vector3) {
+        const sortedBreadKeys = Object.keys(Bread.BREADS)
+            .map((key) => parseInt(key))
+            .toSorted(
+                (keyA, keyB) =>
+                    Bread.BREADS[keyA].position.distanceTo(position) -
+                    Bread.BREADS[keyB].position.distanceTo(position)
+            );
+        return Bread.BREADS[sortedBreadKeys[0]]
+    }
+
+    beEaten() {
+        // TODO: Play sound and make some particles appear
+        this.destroy();
+    }
+
     update(dt: number): void {
         this.updateGravity(dt);
         // Capping velocity
@@ -54,6 +72,7 @@ export default class Bread extends PhysicsEntity {
         this.decelerate(dt);
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);
+        // TODO: Check if we are outside the screen
     }
 
     destroy() {
