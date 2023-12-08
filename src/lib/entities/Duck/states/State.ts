@@ -17,9 +17,6 @@ export abstract class State {
     public get velocity() {
         return this.duck.velocity;
     }
-    public get angularVelocity() {
-        return this.duck.angularVelocity;
-    }
     public get position() {
         return this.duck.position;
     }

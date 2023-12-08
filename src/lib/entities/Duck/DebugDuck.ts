@@ -1,3 +1,4 @@
+import { getAngleTowards } from '../../utils/AngleHelpers';
 import WindowToWorld from '../../utils/WindowToWorld';
 import Duck from './Duck';
 import { StateApproachingTarget } from './states/StateApproachingTarget';
@@ -10,7 +11,8 @@ export class DebugDuck extends Duck {
 
         addEventListener('mousedown', (event) => {
             if (event.button == 0) {
-                this.model.rotation.y = this.getAngleTowards(
+                this.model.rotation.y = getAngleTowards(
+                    this.position,
                     WindowToWorld(event.clientX, event.clientY)
                 );
             }
@@ -27,7 +29,10 @@ export class DebugDuck extends Duck {
             const desiredPosition = WindowToWorld(event.clientX, event.clientY);
             const currentAngle =
                 Math.abs(this.model.rotation.y) % (Math.PI * 2);
-            const desiredAngle = this.getAngleTowards(desiredPosition);
+            const desiredAngle = getAngleTowards(
+                this.position,
+                desiredPosition
+            );
 
             console.log(
                 (currentAngle < desiredAngle ? 1 : -1) *

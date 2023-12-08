@@ -1,8 +1,8 @@
 import { Vector3 } from 'three';
 import Bread from '../../Bread';
-import { PhysicsEntity } from '../../PhysicsEntity';
 import Duck from '../Duck';
 import { IState, State } from './State';
+import { getAngleTowards, lerpAngle } from '../../../utils/AngleHelpers';
 
 /**
  * * Duck moves towards its target
@@ -17,15 +17,12 @@ export class StateApproachingTarget extends State {
 
     acceleration: number;
 
-    angularAcceleration = 1;
-
     static ROAMING_ACCELERATION = 1;
     static CHASE_ACCELERATION = 3;
 
     static ROAMING_SPEED = 1;
     static CHASE_SPEED = 2;
 
-    static ROTATION_THRESHOLD = 0.005;
     static POSITION_THRESHOLD = 1;
 
     /**
@@ -71,46 +68,19 @@ export class StateApproachingTarget extends State {
             desiredPosition = this.target.model.position;
         }
 
-        const targetAngle = this.duck.getAngleTowards(desiredPosition);
-        const angleDifference = PhysicsEntity.getAngleDifference(
-            targetAngle,
-            this.rotation.y
-        );
-        const withinAngleThreshold =
-            Math.abs(angleDifference) <
-            StateApproachingTarget.ROTATION_THRESHOLD;
+        /*
+         * Rotation
+         */
+        const targetAngle = getAngleTowards(this.position, desiredPosition);
+        this.rotation.y = lerpAngle(this.rotation.y, targetAngle, dt / 4);
 
         /*
          * Linear Velocity
          */
         this.addLinearAccelerationToVelocity(dt);
-
-        /*
-         * Angular Velocity
-         */
-        const proportionalTerm = angleDifference * this.angularAcceleration;
-        const angularAcceleration =
-            Math.min(
-                Math.abs(proportionalTerm),
-                this.duck.angularTerminalVelocity
-            ) * Math.sign(proportionalTerm);
-
-        this.angularVelocity.y =
-            this.angularVelocity.y + angularAcceleration * dt;
-
-        if (withinAngleThreshold) {
-            // Stop duck from jerking back and forth
-            this.angularVelocity.set(0, 0, 0);
-            this.rotation.y = targetAngle; // TODO: Make it smoother. Looks a bit rough stopping it like that
-        } else if (
-            Math.abs(this.angularVelocity.y) >
-            Math.abs(angleDifference)
-        ) {
-            this.angularVelocity.y = angleDifference * dt;
-        }
     }
 
-    addLinearAccelerationToVelocity(dt: number): void {
+    addLinearAccelerationToVelocity(dt: number) {
         this.velocity.addScaledVector(
             new Vector3(
                 Math.sin(this.rotation.y),

@@ -30,11 +30,7 @@ export default class Bread extends PhysicsEntity {
     mass = 1;
 
     velocity: Vector3 = new Vector3();
-    angularVelocity: Euler = new Euler();
-
     terminalVelocity: number = 10;
-    angularTerminalVelocity: number = 2;
-
     deceleration: number = 2;
 
     model: Object3D;

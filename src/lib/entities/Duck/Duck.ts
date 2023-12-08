@@ -13,11 +13,7 @@ export default class Duck extends PhysicsEntity {
     mass = 20;
 
     velocity: Vector3 = new Vector3();
-    angularVelocity: Euler = new Euler();
-
     terminalVelocity: number = 1.5;
-    angularTerminalVelocity: number = 1;
-
     deceleration: number = 0.1;
 
     model: Object3D;

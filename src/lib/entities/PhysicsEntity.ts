@@ -1,4 +1,4 @@
-import { Euler, Sphere, Vector2, Vector3 } from 'three';
+import { Sphere, Vector2, Vector3 } from 'three';
 import { Entity } from './Entity';
 
 export abstract class PhysicsEntity extends Entity {
@@ -7,15 +7,10 @@ export abstract class PhysicsEntity extends Entity {
     public get speed() {
         return this.velocity.length();
     }
-    abstract angularVelocity: Euler;
     /**
      * Max speed in, units per second
      */
     abstract terminalVelocity: number;
-    /**
-     * Max angular velocity, in radians per second
-     */
-    abstract angularTerminalVelocity: number;
     /**
      * Deceleration, in units per second
      */
@@ -82,7 +77,6 @@ export abstract class PhysicsEntity extends Entity {
             this.velocity.y = 0;
             return;
         }
-        console.log(Math.abs(this.velocity.y) * dt);
 
         // Adding vertical velocity to our bread piece
         let direction: 'up' | 'down';
@@ -130,9 +124,6 @@ export abstract class PhysicsEntity extends Entity {
      */
     applyVelocity(dt: number): void {
         this.position.addScaledVector(this.velocity, dt);
-        this.rotation.x += this.angularVelocity.x * dt;
-        this.rotation.y += this.angularVelocity.y * dt;
-        this.rotation.z += this.angularVelocity.z * dt;
     }
 
     /**
@@ -143,17 +134,6 @@ export abstract class PhysicsEntity extends Entity {
         if (this.speed > this.terminalVelocity) {
             this.velocity.normalize().multiplyScalar(this.terminalVelocity);
         }
-
-        // Angular velocity
-        const rotationToVector3 = new Vector3().setFromEuler(
-            this.angularVelocity
-        );
-        if (rotationToVector3.length() > this.angularTerminalVelocity) {
-            rotationToVector3
-                .normalize()
-                .multiplyScalar(this.angularTerminalVelocity);
-        }
-        this.angularVelocity.setFromVector3(rotationToVector3);
     }
 
     /**
@@ -176,20 +156,6 @@ export abstract class PhysicsEntity extends Entity {
 
         this.velocity.x = decelerateAxis(this.velocity.x);
         this.velocity.z = decelerateAxis(this.velocity.z);
-    }
-
-    /**
-     * Calculates Y angle towards the given position
-     * @param position
-     */
-    getAngleTowards(position: Vector3) {
-        const convertedVector = position
-            .clone()
-            .sub(this.position) // if we substract one vector from another,
-            .setY(0) // we get a vector pointing from one to another
-            .normalize();
-        const angle = new Vector2(convertedVector.z, convertedVector.x).angle(); // Value from 0 to 2*PI
-        return angle;
     }
 
     destroy(): void {
