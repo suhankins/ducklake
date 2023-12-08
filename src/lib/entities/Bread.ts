@@ -1,4 +1,4 @@
-import { Euler, Object3D, Sphere, Vector3 } from 'three';
+import { Object3D, Sphere, Vector3 } from 'three';
 import { PhysicsEntity } from './PhysicsEntity';
 
 /**

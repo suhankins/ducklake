@@ -1,4 +1,4 @@
-import { Sphere, Vector2, Vector3 } from 'three';
+import { Sphere, Vector3 } from 'three';
 import { Entity } from './Entity';
 
 export abstract class PhysicsEntity extends Entity {

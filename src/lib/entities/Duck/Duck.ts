@@ -1,4 +1,4 @@
-import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
+import { Clock, Object3D, Sphere, Vector3 } from 'three';
 import Bread from '../Bread';
 import { PhysicsEntity } from '../PhysicsEntity';
 import { State } from './states/State';
