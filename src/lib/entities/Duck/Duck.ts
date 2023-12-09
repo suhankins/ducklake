@@ -29,6 +29,10 @@ export default class Duck extends PhysicsEntity {
      */
     hunger: number = Math.random() * 20;
     /**
+     * Threshold at which duck gets hungry enough to care to find bread
+     */
+    static HUNGRY_THRESHOLD = 0;
+    /**
      * Threshold at which duck will get VERY hungry
      */
     static VERY_HUNGRY_THRESHOLD = -30;

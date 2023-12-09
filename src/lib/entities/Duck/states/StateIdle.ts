@@ -26,7 +26,7 @@ export class StateIdle extends State {
         }
         
         if (this.duck.timeInState > this.randomMovementTime) {
-            if (this.duck.hunger < 0 && Bread.breadsExist()) {
+            if (this.duck.hunger < Duck.HUNGRY_THRESHOLD && Bread.breadsExist()) {
                 this.setStateToApproachClosestBread();
                 return;
             }
