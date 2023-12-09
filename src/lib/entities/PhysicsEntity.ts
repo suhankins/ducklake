@@ -146,16 +146,22 @@ export abstract class PhysicsEntity extends Entity {
 
         const frameDeceleration = this.deceleration * dt;
 
-        function decelerateAxis(axisVelocity: number): number {
-            if (Math.abs(axisVelocity) < frameDeceleration) axisVelocity = 0;
-            else if (axisVelocity > 0) axisVelocity -= frameDeceleration;
-            else axisVelocity += frameDeceleration;
+        this.velocity.x = this._decelerateAxis(
+            this.velocity.x,
+            frameDeceleration
+        );
+        this.velocity.z = this._decelerateAxis(
+            this.velocity.z,
+            frameDeceleration
+        );
+    }
 
-            return axisVelocity;
-        }
+    _decelerateAxis(axisVelocity: number, frameDeceleration: number) {
+        if (Math.abs(axisVelocity) < frameDeceleration) axisVelocity = 0;
+        else if (axisVelocity > 0) axisVelocity -= frameDeceleration;
+        else axisVelocity += frameDeceleration;
 
-        this.velocity.x = decelerateAxis(this.velocity.x);
-        this.velocity.z = decelerateAxis(this.velocity.z);
+        return axisVelocity;
     }
 
     destroy(): void {
