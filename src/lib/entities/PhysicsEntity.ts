@@ -162,14 +162,4 @@ export abstract class PhysicsEntity extends Entity {
         super.destroy();
         delete PhysicsEntity.CollisionList[this.id];
     }
-
-    /**
-     * Calculates difference between two given angles
-     */
-    static getAngleDifference(a: number, b: number): number {
-        const twoPi = 2 * Math.PI;
-        const difference = (((a - b) % twoPi) + twoPi) % twoPi;
-        if (difference > Math.PI) return difference - twoPi;
-        return difference;
-    }
 }
