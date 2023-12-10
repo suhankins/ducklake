@@ -1,6 +1,5 @@
 import {
     Clock,
-    Euler,
     Raycaster,
     Scene,
     Vector2,
