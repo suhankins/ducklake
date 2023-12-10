@@ -1,4 +1,4 @@
-import { Clock, Object3D, Sphere, Vector3 } from 'three';
+import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
 import Bread from '../Bread';
 import { PhysicsEntity } from '../PhysicsEntity';
 import { State } from './states/State';
@@ -17,6 +17,10 @@ export default class Duck extends PhysicsEntity {
     deceleration: number = 0.1;
 
     model: Object3D;
+
+    // Beak
+    beakCollision: Sphere;
+    beakCollisionList: Bread[] = [];
 
     // Behaviour
     /**
@@ -67,18 +71,40 @@ export default class Duck extends PhysicsEntity {
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
         this.position = position ?? new Vector3();
+        this.rotation = new Euler(0, Math.random() * Math.PI * 2, 0);
+        // Position remains a reference, so we never have to update it
         this.collision = new Sphere(this.model.position, 1);
+        this.beakCollision = new Sphere();
+        this.updateBeak();
     }
 
     update(dt: number) {
         this.decelerate(dt);
         this.updateGravity(dt);
-        this.updateHunger(dt)
+        this.updateHunger(dt);
         this.state.update(dt);
         this.capVelocity();
         this.checkCollisions();
+        this.updateBeak();
         this.pushAway(dt);
         this.applyVelocity(dt);
+    }
+
+    /**
+     * Updates beak's position and beak collision list
+     */
+    updateBeak() {
+        this.beakCollision.set(
+            new Vector3(0, 0, 1).applyEuler(this.rotation).add(this.position),
+            0.5
+        );
+        this.beakCollisionList = [];
+        for (let id in Bread.BREADS) {
+            const bread = Bread.BREADS[id];
+            if (this.beakCollision.intersectsSphere(bread.collision)) {
+                this.beakCollisionList.push(bread);
+            }
+        }
     }
 
     updateHunger(dt: number) {

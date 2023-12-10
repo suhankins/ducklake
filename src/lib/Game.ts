@@ -153,7 +153,6 @@ export class Game {
      */
     spawnDuck(position?: Vector3) {
         const duck = new Duck(position);
-        duck.rotation = new Euler(0, Math.random() * Math.PI * 2, 0);
         this.addEntity(duck);
     }
 

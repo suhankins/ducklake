@@ -80,11 +80,9 @@ export class StateApproachingTarget extends State {
             }
             desiredPosition = this.target.model.position;
             // If we touched bread on the previous frame, enter next state
-            const touchedBread = this.duck.collisions.find(
-                (object) => object instanceof Bread
-            );
+            const touchedBread = this.duck.beakCollisionList.at(0)
             if (touchedBread) {
-                (touchedBread as Bread).beEaten()
+                touchedBread.beEaten()
                 this.duck.hunger = Math.random() * 30;
                 this.duck.state = new this.stateToEnter(this.duck);
                 return;
