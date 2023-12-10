@@ -54,6 +54,10 @@ export class StateApproachingTarget extends State {
             return;
         }
 
+        if (this.isEager && Bread.breadsExist()) {
+            this.duck.target = Bread.getClosestBreadToPosition(this.position)
+        }
+
         let desiredPosition: Vector3;
 
         // If target is a random point on the map
