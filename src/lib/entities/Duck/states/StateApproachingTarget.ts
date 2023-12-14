@@ -16,12 +16,16 @@ export class StateApproachingTarget extends State {
     stateToEnter: IState;
 
     acceleration: number;
+    rotationSpeed: number;
 
     static ROAMING_ACCELERATION = 1;
     static CHASE_ACCELERATION = 3;
 
-    static ROAMING_SPEED = 1;
-    static CHASE_SPEED = 2;
+    static ROAMING_TERMINAL_VELOCITY = 1.5;
+    static CHASE_TERMINAL_VELOCITY = 2;
+
+    static ROAMING_ROTATION = 0.25;
+    static CHASE_ROTATION = 0.5;
 
     static POSITION_THRESHOLD = 1;
 
@@ -43,13 +47,18 @@ export class StateApproachingTarget extends State {
         this.isEager = isEager;
         if (isEager) {
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
+            this.duck.terminalVelocity = StateApproachingTarget.CHASE_TERMINAL_VELOCITY;
+            this.rotationSpeed = StateApproachingTarget.CHASE_ROTATION;
         } else {
             this.acceleration = StateApproachingTarget.ROAMING_ACCELERATION;
+            this.duck.terminalVelocity = StateApproachingTarget.ROAMING_TERMINAL_VELOCITY;
+            this.rotationSpeed = StateApproachingTarget.ROAMING_ROTATION;
         }
     }
 
     update(dt: number): void {
         if (!this.isEager && this.veryHungryCheck()) {
+            this.duck.terminalVelocity = Duck.DEFAULT_TERMINAL_VELOCITY;
             this.setStateToApproachClosestBread(true);
             return;
         }
@@ -68,6 +77,7 @@ export class StateApproachingTarget extends State {
                 desiredPosition.clone().sub(this.duck.position).length() <=
                 StateApproachingTarget.POSITION_THRESHOLD
             ) {
+                this.duck.terminalVelocity = Duck.DEFAULT_TERMINAL_VELOCITY;
                 this.duck.state = new this.stateToEnter(this.duck);
                 return;
             }
@@ -98,7 +108,7 @@ export class StateApproachingTarget extends State {
          * Rotation
          */
         const targetAngle = getAngleTowards(this.position, desiredPosition);
-        this.rotation.y = lerpAngle(this.rotation.y, targetAngle, dt / 4);
+        this.rotation.y = lerpAngle(this.rotation.y, targetAngle, dt * this.rotationSpeed);
 
         /*
          * Linear Velocity
