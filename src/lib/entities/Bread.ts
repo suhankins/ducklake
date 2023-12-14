@@ -8,7 +8,8 @@ import { PhysicsEntity } from './PhysicsEntity';
  * but I think it looks more fun this way.
  */
 export default class Bread extends PhysicsEntity {
-    static BREADS: { [id: number]: Bread } = {};
+    static breadCount: number = 0;
+    static breads: { [id: number]: Bread } = {};
     static BREAD_LIMIT = 24;
 
     name: string = 'bread';
@@ -24,7 +25,8 @@ export default class Bread extends PhysicsEntity {
 
     constructor(position?: Vector3) {
         super();
-        Bread.BREADS[this.id] = this;
+        Bread.breads[this.id] = this;
+        Bread.breadCount++;
         this.model = Bread.MODEL.clone(true);
         this.position = position ?? new Vector3();
         this.model.rotation.y = Math.random() * Math.PI * 2 - Math.PI;
@@ -37,25 +39,24 @@ export default class Bread extends PhysicsEntity {
      * If so, destroys the oldest one.
      */
     static CHECK_BREADS() {
-        const breadKeys = Object.keys(this.BREADS);
-        if (breadKeys.length <= this.BREAD_LIMIT) return;
+        if (Bread.breadCount <= Bread.BREAD_LIMIT) return;
+        const breadKeys = Object.keys(this.breads);
         const oldestBreadIndex = parseInt(breadKeys[0]);
-        this.BREADS[oldestBreadIndex].destroy();
+        this.breads[oldestBreadIndex].destroy();
     }
 
     static breadsExist() {
-        return Object.keys(this.BREADS).length > 0;
+        return Bread.breadCount > 0;
     }
 
     static getClosestBreadToPosition(position: Vector3) {
-        const sortedBreadKeys = Object.keys(Bread.BREADS)
-            .map((key) => parseInt(key))
+        const sortedBreadKeys = Object.entries(Bread.breads)
             .toSorted(
-                (keyA, keyB) =>
-                    Bread.BREADS[keyA].position.distanceTo(position) -
-                    Bread.BREADS[keyB].position.distanceTo(position)
+                ([_keyA, valueA], [_keyB, valueB]) =>
+                    valueA.position.distanceTo(position) -
+                    valueB.position.distanceTo(position)
             );
-        return Bread.BREADS[sortedBreadKeys[0]]
+        return sortedBreadKeys[0][1]
     }
 
     beEaten() {
@@ -77,6 +78,7 @@ export default class Bread extends PhysicsEntity {
 
     destroy() {
         super.destroy();
-        delete Bread.BREADS[this.id];
+        Bread.breadCount--;
+        delete Bread.breads[this.id];
     }
 }

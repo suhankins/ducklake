@@ -5,7 +5,7 @@ import { State } from './states/State';
 import { StateIdle } from './states/StateIdle';
 
 export default class Duck extends PhysicsEntity {
-    static DUCKS: { [id: number]: Duck } = {};
+    static ducks: { [id: number]: Duck } = {};
 
     name: string = 'duck';
 
@@ -13,6 +13,7 @@ export default class Duck extends PhysicsEntity {
     mass = 20;
 
     velocity: Vector3 = new Vector3();
+    static DEFAULT_TERMINAL_VELOCITY = 1.5;
     terminalVelocity: number = 1.5;
     deceleration: number = 0.1;
 
@@ -66,7 +67,7 @@ export default class Duck extends PhysicsEntity {
 
     constructor(position?: Vector3) {
         super();
-        Duck.DUCKS[this.id] = this;
+        Duck.ducks[this.id] = this;
         this.target = new Vector3();
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
@@ -98,8 +99,8 @@ export default class Duck extends PhysicsEntity {
             0.5
         );
         this.beakCollisionList = [];
-        for (let id in Bread.BREADS) {
-            const bread = Bread.BREADS[id];
+        for (let id in Bread.breads) {
+            const bread = Bread.breads[id];
             if (this.beakCollision.intersectsSphere(bread.collision)) {
                 this.beakCollisionList.push(bread);
             }
@@ -112,6 +113,6 @@ export default class Duck extends PhysicsEntity {
 
     destroy() {
         super.destroy();
-        delete Duck.DUCKS[this.id];
+        delete Duck.ducks[this.id];
     }
 }
