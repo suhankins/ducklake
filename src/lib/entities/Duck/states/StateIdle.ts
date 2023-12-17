@@ -2,7 +2,7 @@ import Bread from '../../Bread';
 import Duck from '../Duck';
 import { State } from './State';
 import { StateApproachingTarget } from './StateApproachingTarget';
-import { getRandomPosition } from '../../../utils/getRandomPosition';
+import getRandomPosition from '../../../utils/getRandomPosition';
 
 /**
  * * Duck waits for up to 10 seconds to move randomly on the screen

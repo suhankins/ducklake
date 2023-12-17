@@ -12,7 +12,7 @@ import IsometricCamera from './entities/IsometricCamera';
 import Lake from './entities/Lake';
 import Duck from './entities/Duck/Duck';
 import Bread from './entities/Bread';
-import { getRandomPosition } from './utils/getRandomPosition';
+import getRandomPosition from './utils/getRandomPosition';
 
 export class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 20;
