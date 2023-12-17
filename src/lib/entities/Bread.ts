@@ -1,5 +1,6 @@
 import { Object3D, Sphere, Vector3 } from 'three';
 import { PhysicsEntity } from './PhysicsEntity';
+import isPositionOutsideScreen from '../utils/isPositionOutsideScreen';
 
 /**
  * Bread. Intended for ducks to be eaten.
@@ -50,13 +51,12 @@ export default class Bread extends PhysicsEntity {
     }
 
     static getClosestBreadToPosition(position: Vector3) {
-        const sortedBreadKeys = Object.entries(Bread.breads)
-            .toSorted(
-                ([_keyA, valueA], [_keyB, valueB]) =>
-                    valueA.position.distanceTo(position) -
-                    valueB.position.distanceTo(position)
-            );
-        return sortedBreadKeys[0][1]
+        const sortedBreadKeys = Object.entries(Bread.breads).toSorted(
+            ([_keyA, valueA], [_keyB, valueB]) =>
+                valueA.position.distanceTo(position) -
+                valueB.position.distanceTo(position)
+        );
+        return sortedBreadKeys[0][1];
     }
 
     beEaten() {
@@ -73,7 +73,13 @@ export default class Bread extends PhysicsEntity {
         this.decelerate(dt);
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);
-        // TODO: Check if we are outside the screen
+        this.checkIfOutsideTheScreen();
+    }
+
+    checkIfOutsideTheScreen() {
+        if (isPositionOutsideScreen(this.position)) {
+            this.destroy();
+        }
     }
 
     destroy() {
