@@ -1,5 +1,6 @@
+import { Vector2 } from 'three';
 import { getAngleTowards } from '../../utils/AngleHelpers';
-import WindowToWorld from '../../utils/WindowToWorld';
+import { WindowToWorld } from '../../utils/WindowToWorld';
 import Duck from './Duck';
 import { StateApproachingTarget } from './states/StateApproachingTarget';
 import { StateIdle } from './states/StateIdle';
@@ -13,20 +14,20 @@ export class DebugDuck extends Duck {
             if (event.button == 0) {
                 this.model.rotation.y = getAngleTowards(
                     this.position,
-                    WindowToWorld(event.clientX, event.clientY)
+                    WindowToWorld(new Vector2(event.clientX, event.clientY))
                 );
             }
             if (event.button == 2) {
                 this.state = new StateApproachingTarget(
                     this,
-                    WindowToWorld(event.clientX, event.clientY),
+                    WindowToWorld(new Vector2(event.clientX, event.clientY)),
                     StateIdle
                 );
             }
         });
 
         addEventListener('mousemove', (event) => {
-            const desiredPosition = WindowToWorld(event.clientX, event.clientY);
+            const desiredPosition = WindowToWorld(new Vector2(event.clientX, event.clientY));
             const currentAngle =
                 Math.abs(this.model.rotation.y) % (Math.PI * 2);
             const desiredAngle = getAngleTowards(

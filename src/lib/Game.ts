@@ -12,7 +12,7 @@ import IsometricCamera from './entities/IsometricCamera';
 import Lake from './entities/Lake';
 import Duck from './entities/Duck/Duck';
 import Bread from './entities/Bread';
-import WindowToWorld from './utils/WindowToWorld';
+import { getRandomPosition } from './utils/getRandomPosition';
 
 export class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 20;
@@ -66,12 +66,7 @@ export class Game {
         this.addEntity(this.camera);
 
         for (let i = 0; i < 10; i++) {
-            this.spawnDuck(
-                WindowToWorld(
-                    Math.random() * window.innerWidth,
-                    Math.random() * window.innerHeight
-                )
-            );
+            this.spawnDuck(getRandomPosition());
         }
 
         this.animate();

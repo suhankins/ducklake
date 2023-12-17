@@ -1,8 +1,8 @@
-import WindowToWorld from '../../../utils/WindowToWorld';
 import Bread from '../../Bread';
 import Duck from '../Duck';
 import { State } from './State';
 import { StateApproachingTarget } from './StateApproachingTarget';
+import { getRandomPosition } from '../../../utils/getRandomPosition';
 
 /**
  * * Duck waits for up to 10 seconds to move randomly on the screen
@@ -24,23 +24,23 @@ export class StateIdle extends State {
             this.setStateToApproachClosestBread(true);
             return;
         }
-        
+
         if (this.duck.timeInState > this.randomMovementTime) {
-            if (this.duck.hunger < Duck.HUNGRY_THRESHOLD && Bread.breadsExist()) {
+            if (
+                this.duck.hunger < Duck.HUNGRY_THRESHOLD &&
+                Bread.breadsExist()
+            ) {
                 this.setStateToApproachClosestBread();
                 return;
             }
-            this.setStateToApproachRandomPosition()
+            this.setStateToApproachRandomPosition();
         }
     }
 
     setStateToApproachRandomPosition() {
         this.duck.state = new StateApproachingTarget(
             this.duck,
-            WindowToWorld(
-                window.innerWidth * Math.random(),
-                window.innerHeight * Math.random()
-            ),
+            getRandomPosition(),
             StateIdle
         );
     }
