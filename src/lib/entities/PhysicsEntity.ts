@@ -112,7 +112,7 @@ export abstract class PhysicsEntity extends Entity {
                 .clone()
                 .sub(this.position)
                 .normalize();
-            // TODO: This calculation is nonsense. Figure out some actually formula
+            // TODO: This calculation is nonsense. Figure out some actual formula
             const force =
                 (this.mass / entity.mass) * this.collision.radius * 5 * dt;
             entity.velocity.addScaledVector(direction, force);
