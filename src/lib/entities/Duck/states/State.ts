@@ -45,9 +45,7 @@ export abstract class State {
     abstract update(dt: number): void;
 
     veryHungryCheck() {
-        return (
-            this.duck.hunger < Duck.VERY_HUNGRY_THRESHOLD && Bread.breadsExist()
-        );
+        return this.duck.isVeryHungry() && Bread.breadsExist();
     }
 }
 

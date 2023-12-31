@@ -112,6 +112,14 @@ export default class Duck extends PhysicsEntity {
         this.hunger -= dt;
     }
 
+    isHungry() {
+        return this.hunger < Duck.HUNGRY_THRESHOLD;
+    }
+
+    isVeryHungry() {
+        return this.hunger < Duck.VERY_HUNGRY_THRESHOLD;
+    }
+
     destroy() {
         super.destroy();
         delete Duck.ducks[this.id];
