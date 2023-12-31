@@ -1,7 +1,7 @@
-import { Sphere, Vector3 } from 'three';
-import { Entity } from './Entity';
+import { Vector3 } from 'three';
+import { CollidableEntity } from './CollidableEntity';
 
-export abstract class PhysicsEntity extends Entity {
+export abstract class PhysicsEntity extends CollidableEntity {
     abstract name: string;
     abstract velocity: Vector3;
     public get speed() {
@@ -20,48 +20,13 @@ export abstract class PhysicsEntity extends Entity {
      */
     static readonly GRAVITY = -30;
     /**
-     *
+     * How much upwards acceleration should objects get when under water
      */
     static readonly WATER_PRESSURE = 40;
-    /**
-     * List used for collision detection
-     */
-    static CollisionList: { [id: number]: PhysicsEntity } = {};
-    abstract collision: Sphere;
     /**
      * Determines how hard should this object push other objects
      */
     abstract mass: number;
-    /**
-     * Array of physics entities this entity collided with in this frame
-     */
-    collisions: PhysicsEntity[] = [];
-
-    /**
-     * Creates a new physics entity, adding it to the list of collidable entities
-     */
-    constructor() {
-        super();
-        PhysicsEntity.CollisionList[this.id] = this;
-    }
-
-    /**
-     * Checks with which objects did this object collide in this frame
-     */
-    checkCollisions() {
-        // resetting previous frame's collisions
-        this.collisions = [];
-        for (let id in PhysicsEntity.CollisionList) {
-            if (
-                this.id !== parseInt(id) &&
-                PhysicsEntity.CollisionList[id].collision.intersectsSphere(
-                    this.collision
-                )
-            ) {
-                this.collisions.push(PhysicsEntity.CollisionList[id]);
-            }
-        }
-    }
 
     /**
      * Applies gravity and water pressure to keep object on the surface of the lake
@@ -108,6 +73,7 @@ export abstract class PhysicsEntity extends Entity {
      */
     pushAway(dt: number) {
         this.collisions.forEach((entity) => {
+            if (!(entity instanceof PhysicsEntity)) return;
             const direction = entity.position
                 .clone()
                 .sub(this.position)

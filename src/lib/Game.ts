@@ -14,34 +14,34 @@ import Duck from './entities/Duck/Duck';
 import Bread from './entities/Bread';
 import getRandomPosition from './utils/getRandomPosition';
 
-export class Game {
+export default class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 20;
 
-    renderer: WebGLRenderer = new WebGLRenderer({ antialias: true });
-    scene: Scene = new Scene();
+    private renderer: WebGLRenderer = new WebGLRenderer({ antialias: true });
+    private scene: Scene = new Scene();
     /**
      * Used for delta time calculation
      */
-    clock: Clock = new Clock();
+    private clock: Clock = new Clock();
     /**
      * Camera. Has to be set here due to raycaster using it.
      */
-    camera: IsometricCamera = new IsometricCamera();
+    private camera: IsometricCamera = new IsometricCamera(this);
     /**
      * Lake itself. Should be set here due to raycaster using it.
      */
-    lake: Lake = new Lake();
+    private lake: Lake = new Lake(this);
     /**
      * Used for seeing where did the user click in the game world
      */
-    raycaster: Raycaster = new Raycaster();
+    private raycaster: Raycaster = new Raycaster();
     /**
      * List of all entities that should be updated on the scene.
      */
-    entities: { [id: number]: Entity } = {};
-    resizeListener: () => void;
-    mouseDownListener: (event: MouseEvent) => void;
-    contextMenuListener: (event: MouseEvent) => void;
+    private entities: { [id: number]: Entity } = {};
+    private resizeListener: () => void;
+    private mouseDownListener: (event: MouseEvent) => void;
+    private contextMenuListener: (event: MouseEvent) => void;
 
     /*
      * INITIALIZATION
@@ -59,7 +59,7 @@ export class Game {
         this.init();
     }
 
-    async init() {
+    private async init() {
         await LoadAssets();
 
         this.addEntity(this.lake);
@@ -75,7 +75,7 @@ export class Game {
     /*
      * GAME LOOP
      */
-    animate() {
+    private animate() {
         requestAnimationFrame(() => this.animate());
 
         let dt = this.clock.getDelta();
@@ -99,7 +99,7 @@ export class Game {
     /*
      * LISTENER MANAGMENT
      */
-    getResizeListener() {
+    private getResizeListener() {
         const resizeListener = () => {
             this.renderer.setSize(window.innerWidth, window.innerHeight, true);
         };
@@ -107,7 +107,7 @@ export class Game {
         return resizeListener;
     }
 
-    getMouseDownListener(element: HTMLElement) {
+    private getMouseDownListener(element: HTMLElement) {
         const mouseDownListener = (event: MouseEvent) => {
             event.preventDefault();
             this.raycaster.setFromCamera(
@@ -134,7 +134,7 @@ export class Game {
         return mouseDownListener;
     }
 
-    getContextMenuListener(element: HTMLElement) {
+    private getContextMenuListener(element: HTMLElement) {
         const contextMenuListener = (event: MouseEvent) => {
             event.preventDefault();
         };
@@ -146,26 +146,29 @@ export class Game {
      * ENTITY MANAGMENT
      */
     spawnDuck(position?: Vector3) {
-        const duck = new Duck(position);
+        const duck = new Duck(this, position);
         this.addEntity(duck);
     }
 
     spawnBread(position: Vector3) {
-        this.addEntity(new Bread(position.setY(2 + Math.random()))); // So bread falls for a bit
+        this.addEntity(new Bread(this, position.setY(2 + Math.random()))); // So bread falls for a bit
     }
 
     /**
      * Adds an entity to the scene and to the list of entities to be updated.
      * @param entity
      */
-    addEntity(entity: Entity) {
+    addEntity<T extends Entity>(entity: T) {
         this.entities[entity.id] = entity;
         this.scene.add(entity.model);
+        return entity;
     }
 
     /*
      * CLEANUP
-     * TODO: Figure out what can even call this
+     */
+    /**
+     * @todo Figure out what can even call this
      */
     destroy(): void {
         removeEventListener('resize', this.resizeListener);

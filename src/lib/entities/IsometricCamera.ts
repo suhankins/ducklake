@@ -1,5 +1,6 @@
 import { OrthographicCamera } from 'three';
 import { Entity } from './Entity';
+import type Game from '../Game';
 
 export default class IsometricCamera extends Entity {
     static D: number = 10;
@@ -10,8 +11,8 @@ export default class IsometricCamera extends Entity {
         return (IsometricCamera.D * window.innerWidth) / window.innerHeight;
     }
 
-    constructor() {
-        super();
+    constructor(game: Game) {
+        super(game);
         this.model = new OrthographicCamera(
             -IsometricCamera.getHorizontal(),
             IsometricCamera.getHorizontal(),

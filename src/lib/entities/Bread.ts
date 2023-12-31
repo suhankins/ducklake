@@ -1,6 +1,8 @@
 import { Object3D, Sphere, Vector3 } from 'three';
 import { PhysicsEntity } from './PhysicsEntity';
 import isPositionOutsideScreen from '../utils/isPositionOutsideScreen';
+import ITarget from './ITarget';
+import type Game from '../Game';
 
 /**
  * Bread. Intended for ducks to be eaten.
@@ -8,7 +10,7 @@ import isPositionOutsideScreen from '../utils/isPositionOutsideScreen';
  * Physics are very unrealistic,
  * but I think it looks more fun this way.
  */
-export default class Bread extends PhysicsEntity {
+export default class Bread extends PhysicsEntity implements ITarget {
     static breadCount: number = 0;
     static breads: { [id: number]: Bread } = {};
     static BREAD_LIMIT = 24;
@@ -24,8 +26,8 @@ export default class Bread extends PhysicsEntity {
 
     model: Object3D;
 
-    constructor(position?: Vector3) {
-        super();
+    constructor(game: Game, position?: Vector3) {
+        super(game);
         Bread.breads[this.id] = this;
         Bread.breadCount++;
         this.model = Bread.MODEL.clone(true);
@@ -59,7 +61,7 @@ export default class Bread extends PhysicsEntity {
         return sortedBreadKeys[0][1];
     }
 
-    beEaten() {
+    targetReached() {
         // TODO: Play sound and make some particles appear
         this.destroy();
     }

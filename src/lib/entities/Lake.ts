@@ -1,5 +1,6 @@
 import { PlaneGeometry, Mesh, Object3D, MeshBasicMaterial } from 'three';
 import { Entity } from './Entity';
+import type Game from '../Game';
 
 /**
  * Lake itself.
@@ -9,8 +10,8 @@ export default class Lake extends Entity {
     model: Object3D;
     resizeListener: () => void;
 
-    constructor() {
-        super();
+    constructor(game: Game) {
+        super(game);
         const geometry = new PlaneGeometry(1, 36, 1, 1);
         const material = new MeshBasicMaterial({ color: 0x86a1cc });
         this.model = new Mesh(geometry, material);

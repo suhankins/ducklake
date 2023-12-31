@@ -3,6 +3,8 @@ import Bread from '../Bread';
 import { PhysicsEntity } from '../PhysicsEntity';
 import { State } from './states/State';
 import { StateIdle } from './states/StateIdle';
+import ITarget from '../ITarget';
+import type Game from '../../Game';
 
 export default class Duck extends PhysicsEntity {
     static ducks: { [id: number]: Duck } = {};
@@ -27,7 +29,7 @@ export default class Duck extends PhysicsEntity {
     /**
      * Target, that duck should chase.
      */
-    target: Bread | Vector3;
+    target: ITarget | null = null;
 
     /**
      * Time until duck gets hungry
@@ -65,10 +67,9 @@ export default class Duck extends PhysicsEntity {
         this.stateEntered.start();
     }
 
-    constructor(position?: Vector3) {
-        super();
+    constructor(game: Game, position?: Vector3) {
+        super(game);
         Duck.ducks[this.id] = this;
-        this.target = new Vector3();
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
         this.position = position ?? new Vector3();

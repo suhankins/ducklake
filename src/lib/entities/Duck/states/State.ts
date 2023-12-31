@@ -24,8 +24,14 @@ export abstract class State {
     public get target() {
         return this.duck.target;
     }
+    public set target(newTarget) {
+        this.duck.target = newTarget;
+    }
     public get rotation() {
         return this.duck.rotation;
+    }
+    public get game() {
+        return this.duck.game;
     }
 
     constructor(duck: Duck) {
@@ -39,7 +45,9 @@ export abstract class State {
     abstract update(dt: number): void;
 
     veryHungryCheck() {
-        return this.duck.hunger < Duck.VERY_HUNGRY_THRESHOLD && Bread.breadsExist();
+        return (
+            this.duck.hunger < Duck.VERY_HUNGRY_THRESHOLD && Bread.breadsExist()
+        );
     }
 }
 

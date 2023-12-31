@@ -3,6 +3,7 @@ import Duck from '../Duck';
 import { State } from './State';
 import { StateApproachingTarget } from './StateApproachingTarget';
 import getRandomPosition from '../../../utils/getRandomPosition';
+import RoamingTarget from '../../RoamingTarget';
 
 /**
  * * Duck waits for up to 10 seconds to move randomly on the screen
@@ -40,7 +41,13 @@ export class StateIdle extends State {
     setStateToApproachRandomPosition() {
         this.duck.state = new StateApproachingTarget(
             this.duck,
-            getRandomPosition(),
+            this.game.addEntity(
+                new RoamingTarget(
+                    this.duck.game,
+                    this.duck,
+                    getRandomPosition()
+                )
+            ),
             StateIdle
         );
     }

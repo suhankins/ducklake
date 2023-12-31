@@ -1,4 +1,4 @@
-import { Game } from './lib/Game';
+import Game from './lib/Game';
 import './style.css';
 import WebGL from 'three/examples/jsm/capabilities/WebGL';
 

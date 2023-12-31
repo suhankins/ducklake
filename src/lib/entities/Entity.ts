@@ -1,10 +1,15 @@
 import { Euler, Object3D, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import type Game from '../Game';
 
 /**
  * Base class for all objects in the lake
  */
 export abstract class Entity {
+    /**
+     * Game object, so entities can spawn other entities
+     */
+    game: Game;
     id: number;
     private static IdIndex = 0;
     /**
@@ -43,7 +48,8 @@ export abstract class Entity {
     /**
      * Creates a new entity, moving ID index forward
      */
-    constructor() {
+    constructor(game: Game) {
+        this.game = game;
         this.id = Entity.IdIndex++;
     }
 
