@@ -6,11 +6,11 @@ import type ITarget from '../../../ITarget';
 
 /**
  * Duck moves towards its target
- * 
+ *
  * Duck enters next state when:
- * * Target has been reached
+ * * Target has been touched
  * * Target is gone
- * * Duck is very hungry
+ * * Duck is very hungry and duck isn't eager to reach given target
  */
 export class StateApproachingTarget extends State {
     name: string = 'approaching target';
@@ -104,15 +104,6 @@ export class StateApproachingTarget extends State {
             dt * this.rotationSpeed
         );
 
-        this.addLinearAccelerationToVelocity(dt);
-    }
-
-    enterNextState() {
-        this.duck.terminalVelocity = Duck.DEFAULT_TERMINAL_VELOCITY;
-        this.duck.state = new this.stateToEnter(this.duck);
-    }
-
-    addLinearAccelerationToVelocity(dt: number) {
         this.velocity.addScaledVector(
             new Vector3(
                 Math.sin(this.rotation.y),
@@ -121,5 +112,10 @@ export class StateApproachingTarget extends State {
             ),
             this.acceleration * dt
         );
+    }
+
+    enterNextState() {
+        this.duck.terminalVelocity = Duck.DEFAULT_TERMINAL_VELOCITY;
+        this.duck.state = new this.stateToEnter(this.duck);
     }
 }
