@@ -1,9 +1,10 @@
 import Bread from '../../Bread';
 import Duck from '../Duck';
 import { State } from './State';
-import { StateApproachingTarget } from './StateApproachingTarget';
+import { StateApproachingTarget } from './approachingTarget/StateApproachingTarget';
 import getRandomPosition from '../../../utils/getRandomPosition';
 import RoamingTarget from '../../RoamingTarget';
+import StateApproachingBread from './approachingTarget/StateApproachingBread';
 
 /**
  * * Duck waits for up to 10 seconds to move randomly on the screen
@@ -53,7 +54,7 @@ export class StateIdle extends State {
     }
 
     setStateToApproachClosestBread(isEager?: boolean) {
-        this.duck.state = new StateApproachingTarget(
+        this.duck.state = new StateApproachingBread(
             this.duck,
             Bread.getClosestBreadToPosition(this.position),
             StateIdle,

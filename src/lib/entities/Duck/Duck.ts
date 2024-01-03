@@ -85,6 +85,7 @@ export default class Duck extends PhysicsEntity {
         this.updateGravity(dt);
         this.updateHunger(dt);
         this.state.update(dt);
+        console.log(this.state.name)
         this.capVelocity();
         this.checkCollisions();
         this.pushAway(dt);
