@@ -35,14 +35,14 @@ export default class Bread extends PhysicsEntity implements ITarget {
         this.position = position ?? new Vector3();
         this.model.rotation.y = Math.random() * Math.PI * 2 - Math.PI;
         this.collision = new Sphere(this.model.position, 0.7);
-        Bread.CHECK_BREADS();
+        Bread.checkBreadLimit();
     }
 
     /**
      * Checks if we have too many breads on the scene.
      * If so, destroys the oldest one.
      */
-    static CHECK_BREADS() {
+    static checkBreadLimit() {
         if (Bread.breadCount <= Bread.BREAD_LIMIT) return;
         const breadKeys = Object.keys(this.breads);
         const oldestBreadIndex = parseInt(breadKeys[0]);
