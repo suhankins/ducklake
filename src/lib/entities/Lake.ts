@@ -1,5 +1,6 @@
 import { PlaneGeometry, Mesh, Object3D, MeshBasicMaterial } from 'three';
-import { Entity } from './Entity';
+import Entity from './Entity';
+
 import type Game from '../Game';
 
 /**

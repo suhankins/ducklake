@@ -1,15 +1,16 @@
 import Bread from '../../Bread';
-import Duck from '../Duck';
-import { State } from './State';
-import { StateApproachingTarget } from './approachingTarget/StateApproachingTarget';
+import State from './State';
+import StateApproachingTarget from './approachingTarget/StateApproachingTarget';
 import getRandomPosition from '../../../utils/getRandomPosition';
 import RoamingTarget from '../../RoamingTarget';
 import StateApproachingBread from './approachingTarget/StateApproachingBread';
 
+import type Duck from '../Duck';
+
 /**
  * * Duck waits for up to 10 seconds to move randomly on the screen
  */
-export class StateIdle extends State {
+export default class StateIdle extends State {
     name: string = 'idle';
 
     randomMovementTime: number = Math.random() * 10;

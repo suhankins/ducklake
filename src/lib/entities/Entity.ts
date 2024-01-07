@@ -1,11 +1,12 @@
 import { Euler, Object3D, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
 import type Game from '../Game';
 
 /**
  * Base class for all objects in the lake
  */
-export abstract class Entity {
+export default abstract class Entity {
     /**
      * Game object, so entities can spawn other entities
      */

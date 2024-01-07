@@ -1,8 +1,9 @@
+import Entity from './Entity';
+
 import type { Sphere } from 'three';
-import { Entity } from './Entity';
 import type Game from '../Game';
 
-export abstract class CollidableEntity extends Entity {
+export default abstract class CollidableEntity extends Entity {
     /**
      * List used for collision detection
      */

@@ -6,13 +6,14 @@ import {
     Vector3,
     WebGLRenderer,
 } from 'three';
-import { Entity } from './entities/Entity';
 import LoadAssets from './utils/LoadAssets';
 import IsometricCamera from './entities/IsometricCamera';
 import Lake from './entities/Lake';
 import Duck from './entities/Duck/Duck';
 import Bread from './entities/Bread';
 import getRandomPosition from './utils/getRandomPosition';
+
+import type Entity from './entities/Entity';
 
 export default class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 20;

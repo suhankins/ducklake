@@ -1,6 +1,8 @@
 import { Vector3 } from 'three';
+import State from '../State';
 import Duck from '../../Duck';
-import { IState, State } from '../State';
+
+import type IState from '../IState';
 import type ITarget from '../../../ITarget';
 
 /**
@@ -11,7 +13,7 @@ import type ITarget from '../../../ITarget';
  * * Target is gone
  * * Duck is very hungry and duck isn't eager to reach given target
  */
-export class StateApproachingTarget extends State {
+export default class StateApproachingTarget extends State {
     name: string = 'approaching target';
 
     isEager: boolean;

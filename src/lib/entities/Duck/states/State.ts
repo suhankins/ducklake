@@ -1,11 +1,12 @@
 import Bread from '../../Bread';
-import type { Entity } from '../../Entity';
-import Duck from '../Duck';
+
+import type Entity from '../../Entity';
+import type Duck from '../Duck';
 
 /**
  * State that controls duck's behaviour
  */
-export abstract class State {
+export default abstract class State {
     /**
      * Mainly used for debug
      */
@@ -50,8 +51,4 @@ export abstract class State {
     veryHungryCheck() {
         return this.duck.isVeryHungry() && Bread.breadsExist();
     }
-}
-
-export interface IState {
-    new (duck: Duck): State;
 }

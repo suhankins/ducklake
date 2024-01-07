@@ -1,7 +1,8 @@
 import { Object3D, Sphere, Vector3 } from 'three';
-import { PhysicsEntity } from './PhysicsEntity';
+import PhysicsEntity from './PhysicsEntity';
 import isPositionOutsideScreen from '../utils/isPositionOutsideScreen';
-import ITarget from './ITarget';
+
+import type ITarget from './ITarget';
 import type Game from '../Game';
 
 /**

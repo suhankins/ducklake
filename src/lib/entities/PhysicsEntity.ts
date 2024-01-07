@@ -1,7 +1,7 @@
 import { Vector3 } from 'three';
-import { CollidableEntity } from './CollidableEntity';
+import CollidableEntity from './CollidableEntity';
 
-export abstract class PhysicsEntity extends CollidableEntity {
+export default abstract class PhysicsEntity extends CollidableEntity {
     abstract name: string;
     abstract velocity: Vector3;
     public get speed() {

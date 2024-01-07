@@ -1,5 +1,5 @@
 import Bread from '../../../Bread';
-import { StateApproachingTarget } from './StateApproachingTarget';
+import StateApproachingTarget from './StateApproachingTarget';
 
 /**
  * Duck moves towards target bread

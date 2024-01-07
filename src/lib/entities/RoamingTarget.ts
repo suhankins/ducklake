@@ -1,7 +1,8 @@
 import { Object3D, Sphere, Vector3 } from 'three';
+import CollidableEntity from './CollidableEntity';
+
 import type Duck from './Duck/Duck';
-import ITarget from './ITarget';
-import { CollidableEntity } from './CollidableEntity';
+import type ITarget from './ITarget';
 import type Game from '../Game';
 
 /**

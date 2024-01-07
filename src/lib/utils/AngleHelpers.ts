@@ -1,5 +1,6 @@
-import type { Vector3 } from 'three';
 import { Vector2 } from 'three';
+
+import type { Vector3 } from 'three';
 
 /**
  * Lerp but between angles

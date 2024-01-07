@@ -1,5 +1,6 @@
 import { OrthographicCamera } from 'three';
-import { Entity } from './Entity';
+import Entity from './Entity';
+
 import type Game from '../Game';
 
 export default class IsometricCamera extends Entity {
