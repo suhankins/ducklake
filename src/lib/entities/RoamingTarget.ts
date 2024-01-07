@@ -26,7 +26,7 @@ export default class RoamingTarget extends CollidableEntity implements ITarget {
         this.collision = new Sphere(this.model.position, 0.7);
     }
 
-    targetReached(): void {
+    onReached() {
         this.destroy();
     }
 

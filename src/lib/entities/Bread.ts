@@ -61,7 +61,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
         return sortedBreadKeys[0][1];
     }
 
-    targetReached() {
+    onReached() {
         // TODO: Play sound and make some particles appear
         this.destroy();
     }

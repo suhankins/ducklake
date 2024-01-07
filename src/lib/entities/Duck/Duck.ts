@@ -5,8 +5,10 @@ import { State } from './states/State';
 import { StateIdle } from './states/StateIdle';
 import ITarget from '../ITarget';
 import type Game from '../../Game';
+import type { Entity } from '../Entity';
+import { getAngleTowards, lerpAngle } from '../../utils/AngleHelpers';
 
-export default class Duck extends PhysicsEntity {
+export default class Duck extends PhysicsEntity implements ITarget {
     static ducks: { [id: number]: Duck } = {};
 
     name: string = 'duck';
@@ -15,9 +17,13 @@ export default class Duck extends PhysicsEntity {
     mass = 20;
 
     velocity: Vector3 = new Vector3();
+
     static DEFAULT_TERMINAL_VELOCITY = 1.5;
-    terminalVelocity: number = 1.5;
+    terminalVelocity: number = Duck.DEFAULT_TERMINAL_VELOCITY;
     deceleration: number = 0.1;
+
+    static DEFAULT_ROTATION_SPEED = 0.3;
+    rotationSpeed: number = Duck.DEFAULT_ROTATION_SPEED;
 
     model: Object3D;
 
@@ -110,6 +116,22 @@ export default class Duck extends PhysicsEntity {
 
     updateHunger(dt: number) {
         this.hunger -= dt;
+    }
+
+    rotateTowardsTarget(dt: number) {
+        const targetAngle = getAngleTowards(
+            this.position,
+            this.target!.position
+        );
+        this.rotation.y = lerpAngle(
+            this.rotation.y,
+            targetAngle,
+            dt * this.rotationSpeed
+        );
+    }
+
+    onReached(reachedBy: Entity) {
+        this.state.onReached(reachedBy);
     }
 
     isHungry() {

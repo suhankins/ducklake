@@ -1,5 +1,6 @@
 import { CollidableEntity } from './CollidableEntity';
+import type { Entity } from './Entity';
 
 export default interface ITarget extends CollidableEntity {
-    targetReached(): void;
+    onReached(reachedBy: Entity): void;
 }

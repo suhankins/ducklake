@@ -1,7 +1,6 @@
 import { Vector3 } from 'three';
 import Duck from '../../Duck';
 import { IState, State } from '../State';
-import { getAngleTowards, lerpAngle } from '../../../../utils/AngleHelpers';
 import type ITarget from '../../../ITarget';
 
 /**
@@ -20,7 +19,6 @@ export class StateApproachingTarget extends State {
     stateToEnter: IState;
 
     acceleration: number;
-    rotationSpeed: number;
 
     static ROAMING_ACCELERATION = 1;
     static CHASE_ACCELERATION = 3;
@@ -51,12 +49,12 @@ export class StateApproachingTarget extends State {
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
             this.duck.terminalVelocity =
                 StateApproachingTarget.CHASE_TERMINAL_VELOCITY;
-            this.rotationSpeed = StateApproachingTarget.CHASE_ROTATION;
+            this.duck.rotationSpeed = StateApproachingTarget.CHASE_ROTATION;
         } else {
             this.acceleration = StateApproachingTarget.ROAMING_ACCELERATION;
             this.duck.terminalVelocity =
                 StateApproachingTarget.ROAMING_TERMINAL_VELOCITY;
-            this.rotationSpeed = StateApproachingTarget.ROAMING_ROTATION;
+            this.duck.rotationSpeed = StateApproachingTarget.ROAMING_ROTATION;
         }
     }
 
@@ -68,7 +66,7 @@ export class StateApproachingTarget extends State {
 
         if (this.checkForTargetCollision()) {
             this.onTargetReached();
-            this.target!.targetReached();
+            this.target!.onReached(this.duck);
             this.target = null;
             this.enterNextState();
             return;
@@ -94,15 +92,7 @@ export class StateApproachingTarget extends State {
     }
 
     updateRotationAndVelocity(dt: number) {
-        const targetAngle = getAngleTowards(
-            this.position,
-            this.target!.position
-        );
-        this.rotation.y = lerpAngle(
-            this.rotation.y,
-            targetAngle,
-            dt * this.rotationSpeed
-        );
+        this.duck.rotateTowardsTarget(dt);
 
         this.velocity.addScaledVector(
             new Vector3(
@@ -115,6 +105,7 @@ export class StateApproachingTarget extends State {
     }
 
     enterNextState() {
+        this.duck.rotationSpeed = Duck.DEFAULT_ROTATION_SPEED;
         this.duck.terminalVelocity = Duck.DEFAULT_TERMINAL_VELOCITY;
         this.duck.state = new this.stateToEnter(this.duck);
     }

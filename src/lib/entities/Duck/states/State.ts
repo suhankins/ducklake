@@ -1,4 +1,5 @@
 import Bread from '../../Bread';
+import type { Entity } from '../../Entity';
 import Duck from '../Duck';
 
 /**
@@ -43,6 +44,8 @@ export abstract class State {
      * @param dt delta time
      */
     abstract update(dt: number): void;
+
+    onReached(_reachedBy: Entity) {}
 
     veryHungryCheck() {
         return this.duck.isVeryHungry() && Bread.breadsExist();
