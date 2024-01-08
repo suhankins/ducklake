@@ -1,9 +1,9 @@
 import Bread from '../../Bread';
 import State from './State';
-import StateApproachingTarget from './approachingTarget/StateApproachingTarget';
+import StateApproachingTarget from './StateApproachingTarget';
 import getRandomPosition from '../../../utils/getRandomPosition';
 import RoamingTarget from '../../RoamingTarget';
-import StateApproachingBread from './approachingTarget/StateApproachingBread';
+import StateApproachingBread from './StateApproachingBread';
 
 import type Duck from '../Duck';
 
@@ -14,8 +14,6 @@ export default class StateIdle extends State {
     name: string = 'idle';
 
     randomMovementTime: number = Math.random() * 10;
-
-    static DECELERATION = 2;
 
     constructor(duck: Duck, dontMove: boolean = false) {
         super(duck);
@@ -50,7 +48,7 @@ export default class StateIdle extends State {
                     getRandomPosition()
                 )
             ),
-            StateIdle
+            () => new StateIdle(this.duck),
         );
     }
 
@@ -58,7 +56,7 @@ export default class StateIdle extends State {
         this.duck.state = new StateApproachingBread(
             this.duck,
             Bread.getClosestBreadToPosition(this.position),
-            StateIdle,
+            () => new StateIdle(this.duck),
             isEager
         );
     }

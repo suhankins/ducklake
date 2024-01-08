@@ -1,9 +1,10 @@
 import { Vector3 } from 'three';
-import State from '../State';
-import Duck from '../../Duck';
+import State from './State';
+import Duck from '../Duck';
 
-import type IState from '../IState';
-import type ITarget from '../../../ITarget';
+import type INextStateFactory from './INextStateFactory';
+import type ITarget from '../../ITarget';
+import type IStateGoesBackToIdle from './IStateEntersNextState';
 
 /**
  * Duck moves towards its target
@@ -13,12 +14,12 @@ import type ITarget from '../../../ITarget';
  * * Target is gone
  * * Duck is very hungry and duck isn't eager to reach given target
  */
-export default class StateApproachingTarget extends State {
+export default class StateApproachingTarget extends State implements IStateGoesBackToIdle {
     name: string = 'approaching target';
 
     isEager: boolean;
 
-    stateToEnter: IState;
+    nextStateFactory: INextStateFactory;
 
     acceleration: number;
 
@@ -29,7 +30,7 @@ export default class StateApproachingTarget extends State {
     static CHASE_TERMINAL_VELOCITY = 2;
 
     static ROAMING_ROTATION = 0.3;
-    static CHASE_ROTATION = 0.6;
+    static CHASE_ROTATION = 0.7;
 
     /**
      * @param duck
@@ -40,23 +41,23 @@ export default class StateApproachingTarget extends State {
     constructor(
         duck: Duck,
         target: ITarget,
-        state: IState,
+        state: INextStateFactory,
         isEager: boolean = false
     ) {
         super(duck);
         this.target = target;
-        this.stateToEnter = state;
+        this.nextStateFactory = state;
         this.isEager = isEager;
         if (isEager) {
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
-            this.duck.terminalVelocity =
+            this.terminalVelocity =
                 StateApproachingTarget.CHASE_TERMINAL_VELOCITY;
-            this.duck.rotationSpeed = StateApproachingTarget.CHASE_ROTATION;
+            this.rotationSpeed = StateApproachingTarget.CHASE_ROTATION;
         } else {
             this.acceleration = StateApproachingTarget.ROAMING_ACCELERATION;
-            this.duck.terminalVelocity =
+            this.terminalVelocity =
                 StateApproachingTarget.ROAMING_TERMINAL_VELOCITY;
-            this.duck.rotationSpeed = StateApproachingTarget.ROAMING_ROTATION;
+            this.rotationSpeed = StateApproachingTarget.ROAMING_ROTATION;
         }
     }
 
@@ -77,6 +78,11 @@ export default class StateApproachingTarget extends State {
         this.updateRotationAndVelocity(dt);
     }
 
+    /**
+     * Gets called when duck reaches its target.
+     * 
+     * Should be overriden with implementation in ancestors.
+     */
     onTargetReached() {}
 
     checkForTargetCollision() {
@@ -107,8 +113,6 @@ export default class StateApproachingTarget extends State {
     }
 
     enterNextState() {
-        this.duck.rotationSpeed = Duck.DEFAULT_ROTATION_SPEED;
-        this.duck.terminalVelocity = Duck.DEFAULT_TERMINAL_VELOCITY;
-        this.duck.state = new this.stateToEnter(this.duck);
+        this.duck.state = this.nextStateFactory();
     }
 }

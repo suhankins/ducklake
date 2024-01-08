@@ -19,12 +19,12 @@ export default class Duck extends PhysicsEntity implements ITarget {
 
     velocity: Vector3 = new Vector3();
 
-    static DEFAULT_TERMINAL_VELOCITY = 1.5;
-    terminalVelocity: number = Duck.DEFAULT_TERMINAL_VELOCITY;
-    deceleration: number = 0.1;
-
-    static DEFAULT_ROTATION_SPEED = 0.3;
-    rotationSpeed: number = Duck.DEFAULT_ROTATION_SPEED;
+    get terminalVelocity() {
+        return this.state.terminalVelocity;
+    }
+    get deceleration() {
+        return this.state.deceleration;
+    }
 
     model: Object3D;
 
@@ -127,7 +127,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         this.rotation.y = lerpAngle(
             this.rotation.y,
             targetAngle,
-            dt * this.rotationSpeed
+            dt * this.state.rotationSpeed
         );
     }
 

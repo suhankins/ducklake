@@ -1,9 +1,10 @@
-import Bread from '../../../Bread';
+import Bread from '../../Bread';
 import StateApproachingTarget from './StateApproachingTarget';
+import StateLastBreadStolen from './StateLastBreadStolen';
 
 /**
  * Duck moves towards target bread
- * 
+ *
  * Duck enters next state when:
  * * Beak has touched the bread
  * * Bread is gone
@@ -13,7 +14,18 @@ export default class StateApproachingBread extends StateApproachingTarget {
     name: string = 'approaching target: bread';
 
     update(dt: number) {
-        if (this.isEager) this.updateTarget();
+        if (this.isEager) {
+            if (Bread.breadsExist()) {
+                this.updateTarget();
+            } else if (this.target instanceof Bread && this.target.eatenBy) {
+                this.duck.state = new StateLastBreadStolen(
+                    this.duck,
+                    this.nextStateFactory,
+                    this.target.eatenBy
+                );
+                return;
+            }
+        }
         super.update(dt);
     }
 

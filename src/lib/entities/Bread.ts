@@ -1,9 +1,11 @@
 import { Object3D, Sphere, Vector3 } from 'three';
 import PhysicsEntity from './PhysicsEntity';
 import isPositionOutsideScreen from '../utils/isPositionOutsideScreen';
+import Duck from './Duck/Duck';
 
 import type ITarget from './ITarget';
 import type Game from '../Game';
+import type Entity from './Entity';
 
 /**
  * Bread. Intended for ducks to be eaten.
@@ -26,6 +28,12 @@ export default class Bread extends PhysicsEntity implements ITarget {
     deceleration: number = 2;
 
     model: Object3D;
+
+    /**
+     * Set when bread is eaten, so other ducks have a chance
+     * to find out who stole their bread.
+     */
+    eatenBy: Duck | null = null;
 
     constructor(game: Game, position?: Vector3) {
         super(game);
@@ -62,9 +70,12 @@ export default class Bread extends PhysicsEntity implements ITarget {
         return sortedBreadKeys[0][1];
     }
 
-    onReached() {
-        // TODO: Play sound and make some particles appear
-        this.destroy();
+    onReached(reachedBy: Entity) {
+        if (reachedBy instanceof Duck) {
+            // TODO: Play sound and make some particles appear
+            this.eatenBy = reachedBy;
+            this.destroy();
+        }
     }
 
     update(dt: number): void {
