@@ -2,7 +2,6 @@ import { Vector3 } from 'three';
 import CollidableEntity from './CollidableEntity';
 
 export default abstract class PhysicsEntity extends CollidableEntity {
-    abstract name: string;
     abstract velocity: Vector3;
     public get speed() {
         return this.velocity.length();
@@ -129,10 +128,5 @@ export default abstract class PhysicsEntity extends CollidableEntity {
         else axisVelocity += frameDeceleration;
 
         return axisVelocity;
-    }
-
-    destroy(): void {
-        super.destroy();
-        delete PhysicsEntity.CollisionList[this.id];
     }
 }

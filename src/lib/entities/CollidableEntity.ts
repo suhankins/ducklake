@@ -4,6 +4,7 @@ import type { Sphere } from 'three';
 import type Game from '../Game';
 
 export default abstract class CollidableEntity extends Entity {
+    abstract name: string;
     /**
      * List used for collision detection
      */
@@ -38,5 +39,10 @@ export default abstract class CollidableEntity extends Entity {
     constructor(game: Game) {
         super(game);
         CollidableEntity.CollisionList[this.id] = this;
+    }
+
+    destroy(): void {
+        super.destroy();
+        delete CollidableEntity.CollisionList[this.id];
     }
 }
