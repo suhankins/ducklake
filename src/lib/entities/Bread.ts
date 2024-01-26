@@ -6,6 +6,7 @@ import Duck from './Duck/Duck';
 import type ITarget from './ITarget';
 import type Game from '../Game';
 import type Entity from './Entity';
+import Pop from './Pop/Pop';
 
 /**
  * Bread. Intended for ducks to be eaten.
@@ -44,6 +45,8 @@ export default class Bread extends PhysicsEntity implements ITarget {
         this.model.rotation.y = Math.random() * Math.PI * 2 - Math.PI;
         this.collision = new Sphere(this.model.position, 0.7);
         Bread.checkBreadLimit();
+        
+        game.addEntity(new Pop(game, this.position));
     }
 
     /**

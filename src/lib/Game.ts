@@ -14,11 +14,15 @@ import Bread from './entities/Bread';
 import getRandomPosition from './utils/getRandomPosition';
 
 import type Entity from './entities/Entity';
+import { CSS2DRenderer } from 'three/examples/jsm/Addons';
 
 export default class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 20;
 
-    private renderer: WebGLRenderer = new WebGLRenderer({ antialias: true });
+    private webglRenderer = new WebGLRenderer({
+        antialias: true,
+    });
+    private css2dRenderer = new CSS2DRenderer();
     private scene: Scene = new Scene();
     /**
      * Used for delta time calculation
@@ -48,15 +52,22 @@ export default class Game {
      * INITIALIZATION
      */
     constructor() {
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.resizeListener = this.getResizeListener();
+        this.webglRenderer.setSize(window.innerWidth, window.innerHeight);
+
+        this.css2dRenderer.setSize(window.innerWidth, window.innerHeight);
+        this.css2dRenderer.domElement.className = 'css2drenderer';
+
+        document.body.appendChild(this.webglRenderer.domElement);
+        document.body.appendChild(this.css2dRenderer.domElement);
+
         this.mouseDownListener = this.getMouseDownListener(
-            this.renderer.domElement
+            this.webglRenderer.domElement
         );
         this.contextMenuListener = this.getContextMenuListener(
-            this.renderer.domElement
+            this.webglRenderer.domElement
         );
-        document.body.appendChild(this.renderer.domElement);
+        this.resizeListener = this.getResizeListener();
+
         this.init();
     }
 
@@ -89,12 +100,14 @@ export default class Game {
             const entity = this.entities[entityId];
             entity.update(dt);
             if (entity.shouldBeDeleted) {
+                this.scene.remove(entity.model);
                 entity.model.clear();
                 delete this.entities[entityId];
             }
         }
 
-        this.renderer.render(this.scene, this.camera.model);
+        this.webglRenderer.render(this.scene, this.camera.model);
+        this.css2dRenderer.render(this.scene, this.camera.model);
     }
 
     /*
@@ -102,7 +115,12 @@ export default class Game {
      */
     private getResizeListener() {
         const resizeListener = () => {
-            this.renderer.setSize(window.innerWidth, window.innerHeight, true);
+            this.webglRenderer.setSize(
+                window.innerWidth,
+                window.innerHeight,
+                true
+            );
+            this.css2dRenderer.setSize(window.innerWidth, window.innerHeight);
         };
         addEventListener('resize', resizeListener);
         return resizeListener;
@@ -147,8 +165,7 @@ export default class Game {
      * ENTITY MANAGMENT
      */
     spawnDuck(position?: Vector3) {
-        const duck = new Duck(this, position);
-        this.addEntity(duck);
+        this.addEntity(new Duck(this, position));
     }
 
     spawnBread(position: Vector3) {
@@ -177,6 +194,7 @@ export default class Game {
         removeEventListener('contextmenu', this.contextMenuListener);
         for (let entityId in this.entities) {
             this.entities[entityId].destroy();
+            this.scene.remove(this.entities[entityId].model);
             this.entities[entityId].model.clear();
             delete this.entities[entityId];
         }
