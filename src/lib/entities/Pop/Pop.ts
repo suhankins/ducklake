@@ -4,6 +4,9 @@ import Entity from '../Entity';
 import PopHtml from './Pop.html?raw';
 import { CSS2DObject } from 'three/examples/jsm/Addons';
 
+/**
+ * Pop visual effect
+ */
 export default class Pop extends Entity {
     model: CSS2DObject;
 
