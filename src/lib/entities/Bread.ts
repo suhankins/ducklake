@@ -45,8 +45,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
         this.model.rotation.y = Math.random() * Math.PI * 2 - Math.PI;
         this.collision = new Sphere(this.model.position, 0.7);
         Bread.checkBreadLimit();
-        
-        game.addEntity(new Pop(game, this.position));
+        this.spawnPop();
     }
 
     /**
@@ -55,9 +54,10 @@ export default class Bread extends PhysicsEntity implements ITarget {
      */
     static checkBreadLimit() {
         if (Bread.breadCount <= Bread.BREAD_LIMIT) return;
-        const breadKeys = Object.keys(this.breads);
+        const breadKeys = Object.keys(Bread.breads);
         const oldestBreadIndex = parseInt(breadKeys[0]);
-        this.breads[oldestBreadIndex].destroy();
+        Bread.breads[oldestBreadIndex].spawnPop();
+        Bread.breads[oldestBreadIndex].destroy();
     }
 
     static breadsExist() {
@@ -97,6 +97,13 @@ export default class Bread extends PhysicsEntity implements ITarget {
         if (isPositionOutsideScreen(this.position)) {
             this.destroy();
         }
+    }
+    
+    /**
+     * Spawns Pop entity on Bread's location
+     */
+    spawnPop() {
+        this.game.addEntity(new Pop(this.game, this.position));
     }
 
     destroy() {
