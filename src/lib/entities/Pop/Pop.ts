@@ -26,7 +26,7 @@ export default class Pop extends Entity {
     update(dt: number): void {
         this.timer -= dt;
         if (this.timer <= 0) {
-            //this.destroy();
+            this.destroy();
         }
     }
 }
