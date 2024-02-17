@@ -19,8 +19,8 @@ export default class IsometricCamera extends Entity {
             IsometricCamera.getHorizontal(),
             IsometricCamera.D,
             -IsometricCamera.D,
-            1,
-            1000
+            0.1,
+            50
         );
 
         this.model.position.set(
