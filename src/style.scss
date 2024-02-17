@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 /**
   * Number of lines in pop vfx
   */
@@ -29,7 +31,7 @@ body {
 
     @for $i from 0 to $lines {
         >:nth-child(#{$i}) {
-            rotate: 360deg / $lines * $i;
+            rotate: math.div(360deg, $lines) * $i;
         }
     }
 }
