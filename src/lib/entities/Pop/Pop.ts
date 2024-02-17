@@ -10,7 +10,7 @@ import { CSS2DObject } from 'three/examples/jsm/Addons';
 export default class Pop extends Entity {
     model: CSS2DObject;
 
-    timer = 1;
+    timer = 2;
 
     constructor(game: Game, position: Vector3) {
         super(game);
@@ -26,7 +26,7 @@ export default class Pop extends Entity {
     update(dt: number): void {
         this.timer -= dt;
         if (this.timer <= 0) {
-            this.destroy();
+            //this.destroy();
         }
     }
 }

@@ -9,7 +9,7 @@ body {
     }
     to {
         stroke-dasharray: 30 30;
-        stroke-dashoffset: 30;
+        stroke-dashoffset: 31;
     }
 }
 .pop {
