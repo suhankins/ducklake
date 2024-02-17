@@ -6,7 +6,7 @@ import {
     Vector3,
     WebGLRenderer,
 } from 'three';
-import LoadAssets from './utils/LoadAssets';
+import loadAssets from './utils/loadAssets';
 import IsometricCamera from './entities/IsometricCamera';
 import Lake from './entities/Lake';
 import Duck from './entities/Duck/Duck';
@@ -72,7 +72,7 @@ export default class Game {
     }
 
     private async init() {
-        await LoadAssets();
+        await loadAssets();
 
         this.addEntity(this.lake);
         this.addEntity(this.camera);

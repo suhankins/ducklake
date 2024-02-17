@@ -8,7 +8,7 @@ const getPixelsPerHeightUnit = () => 50 / window.innerHeight;
  * Very inaccurate, shouldn't be used for anything important.
  * @returns Vector3 of where this window position is in the world
  */
-export function WindowToWorld(position: Vector2) {
+export function windowToWorld(position: Vector2) {
     const pphu = getPixelsPerHeightUnit();
 
     const x = (position.x - window.innerWidth / 2) / 3.9;
@@ -20,7 +20,7 @@ export function WindowToWorld(position: Vector2) {
 /**
  * Inverse of WindowToWorld. Is very inaccurate too.
  */
-export function WorldToWindow(position: Vector3) {
+export function worldToWindow(position: Vector3) {
     const pphu = getPixelsPerHeightUnit();
 
     const x = (position.x - position.z) / (2 * pphu);
