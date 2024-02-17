@@ -2,7 +2,7 @@ import { Vector3 } from 'three';
 import { WorldToWindow } from './WindowToWorld';
 
 // Just guesswork. WorldToWindow is very inaccurate.
-const THRESHOLD = 100;
+const THRESHOLD = 150;
 
 export default function isPositionOutsideScreen(position: Vector3) {
     const windowPosition = WorldToWindow(position);
