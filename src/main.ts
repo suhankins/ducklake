@@ -1,5 +1,5 @@
 import Game from './lib/Game';
-import './style.css';
+import './style.scss';
 import WebGL from 'three/examples/jsm/capabilities/WebGL';
 
 // Checking if WebGL is supported
