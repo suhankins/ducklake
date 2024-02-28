@@ -59,6 +59,7 @@ export default class Breadcrumb extends PhysicsEntity {
             this.updateGravity(dt);
             return;
         }
+        this.velocity.y = 0;
         this.model.position.y += Breadcrumb.GO_UNDER_WATER_SPEED * dt;
         if (this.model.position.y < -2) {
             this.destroy();
