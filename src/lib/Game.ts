@@ -12,9 +12,9 @@ import Lake from './entities/Lake';
 import Duck from './entities/Duck/Duck';
 import Bread from './entities/Bread';
 import getRandomPosition from './utils/getRandomPosition';
+import { CSS2DRenderer } from 'three/examples/jsm/Addons';
 
 import type Entity from './entities/Entity';
-import { CSS2DRenderer } from 'three/examples/jsm/Addons';
 
 export default class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 20;
