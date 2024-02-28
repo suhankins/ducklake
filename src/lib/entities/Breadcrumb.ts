@@ -19,7 +19,7 @@ export default class Breadcrumb extends PhysicsEntity {
 
     model: Object3D;
 
-    timer = 2;
+    timer = 3;
 
     constructor(game: Game, position: Vector3) {
         super(game);
