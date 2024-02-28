@@ -124,13 +124,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
      */
     spawnRipple(expandsBy: number = 0.6) {
         this.game.addEntity(
-            new Ripple(
-                this.game,
-                this.position.clone().setY(0.01),
-                0.4,
-                0.4 + expandsBy,
-                1.2
-            )
+            new Ripple(this.game, this.position, 0.4, 0.4 + expandsBy, 1.2)
         );
     }
 

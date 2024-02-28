@@ -36,13 +36,7 @@ export default class Breadcrumb extends PhysicsEntity {
 
     enteredWater() {
         this.game.addEntity(
-            new Ripple(
-                this.game,
-                new Vector3().copy(this.position).setY(0.01),
-                0.2,
-                0.7,
-                1.4
-            )
+            new Ripple(this.game, this.position, 0.2, 0.7, 1.4)
         );
     }
 

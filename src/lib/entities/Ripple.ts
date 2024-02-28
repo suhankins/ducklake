@@ -55,6 +55,7 @@ export default class Ripple extends Entity {
         this.model = new Mesh(Ripple.GEOMETRY, this.material);
         this.model.rotateX(-Math.PI / 2);
         this.model.position.copy(position);
+        this.model.position.y = 0.01;
         this.updateScale();
         this.updateOpacity();
     }
