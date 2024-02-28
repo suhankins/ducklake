@@ -11,11 +11,18 @@ export default class Lake extends Entity {
     model: Object3D;
     resizeListener: () => void;
 
+    /**
+     * @constant
+     */
+    static GEOMETRY = new PlaneGeometry(1, 36, 1, 1);
+    /**
+     * @constant
+     */
+    static MATERIAL = new MeshBasicMaterial({ color: 0x86a1cc });
+
     constructor(game: Game) {
         super(game);
-        const geometry = new PlaneGeometry(1, 36, 1, 1);
-        const material = new MeshBasicMaterial({ color: 0x86a1cc });
-        this.model = new Mesh(geometry, material);
+        this.model = new Mesh(Lake.GEOMETRY, Lake.MATERIAL);
         this.model.rotation.x = -Math.PI / 2;
         this.model.rotation.z = Math.PI / 4;
         this.resizeListener = this.getResizeListener();
