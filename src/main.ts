@@ -5,8 +5,8 @@ import WebGL from 'three/examples/jsm/capabilities/WebGL';
 
 // Checking if WebGL is supported
 if (WebGL.isWebGLAvailable()) {
-    const game = new Game();
-    new Debug(game);
+    new Game();
+    new Debug();
 } else {
     const warning = WebGL.getWebGLErrorMessage();
     document.body.appendChild(warning);

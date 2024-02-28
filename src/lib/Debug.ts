@@ -1,11 +1,7 @@
-import Game from './Game';
 import Duck from './entities/Duck/Duck';
 
 export default class Debug {
-    game: Game;
-
-    constructor(game: Game) {
-        this.game = game;
+    constructor() {
         document
             .getElementById('debug-make-ducks-hungry')
             ?.addEventListener('click', () => {
