@@ -5,6 +5,7 @@ import Duck from './Duck/Duck';
 import { getRandomAngle } from '../utils/AngleHelpers';
 import Pop from './Pop/Pop';
 import Ripple from './Ripple';
+import Breadcrumb from './Breadcrumb';
 
 import type ITarget from './ITarget';
 import type Game from '../Game';
@@ -78,7 +79,10 @@ export default class Bread extends PhysicsEntity implements ITarget {
 
     onReached(reachedBy: Entity) {
         if (reachedBy instanceof Duck) {
-            // TODO: Play sound and make some particles appear
+            // TODO: Play sound
+            this.spawnBreadcrumb();
+            this.spawnBreadcrumb();
+            this.spawnBreadcrumb();
             this.eatenBy = reachedBy;
             this.destroy();
         }
@@ -122,12 +126,19 @@ export default class Bread extends PhysicsEntity implements ITarget {
         this.game.addEntity(
             new Ripple(
                 this.game,
-                new Vector3().copy(this.position).setY(0.01),
+                this.position.clone().setY(0.01),
                 0.4,
                 0.4 + expandsBy,
                 1.2
             )
         );
+    }
+
+    spawnBreadcrumb() {
+        const position = this.position.clone();
+        position.x += Math.random() * 0.5;
+        position.z += Math.random() * 0.5;
+        this.game.addEntity(new Breadcrumb(this.game, position));
     }
 
     destroy() {
