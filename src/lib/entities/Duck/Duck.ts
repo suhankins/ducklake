@@ -2,7 +2,7 @@ import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
 import Bread from '../Bread';
 import PhysicsEntity from '../PhysicsEntity';
 import StateIdle from './states/StateIdle';
-import { getAngleTowards, lerpAngle } from '../../utils/AngleHelpers';
+import { getAngleTowards, getRandomAngle, lerpAngle } from '../../utils/AngleHelpers';
 
 import type ITarget from '../ITarget';
 import type Game from '../../Game';
@@ -80,7 +80,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
         this.position = position ?? new Vector3();
-        this.rotation = new Euler(0, Math.random() * Math.PI * 2, 0);
+        this.rotation = new Euler(0, getRandomAngle(), 0);
         // Position remains a reference, so we never have to update it
         this.collision = new Sphere(this.model.position, 1);
         this.beakCollision = new Sphere();

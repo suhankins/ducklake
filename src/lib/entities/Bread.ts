@@ -2,12 +2,13 @@ import { Object3D, Sphere, Vector3 } from 'three';
 import PhysicsEntity from './PhysicsEntity';
 import isPositionOutsideScreen from '../utils/isPositionOutsideScreen';
 import Duck from './Duck/Duck';
+import { getRandomAngle } from '../utils/AngleHelpers';
+import Pop from './Pop/Pop';
+import Ripple from './Ripple';
 
 import type ITarget from './ITarget';
 import type Game from '../Game';
 import type Entity from './Entity';
-import Pop from './Pop/Pop';
-import Ripple from './Ripple';
 
 /**
  * Bread. Intended for ducks to be eaten.
@@ -43,7 +44,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
         Bread.breadCount++;
         this.model = Bread.MODEL.clone(true);
         this.position = position ?? new Vector3();
-        this.model.rotation.y = Math.random() * Math.PI * 2 - Math.PI;
+        this.model.rotation.y = getRandomAngle() - Math.PI;
         this.collision = new Sphere(this.model.position, 0.7);
         Bread.checkBreadLimit();
         this.spawnPop();

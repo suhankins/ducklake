@@ -24,3 +24,10 @@ export function getAngleTowards(a: Vector3, b: Vector3) {
     const angle = new Vector2(convertedVector.z, convertedVector.x).angle();
     return angle;
 }
+
+/**
+ * Returns a random number in range [0; 2 * PI]
+ */
+export function getRandomAngle() {
+    return Math.random() * Math.PI * 2;
+}
