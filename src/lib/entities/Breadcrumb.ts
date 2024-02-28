@@ -25,11 +25,7 @@ export default class Breadcrumb extends PhysicsEntity {
         super(game);
         this.model = Breadcrumb.MODEL.clone();
         this.model.position.copy(position);
-        this.model.rotation.set(
-            getRandomAngle(),
-            getRandomAngle(),
-            getRandomAngle()
-        );
+        this.model.rotation.set(0, getRandomAngle(), 0);
         this.velocity = new Vector3(
             Math.random() * 3,
             5 + Math.random() * 5,
