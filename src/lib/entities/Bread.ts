@@ -25,7 +25,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
     name: string = 'bread';
 
     collision: Sphere;
-    mass = 1;
+    mass = 3;
 
     velocity: Vector3 = new Vector3();
     terminalVelocity: number = 10;
