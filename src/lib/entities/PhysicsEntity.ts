@@ -56,15 +56,17 @@ export default abstract class PhysicsEntity extends CollidableEntity {
 
         // Entity will enter water this frame
         if (direction === 'down' && -this.velocity.y * dt > this.position.y) {
-            this.enteredWater();
+            this.enteredWater(Math.abs(this.velocity.y));
             this.velocity.y /= 2;
         }
     }
 
     /**
      * Callback for when the entity has entered water
+     * @param strength speed, at which entity entered water
      */
-    enteredWater() {}
+    // @ts-expect-error: 'strength' is declared but its value is never read.
+    enteredWater(strength: number) {}
 
     /**
      * Pushes entities this object collided with away

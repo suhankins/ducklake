@@ -7,6 +7,7 @@ import type ITarget from './ITarget';
 import type Game from '../Game';
 import type Entity from './Entity';
 import Pop from './Pop/Pop';
+import Ripple from './Ripple';
 
 /**
  * Bread. Intended for ducks to be eaten.
@@ -57,6 +58,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
         const breadKeys = Object.keys(Bread.breads);
         const oldestBreadIndex = parseInt(breadKeys[0]);
         Bread.breads[oldestBreadIndex].spawnPop();
+        Bread.breads[oldestBreadIndex].spawnRipple();
         Bread.breads[oldestBreadIndex].destroy();
     }
 
@@ -93,17 +95,38 @@ export default class Bread extends PhysicsEntity implements ITarget {
         this.checkIfOutsideTheScreen();
     }
 
+    enteredWater(strength: number) {
+        if (strength < 4) return;
+        this.spawnRipple(strength * 0.06);
+    }
+
     checkIfOutsideTheScreen() {
         if (isPositionOutsideScreen(this.position)) {
             this.destroy();
         }
     }
-    
+
     /**
      * Spawns Pop entity on Bread's location
      */
     spawnPop() {
         this.game.addEntity(new Pop(this.game, this.position));
+    }
+
+    /**
+     * Spawns Ripple entity on Bread's location
+     * @param expandsBy by how many units should ripple expand. 0.6 by default.
+     */
+    spawnRipple(expandsBy: number = 0.6) {
+        this.game.addEntity(
+            new Ripple(
+                this.game,
+                new Vector3().copy(this.position).setY(0.01),
+                0.4,
+                0.4 + expandsBy,
+                1.2
+            )
+        );
     }
 
     destroy() {
