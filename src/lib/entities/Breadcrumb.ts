@@ -14,8 +14,8 @@ export default class Breadcrumb extends PhysicsEntity {
 
     velocity: Vector3;
     terminalVelocity = 15;
-    deceleration = 2;
-    goUnderWaterSpeed = 1;
+    deceleration = 4;
+    static readonly GO_UNDER_WATER_SPEED = -0.25;
 
     model: Object3D;
 
@@ -52,12 +52,14 @@ export default class Breadcrumb extends PhysicsEntity {
         this.pushAway(dt);
         this.decelerate(dt);
         this.applyVelocity(dt);
-        if (this.timer > 0) {
+        if (this.isYVelocityCloseToZero(dt)) {
             this.timer -= dt;
+        }
+        if (this.timer > 0) {
             this.updateGravity(dt);
             return;
         }
-        this.model.position.y -= this.goUnderWaterSpeed * dt;
+        this.model.position.y += Breadcrumb.GO_UNDER_WATER_SPEED * dt;
         if (this.model.position.y < -2) {
             this.destroy();
         }

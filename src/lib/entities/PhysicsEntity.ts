@@ -36,7 +36,7 @@ export default abstract class PhysicsEntity extends CollidableEntity {
         if (
             this.position.y >= 0 &&
             this.position.y < 0.05 &&
-            Math.abs(this.velocity.y) * dt < 0.002
+            this.isYVelocityCloseToZero(dt)
         ) {
             this.velocity.y = 0;
             return;
@@ -59,6 +59,10 @@ export default abstract class PhysicsEntity extends CollidableEntity {
             this.enteredWater(Math.abs(this.velocity.y));
             this.velocity.y /= 2;
         }
+    }
+
+    isYVelocityCloseToZero(dt: number) {
+        return Math.abs(this.velocity.y) * dt < 0.002;
     }
 
     /**
