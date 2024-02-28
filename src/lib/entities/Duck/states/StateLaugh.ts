@@ -6,9 +6,7 @@ import type Duck from '../Duck';
 
 export default class StateLaugh extends State implements IStateGoesBackToIdle {
     name = "laugh";
-
-    deceleration = 0.4;
-
+    
     nextStateFactory: INextStateFactory;
 
     /**
