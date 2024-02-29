@@ -2,7 +2,7 @@ import { Object3D, Sphere, Vector3 } from 'three';
 import PhysicsEntity from './PhysicsEntity';
 import isPositionOutsideScreen from '../utils/isPositionOutsideScreen';
 import Duck from './Duck/Duck';
-import { getRandomAngle } from '../utils/AngleHelpers';
+import { getRandomAngle } from '../utils/MathHelpers';
 import Pop from './Pop/Pop';
 import Ripple from './Ripple';
 import Breadcrumb from './Breadcrumb';
@@ -28,7 +28,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
     mass = 3;
 
     velocity: Vector3 = new Vector3();
-    terminalVelocity: number = 10;
+    horizontalTerminalVelocity: number = 7;
     deceleration: number = 2;
 
     model: Object3D;
@@ -46,7 +46,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
         this.model = Bread.MODEL.clone(true);
         this.position = position ?? new Vector3();
         this.model.rotation.y = getRandomAngle() - Math.PI;
-        this.collision = new Sphere(this.model.position, 0.7);
+        this.collision = new Sphere(this.model.position, 0.5);
         Bread.checkBreadLimit();
         this.spawnPop();
     }
@@ -93,7 +93,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
         // Capping velocity
         this.capVelocity();
         this.checkCollisions();
-        this.pushAway(dt);
+        this.pushAway();
         this.decelerate(dt);
         // Adding velocity to our position, so moving the bread
         this.applyVelocity(dt);

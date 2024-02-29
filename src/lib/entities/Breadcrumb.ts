@@ -1,6 +1,6 @@
 import { Vector3, Sphere } from 'three';
 import PhysicsEntity from './PhysicsEntity';
-import { getRandomAngle } from '../utils/AngleHelpers';
+import { getRandomAngle } from '../utils/MathHelpers';
 import Ripple from './Ripple';
 
 import type { Object3D } from 'three';
@@ -13,13 +13,14 @@ export default class Breadcrumb extends PhysicsEntity {
     mass = 1;
 
     velocity: Vector3;
-    terminalVelocity = 15;
+    horizontalTerminalVelocity = 5;
     deceleration = 4;
     static readonly GO_UNDER_WATER_SPEED = -0.25;
 
     model: Object3D;
 
-    timer = 3;
+    static readonly DISAPPEARANCE_TIMER = 3;
+    timer = Breadcrumb.DISAPPEARANCE_TIMER;
 
     constructor(game: Game, position: Vector3) {
         super(game);
@@ -43,11 +44,13 @@ export default class Breadcrumb extends PhysicsEntity {
     update(dt: number) {
         this.capVelocity();
         this.checkCollisions();
-        this.pushAway(dt);
+        this.pushAway();
         this.decelerate(dt);
         this.applyVelocity(dt);
         if (this.isYVelocityCloseToZero(dt)) {
             this.timer -= dt;
+        } else {
+            this.timer = Breadcrumb.DISAPPEARANCE_TIMER;
         }
         if (this.timer > 0) {
             this.updateGravity(dt);

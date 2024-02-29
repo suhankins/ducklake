@@ -1,15 +1,29 @@
-import { Vector3 } from 'three';
+import { Vector2, Vector3 } from 'three';
 import CollidableEntity from './CollidableEntity';
+import { clamp } from '../utils/MathHelpers';
 
 export default abstract class PhysicsEntity extends CollidableEntity {
     abstract velocity: Vector3;
-    public get speed() {
-        return this.velocity.length();
+    public get horizontalVelocity() {
+        return new Vector2(this.velocity.x, this.velocity.z);
+    }
+    public get horizontalSpeed() {
+        return this.horizontalVelocity.length();
+    }
+    public set verticalSpeed(speed: number) {
+        this.velocity.y = speed * Math.sign(this.velocity.y);
+    }
+    public get verticalSpeed() {
+        return Math.abs(this.velocity.y);
     }
     /**
-     * Max speed in, units per second
+     * Max vertical speed, in units per second
      */
-    abstract terminalVelocity: number;
+    verticalTerminalVelocity: number = 10;
+    /**
+     * Max horizontal speed, in units per second
+     */
+    abstract horizontalTerminalVelocity: number;
     /**
      * Deceleration, in units per second
      */
@@ -74,18 +88,15 @@ export default abstract class PhysicsEntity extends CollidableEntity {
 
     /**
      * Pushes entities this object collided with away
-     * @param dt delta time
      */
-    pushAway(dt: number) {
+    pushAway() {
         this.collisions.forEach((entity) => {
             if (!(entity instanceof PhysicsEntity)) return;
             const direction = entity.position
                 .clone()
                 .sub(this.position)
                 .normalize();
-            // TODO: This calculation is nonsense. Figure out some actual formula
-            const force =
-                (this.mass / entity.mass) * this.collision.radius * 5 * dt;
+            const force = clamp(this.mass / entity.mass / 2, 0, 3);
             entity.velocity.addScaledVector(direction, force);
         });
     }
@@ -102,9 +113,15 @@ export default abstract class PhysicsEntity extends CollidableEntity {
      * Prevents velocity from getting too high
      */
     capVelocity(): void {
-        // Linear velocity
-        if (this.speed > this.terminalVelocity) {
-            this.velocity.normalize().multiplyScalar(this.terminalVelocity);
+        if (this.horizontalSpeed > this.horizontalTerminalVelocity) {
+            const newHorizontalVelocity = this.horizontalVelocity
+                .normalize()
+                .multiplyScalar(this.horizontalTerminalVelocity);
+            this.velocity.x = newHorizontalVelocity.x;
+            this.velocity.z = newHorizontalVelocity.y;
+        }
+        if (this.verticalSpeed > this.verticalTerminalVelocity) {
+            this.verticalSpeed = this.verticalTerminalVelocity;
         }
     }
 

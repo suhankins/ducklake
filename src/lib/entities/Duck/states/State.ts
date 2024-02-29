@@ -18,7 +18,7 @@ export default abstract class State {
     duck: Duck;
 
     deceleration = 0.1;
-    terminalVelocity = 1.5;
+    horizontalTerminalVelocity = 1.5;
     rotationSpeed = 0.3;
 
     public get velocity() {

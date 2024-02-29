@@ -2,7 +2,7 @@ import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
 import Bread from '../Bread';
 import PhysicsEntity from '../PhysicsEntity';
 import StateIdle from './states/StateIdle';
-import { getAngleTowards, getRandomAngle, lerpAngle } from '../../utils/AngleHelpers';
+import { getAngleTowards, getRandomAngle, lerpAngle } from '../../utils/MathHelpers';
 
 import type ITarget from '../ITarget';
 import type Game from '../../Game';
@@ -19,8 +19,8 @@ export default class Duck extends PhysicsEntity implements ITarget {
 
     velocity: Vector3 = new Vector3();
 
-    get terminalVelocity() {
-        return this.state.terminalVelocity;
+    get horizontalTerminalVelocity() {
+        return this.state.horizontalTerminalVelocity;
     }
     get deceleration() {
         return this.state.deceleration;
@@ -94,7 +94,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         this.state.update(dt);
         this.capVelocity();
         this.checkCollisions();
-        this.pushAway(dt);
+        this.pushAway();
         this.applyVelocity(dt);
     }
 

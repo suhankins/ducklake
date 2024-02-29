@@ -50,12 +50,12 @@ export default class StateApproachingTarget extends State implements IStateGoesB
         this.isEager = isEager;
         if (isEager) {
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
-            this.terminalVelocity =
+            this.horizontalTerminalVelocity =
                 StateApproachingTarget.CHASE_TERMINAL_VELOCITY;
             this.rotationSpeed = StateApproachingTarget.CHASE_ROTATION;
         } else {
             this.acceleration = StateApproachingTarget.ROAMING_ACCELERATION;
-            this.terminalVelocity =
+            this.horizontalTerminalVelocity =
                 StateApproachingTarget.ROAMING_TERMINAL_VELOCITY;
             this.rotationSpeed = StateApproachingTarget.ROAMING_ROTATION;
         }

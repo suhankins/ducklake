@@ -31,3 +31,9 @@ export function getAngleTowards(a: Vector3, b: Vector3) {
 export function getRandomAngle() {
     return Math.random() * Math.PI * 2;
 }
+
+export function clamp(x: number, min: number, max: number) {
+    if (x >= max) return max;
+    if (x <= min) return min;
+    return x;
+}

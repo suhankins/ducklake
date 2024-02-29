@@ -44,7 +44,7 @@ export default class StateRamming extends StateApproachingTarget {
 
     constructor(duck: Duck, target: Duck, state: INextStateFactory) {
         super(duck, target, state, true);
-        this.terminalVelocity = StateRamming.TERMINAL_VELOCITY;
+        this.horizontalTerminalVelocity = StateRamming.TERMINAL_VELOCITY;
         this.rotationSpeed = 0.9;
     }
 
