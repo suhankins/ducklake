@@ -22,13 +22,12 @@ export default abstract class CollidableEntity extends Entity {
         // resetting previous frame's collisions
         this.collisions = [];
         for (let id in CollidableEntity.CollisionList) {
-            if (
-                this.id !== parseInt(id) &&
-                CollidableEntity.CollisionList[id].collision.intersectsSphere(
-                    this.collision
-                )
-            ) {
-                this.collisions.push(CollidableEntity.CollisionList[id]);
+            if (this.id === parseInt(id)) {
+                continue;
+            }
+            const entity = CollidableEntity.CollisionList[id];
+            if (entity.collision.intersectsSphere(this.collision)) {
+                this.collisions.push(entity);
             }
         }
     }
