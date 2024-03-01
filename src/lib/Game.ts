@@ -15,6 +15,7 @@ import getRandomPosition from './utils/getRandomPosition';
 import { CSS2DRenderer } from 'three/examples/jsm/Addons';
 
 import type Entity from './entities/Entity';
+import { randomRange } from './utils/MathHelpers';
 
 export default class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 20;
@@ -141,7 +142,15 @@ export default class Game {
             switch (event.button) {
                 // Left mouse button
                 case 0:
-                    this.spawnBread(intersect);
+                    this.spawnBread(
+                        intersect.add(
+                            new Vector3(
+                                randomRange(-0.01, 0.01),
+                                2 + Math.random(),
+                                randomRange(-0.01, 0.01)
+                            )
+                        )
+                    );
                     break;
                 // Right mouse button
                 case 2:
@@ -169,7 +178,7 @@ export default class Game {
     }
 
     spawnBread(position: Vector3) {
-        this.addEntity(new Bread(this, position.setY(2 + Math.random()))); // So bread falls for a bit
+        this.addEntity(new Bread(this, position));
     }
 
     /**

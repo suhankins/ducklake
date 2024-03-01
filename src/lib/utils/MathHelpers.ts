@@ -37,3 +37,7 @@ export function clamp(x: number, min: number, max: number) {
     if (x <= min) return min;
     return x;
 }
+
+export function randomRange(min: number, max: number) {
+    return min + Math.random() * (max - min);
+}
