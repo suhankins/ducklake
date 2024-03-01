@@ -32,3 +32,9 @@
 .debug-menu[open] > summary::marker {
     content: "Close";
 }
+
+.debug-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
