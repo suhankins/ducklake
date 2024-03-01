@@ -14,7 +14,7 @@ export default class Breadcrumb extends PhysicsEntity {
 
     velocity: Vector3;
     horizontalTerminalVelocity = 5;
-    deceleration = 4;
+    deceleration = 2;
     static readonly GO_UNDER_WATER_SPEED = -0.25;
 
     model: Object3D;
