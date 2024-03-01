@@ -18,7 +18,7 @@ import type Entity from './entities/Entity';
 import { randomRange } from './utils/MathHelpers';
 
 export default class Game {
-    static HIGHEST_ALLOWED_DELTA: number = 1 / 20;
+    static HIGHEST_ALLOWED_DELTA: number = 1 / 30;
 
     private webglRenderer = new WebGLRenderer({
         antialias: true,
