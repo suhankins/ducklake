@@ -76,7 +76,7 @@ export default abstract class PhysicsEntity extends CollidableEntity {
     }
 
     isYVelocityCloseToZero(dt: number) {
-        return Math.abs(this.velocity.y) * dt < 0.002;
+        return Math.abs(this.velocity.y) * dt < 0.01;
     }
 
     /**
