@@ -29,7 +29,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
 
     velocity: Vector3 = new Vector3();
     horizontalTerminalVelocity: number = 7;
-    deceleration: number = 2;
+    deceleration: number = 3;
 
     model: Object3D;
 
