@@ -90,6 +90,6 @@ export default class Ripple extends Entity {
     }
 
     getDebugString(): string {
-        return `Time left: ${this.timer}`
+        return `Time left: ${(this.maxTimer - this.timer).toFixed(2)}`
     }
 }

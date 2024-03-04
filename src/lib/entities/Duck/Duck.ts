@@ -148,7 +148,10 @@ export default class Duck extends PhysicsEntity implements ITarget {
     }
 
     getDebugString(): string {
-        return `State: ${this.state.name}\nTime in state: ${this.timeInState}\nTarget: ${this.target?.name} #${this.target?.id}\nHunger: ${this.hunger}`;
+        return `State: ${this.state.name}
+Time in state: ${this.timeInState.toFixed(2)}
+Target: ${this.target?.name} #${this.target?.id}
+Hunger: ${this.isVeryHungry() ? 'VERY HUNGRY' : this.hunger.toFixed(2)}`;
     }
 
     destroy() {

@@ -34,4 +34,8 @@ export default class RoamingTarget extends CollidableEntity implements ITarget {
     update(_dt: number) {
         if (this.duck.target !== this) this.destroy();
     }
+
+    getDebugString(): string {
+        return `Targetted by ${this.duck.name} #${this.duck.id}`;
+    }
 }

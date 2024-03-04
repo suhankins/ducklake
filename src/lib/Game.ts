@@ -16,6 +16,7 @@ import { CSS2DRenderer } from 'three/examples/jsm/Addons';
 
 import type Entity from './entities/Entity';
 import { randomRange } from './utils/MathHelpers';
+import DebugText from './entities/DebugText';
 
 export default class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 30;
@@ -48,6 +49,21 @@ export default class Game {
     private resizeListener: () => void;
     private mouseDownListener: (event: MouseEvent) => void;
     private contextMenuListener: (event: MouseEvent) => void;
+
+    private _debugTextEnabled = false;
+    public get debugTextEnabled() {
+        return this._debugTextEnabled;
+    }
+    public set debugTextEnabled(value: boolean) {
+        if (value === true) {
+            this._debugTextEnabled = true;
+            Object.values(this.entities).forEach((entity) => {
+                this.addEntity(new DebugText(this, entity));
+            });
+        } else {
+            this._debugTextEnabled = false;
+        }
+    }
 
     /*
      * INITIALIZATION
@@ -188,6 +204,9 @@ export default class Game {
     addEntity<T extends Entity>(entity: T) {
         this.entities[entity.id] = entity;
         this.scene.add(entity.model);
+        if (this.debugTextEnabled && !(entity instanceof DebugText)) {
+            this.addEntity(new DebugText(this, entity));
+        }
         return entity;
     }
 

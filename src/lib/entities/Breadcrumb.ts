@@ -58,12 +58,12 @@ export default class Breadcrumb extends PhysicsEntity {
         }
         this.velocity.y = 0;
         this.model.position.y += Breadcrumb.GO_UNDER_WATER_SPEED * dt;
-        if (this.model.position.y < -2) {
+        if (this.model.position.y < -1) {
             this.destroy();
         }
     }
     
     getDebugString(): string {
-        return `Time left: ${this.timer}`
+        return `Time left: ${this.timer.toFixed(2)}`
     }
 }

@@ -16,5 +16,11 @@ export default class Debug {
             ?.addEventListener('click', () => {
                 for (let i = 0; i < 10; i++) game.addEntity(new Duck(game));
             });
+        document
+            .getElementById('debug-text')
+            ?.addEventListener('change', (event) => {
+                const target = event.target as HTMLInputElement;
+                game.debugTextEnabled = target.checked;
+            });
     }
 }

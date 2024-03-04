@@ -1,8 +1,9 @@
+import PopHtml from './Pop.html?raw';
+import Entity from '../Entity';
+import { CSS2DObject } from 'three/examples/jsm/Addons';
+
 import { type Vector3 } from 'three';
 import type Game from '../../Game';
-import Entity from '../Entity';
-import PopHtml from './Pop.html?raw';
-import { CSS2DObject } from 'three/examples/jsm/Addons';
 
 /**
  * Pop visual effect
@@ -34,6 +35,6 @@ export default class Pop extends Entity {
 
     
     getDebugString(): string {
-        return `Time left: ${this.timer}`
+        return `Time left: ${this.timer.toFixed(2)}`
     }
 }
