@@ -62,4 +62,8 @@ export default class Breadcrumb extends PhysicsEntity {
             this.destroy();
         }
     }
+    
+    getDebugString(): string {
+        return `Time left: ${this.timer}`
+    }
 }

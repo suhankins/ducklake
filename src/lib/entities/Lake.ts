@@ -8,6 +8,8 @@ import type Game from '../Game';
  * Fills the whole screen.
  */
 export default class Lake extends Entity {
+    name = 'lake';
+    
     model: Object3D;
     resizeListener: () => void;
 

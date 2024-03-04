@@ -2,7 +2,11 @@ import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
 import Bread from '../Bread';
 import PhysicsEntity from '../PhysicsEntity';
 import StateIdle from './states/StateIdle';
-import { getAngleTowards, getRandomAngle, lerpAngle } from '../../utils/MathHelpers';
+import {
+    getAngleTowards,
+    getRandomAngle,
+    lerpAngle,
+} from '../../utils/MathHelpers';
 
 import type ITarget from '../ITarget';
 import type Game from '../../Game';
@@ -10,9 +14,9 @@ import type Entity from '../Entity';
 import type State from './states/State';
 
 export default class Duck extends PhysicsEntity implements ITarget {
-    static ducks: { [id: number]: Duck } = {};
+    name = 'duck';
 
-    name: string = 'duck';
+    static ducks: { [id: number]: Duck } = {};
 
     collision: Sphere;
     mass = 20;
@@ -141,6 +145,10 @@ export default class Duck extends PhysicsEntity implements ITarget {
 
     isVeryHungry() {
         return this.hunger < Duck.VERY_HUNGRY_THRESHOLD;
+    }
+
+    getDebugString(): string {
+        return `State: ${this.state.name}\nTime in state: ${this.timeInState}\nTarget: ${this.target?.name} #${this.target?.id}\nHunger: ${this.hunger}`;
     }
 
     destroy() {

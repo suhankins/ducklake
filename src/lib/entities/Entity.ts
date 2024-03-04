@@ -7,6 +7,7 @@ import type Game from '../Game';
  * Base class for all objects in the lake
  */
 export default abstract class Entity {
+    abstract name: string;
     /**
      * Game object, so entities can spawn other entities
      */
@@ -59,6 +60,10 @@ export default abstract class Entity {
      * @param dt delta time, so time since last tick
      */
     abstract update(dt: number): void;
+
+    getDebugString(): string {
+        return '';
+    }
 
     /**
      * Should be called before object is removed from the list.

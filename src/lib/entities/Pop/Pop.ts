@@ -8,6 +8,8 @@ import { CSS2DObject } from 'three/examples/jsm/Addons';
  * Pop visual effect
  */
 export default class Pop extends Entity {
+    name = 'pop';
+
     model: CSS2DObject;
 
     timer = 2;
@@ -28,5 +30,10 @@ export default class Pop extends Entity {
         if (this.timer <= 0) {
             this.destroy();
         }
+    }
+
+    
+    getDebugString(): string {
+        return `Time left: ${this.timer}`
     }
 }

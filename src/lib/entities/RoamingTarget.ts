@@ -9,7 +9,7 @@ import type Game from '../Game';
  * Entity that represents duck's target when it's just roaming around.
  */
 export default class RoamingTarget extends CollidableEntity implements ITarget {
-    name: string = 'target';
+    name = 'target';
 
     model: Object3D;
     collision: Sphere;

@@ -18,11 +18,11 @@ import type Entity from './Entity';
  * but I think it looks more fun this way.
  */
 export default class Bread extends PhysicsEntity implements ITarget {
+    name = 'bread';
+
     static breadCount: number = 0;
     static breads: { [id: number]: Bread } = {};
     static BREAD_LIMIT = 24;
-
-    name: string = 'bread';
 
     collision: Sphere;
     mass = 3;

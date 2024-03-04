@@ -6,6 +6,8 @@ import type { Object3D, Vector3 } from 'three';
 import type Game from '../Game';
 
 export default class Ripple extends Entity {
+    name = 'ripple';
+
     model: Object3D;
 
     startingSize: number;
@@ -85,5 +87,9 @@ export default class Ripple extends Entity {
         );
         this.updateScale();
         this.updateOpacity();
+    }
+
+    getDebugString(): string {
+        return `Time left: ${this.timer}`
     }
 }

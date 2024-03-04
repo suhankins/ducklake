@@ -4,7 +4,6 @@ import type { Sphere } from 'three';
 import type Game from '../Game';
 
 export default abstract class CollidableEntity extends Entity {
-    abstract name: string;
     /**
      * List used for collision detection
      */
