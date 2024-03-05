@@ -24,12 +24,12 @@ export default class StateApproachingTarget extends State implements IStateGoesB
     acceleration: number;
 
     static ROAMING_ACCELERATION = 1;
-    static CHASE_ACCELERATION = 3;
+    static CHASE_ACCELERATION = 2;
 
-    static ROAMING_TERMINAL_VELOCITY = 1.5;
-    static CHASE_TERMINAL_VELOCITY = 2;
+    static ROAMING_TERMINAL_VELOCITY = 1.25;
+    static CHASE_TERMINAL_VELOCITY = 1.75;
 
-    static ROAMING_ROTATION = 0.3;
+    static ROAMING_ROTATION = 0.5;
     static CHASE_ROTATION = 0.7;
 
     /**
