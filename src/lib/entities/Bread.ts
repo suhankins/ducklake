@@ -64,7 +64,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
         Bread.breads[oldestBreadIndex].destroy();
     }
 
-    static breadsExist() {
+    static get breadsExist() {
         return Bread.breadCount > 0;
     }
 

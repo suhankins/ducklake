@@ -53,6 +53,6 @@ export default abstract class State {
     onReached(_reachedBy: Entity) {}
 
     veryHungryCheck() {
-        return this.duck.isVeryHungry() && Bread.breadsExist();
+        return this.duck.isVeryHungry && Bread.breadsExist;
     }
 }

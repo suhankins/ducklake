@@ -46,6 +46,12 @@ export default class Duck extends PhysicsEntity implements ITarget {
      * Time until duck gets hungry
      */
     hunger: number = Math.random() * 20;
+    get isHungry() {
+        return this.hunger < Duck.HUNGRY_THRESHOLD;
+    }
+    get isVeryHungry() {
+        return this.hunger < Duck.VERY_HUNGRY_THRESHOLD;
+    }
     /**
      * Threshold at which duck gets hungry enough to care to find bread
      */
@@ -139,19 +145,11 @@ export default class Duck extends PhysicsEntity implements ITarget {
         this.state.onReached(reachedBy);
     }
 
-    isHungry() {
-        return this.hunger < Duck.HUNGRY_THRESHOLD;
-    }
-
-    isVeryHungry() {
-        return this.hunger < Duck.VERY_HUNGRY_THRESHOLD;
-    }
-
     getDebugString(): string {
         return `State: ${this.state.name}
 Time in state: ${this.timeInState.toFixed(2)}
 Target: ${this.target?.name} #${this.target?.id}
-Hunger: ${this.isVeryHungry() ? 'VERY HUNGRY' : this.hunger.toFixed(2)}`;
+Hunger: ${this.isVeryHungry ? 'VERY HUNGRY' : this.hunger.toFixed(2)}`;
     }
 
     destroy() {

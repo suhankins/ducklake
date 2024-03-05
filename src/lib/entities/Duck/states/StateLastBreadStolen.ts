@@ -42,7 +42,7 @@ export default class StateLastBreadStolen
 
     update(dt: number) {
         // TODO: Display an angry bubble
-        if (Bread.breadsExist()) {
+        if (Bread.breadsExist) {
             this.duck.state = new StateApproachingBread(
                 this.duck,
                 Bread.getClosestBreadToPosition(this.position),

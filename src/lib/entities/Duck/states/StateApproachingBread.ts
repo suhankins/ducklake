@@ -15,7 +15,7 @@ export default class StateApproachingBread extends StateApproachingTarget {
 
     update(dt: number) {
         if (this.isEager) {
-            if (Bread.breadsExist()) {
+            if (Bread.breadsExist) {
                 this.updateTarget();
             } else if (this.target instanceof Bread && this.target.eatenBy) {
                 this.duck.state = new StateLastBreadStolen(

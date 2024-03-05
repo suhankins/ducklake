@@ -27,10 +27,7 @@ export default class StateIdle extends State {
         }
 
         if (this.duck.timeInState > this.randomMovementTime) {
-            if (
-                this.duck.isHungry() &&
-                Bread.breadsExist()
-            ) {
+            if (this.duck.isHungry && Bread.breadsExist) {
                 this.setStateToApproachClosestBread();
                 return;
             }
@@ -42,13 +39,9 @@ export default class StateIdle extends State {
         this.duck.state = new StateApproachingTarget(
             this.duck,
             this.game.addEntity(
-                new RoamingTarget(
-                    this.game,
-                    this.duck,
-                    getRandomPosition()
-                )
+                new RoamingTarget(this.game, this.duck, getRandomPosition())
             ),
-            () => new StateIdle(this.duck),
+            () => new StateIdle(this.duck)
         );
     }
 
