@@ -11,7 +11,7 @@ import StateLastBreadStolen from './StateLastBreadStolen';
  * * Duck is very hungry and duck isn't eager to reach given target
  */
 export default class StateApproachingBread extends StateApproachingTarget {
-    name: string = 'approaching target: bread';
+    name = 'approaching bread';
 
     update(dt: number) {
         if (this.isEager) {
