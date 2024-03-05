@@ -1,5 +1,3 @@
-import Bread from '../../Bread';
-
 import type Entity from '../../Entity';
 import type Duck from '../Duck';
 
@@ -51,8 +49,4 @@ export default abstract class State {
     abstract update(dt: number): void;
 
     onReached(_reachedBy: Entity) {}
-
-    veryHungryCheck() {
-        return this.duck.isVeryHungry && Bread.breadsExist;
-    }
 }

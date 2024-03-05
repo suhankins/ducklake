@@ -21,7 +21,7 @@ export default class StateIdle extends State {
     }
 
     update(): void {
-        if (this.veryHungryCheck()) {
+        if (this.duck.isVeryHungry && Bread.breadsExist) {
             this.setStateToApproachClosestBread(true);
             return;
         }

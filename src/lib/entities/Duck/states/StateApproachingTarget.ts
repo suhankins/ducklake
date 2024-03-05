@@ -1,6 +1,7 @@
 import { Vector3 } from 'three';
 import State from './State';
 import Duck from '../Duck';
+import Bread from '../../Bread';
 
 import type INextStateFactory from './INextStateFactory';
 import type ITarget from '../../ITarget';
@@ -95,7 +96,7 @@ export default class StateApproachingTarget extends State implements IStateGoesB
         return (
             this.target === null ||
             this.target.shouldBeDeleted ||
-            (!this.isEager && this.veryHungryCheck())
+            (!this.isEager && this.duck.isVeryHungry && Bread.breadsExist)
         );
     }
 
