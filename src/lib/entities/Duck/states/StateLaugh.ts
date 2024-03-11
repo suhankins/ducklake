@@ -5,8 +5,8 @@ import type IStateGoesBackToIdle from './IStateEntersNextState';
 import type Duck from '../Duck';
 
 export default class StateLaugh extends State implements IStateGoesBackToIdle {
-    name = "laugh";
-    
+    name = 'laugh';
+
     nextStateFactory: INextStateFactory;
 
     /**

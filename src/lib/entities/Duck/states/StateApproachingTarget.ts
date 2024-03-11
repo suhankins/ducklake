@@ -15,7 +15,10 @@ import type IStateGoesBackToIdle from './IStateEntersNextState';
  * * Target is gone
  * * Duck is very hungry and duck isn't eager to reach given target
  */
-export default class StateApproachingTarget extends State implements IStateGoesBackToIdle {
+export default class StateApproachingTarget
+    extends State
+    implements IStateGoesBackToIdle
+{
     name: string = 'approaching target';
 
     isEager: boolean;
@@ -81,7 +84,7 @@ export default class StateApproachingTarget extends State implements IStateGoesB
 
     /**
      * Gets called when duck reaches its target.
-     * 
+     *
      * Should be overriden with implementation in ancestors.
      */
     onTargetReached() {}

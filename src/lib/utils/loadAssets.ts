@@ -6,6 +6,6 @@ export default async function loadAssets() {
     return await Promise.all([
         Duck.loadModel('./Duck.gltf'),
         Bread.loadModel('./Bread.gltf'),
-        Breadcrumb.loadModel('./Breadcrumb.glb')
+        Breadcrumb.loadModel('./Breadcrumb.glb'),
     ]);
 }

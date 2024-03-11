@@ -52,7 +52,10 @@ export default class Ripple extends Entity {
         this.maxSize = maxSize;
         this.maxTimer = time;
 
-        this.material = new MeshBasicMaterial({ color: 0xffffff, transparent: true });
+        this.material = new MeshBasicMaterial({
+            color: 0xffffff,
+            transparent: true,
+        });
 
         this.model = new Mesh(Ripple.GEOMETRY, this.material);
         this.model.rotateX(-Math.PI / 2);
@@ -80,16 +83,12 @@ export default class Ripple extends Entity {
         if (this.timer > this.maxTimer) {
             this.destroy();
         }
-        this.currentSize = lerp(
-            this.startingSize,
-            this.maxSize,
-            this.progress
-        );
+        this.currentSize = lerp(this.startingSize, this.maxSize, this.progress);
         this.updateScale();
         this.updateOpacity();
     }
 
     getDebugString(): string {
-        return `Time left: ${(this.maxTimer - this.timer).toFixed(2)}`
+        return `Time left: ${(this.maxTimer - this.timer).toFixed(2)}`;
     }
 }

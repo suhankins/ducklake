@@ -24,13 +24,13 @@
 }
 
 .debug-menu > summary::marker {
-    content: "?";
+    content: '?';
     font-weight: bold;
     font-size: 1.2rem;
 }
 
 .debug-menu[open] > summary::marker {
-    content: "Close";
+    content: 'Close';
 }
 
 .debug-buttons {

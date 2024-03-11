@@ -5,7 +5,7 @@ import type Game from '../Game';
 
 export default class IsometricCamera extends Entity {
     name = 'camera';
-    
+
     static D: number = 10;
     model: OrthographicCamera;
     resizeListener: () => void;
