@@ -17,6 +17,7 @@ import { CSS2DRenderer } from 'three/examples/jsm/Addons';
 import type Entity from './entities/Entity';
 import { randomRange } from './utils/MathHelpers';
 import DebugText from './entities/DebugText';
+import DuckSpawner from './entities/Duck/DuckSpawner';
 
 export default class Game {
     static HIGHEST_ALLOWED_DELTA: number = 1 / 30;
@@ -95,7 +96,9 @@ export default class Game {
         this.addEntity(this.camera);
 
         for (let i = 0; i < 10; i++) {
-            this.spawnDuck(getRandomPosition());
+            this.addEntity(
+                new DuckSpawner(this, getRandomPosition(), (i + 1) / 6)
+            );
         }
 
         this.animate();

@@ -4,31 +4,35 @@ $lines: 8;
     from {
         stroke-dasharray: 0 30;
         stroke-dashoffset: -15;
-        stroke-width: 3;
     }
     to {
         stroke-dasharray: 30 30;
         stroke-dashoffset: 31;
-        stroke-width: 3;
-    }
-}
-.pop {
-    stroke: #fefefe;
-    stroke-width: 0;
-    stroke-linecap: round;
-    animation: pop 0.5s cubic-bezier(0.83, 0, 0.17, 1) forwards;
-    fill: none;
-    translate: -50% -50%;
-
-    @for $i from 0 to $lines {
-        > :nth-child(#{$i}) {
-            rotate: math.div(360deg, $lines) * $i;
-        }
     }
 }
 .pop-wrapper {
     pointer-events: none;
     user-select: none;
+    translate: -50% -50%;
+    .pop {
+        stroke: #fefefe;
+        stroke-width: 3;
+        stroke-linecap: round;
+        animation: pop 0.5s cubic-bezier(0.83, 0, 0.17, 1) forwards;
+        fill: none;
+
+        @for $i from 0 to $lines {
+            > :nth-child(#{$i}) {
+                rotate: math.div(360deg, $lines) * $i;
+            }
+        }
+    }
+    &.bigger {
+        .pop {
+            stroke-width: 2;
+            scale: 2;
+        }
+    }
 }
 .css2drenderer {
     position: absolute;

@@ -15,10 +15,10 @@ export default class Pop extends Entity {
 
     timer = 2;
 
-    constructor(game: Game, position: Vector3) {
+    constructor(game: Game, position: Vector3, bigger?: boolean) {
         super(game);
         const wrapper = document.createElement('div');
-        wrapper.className = 'pop-wrapper';
+        wrapper.className = `pop-wrapper ${bigger ? 'bigger' : ''}`;
         wrapper.innerHTML = PopHtml;
 
         this.model = new CSS2DObject(wrapper);
@@ -33,8 +33,7 @@ export default class Pop extends Entity {
         }
     }
 
-    
     getDebugString(): string {
-        return `Time left: ${this.timer.toFixed(2)}`
+        return `Time left: ${this.timer.toFixed(2)}`;
     }
 }
