@@ -1,4 +1,4 @@
-import { Clock, Euler, Object3D, Sphere, Vector3 } from 'three';
+import { Clock, Object3D, Sphere, Vector3 } from 'three';
 import Bread from '../Bread';
 import PhysicsEntity from '../PhysicsEntity';
 import StateIdle from './states/StateIdle';
@@ -89,8 +89,8 @@ export default class Duck extends PhysicsEntity implements ITarget {
         Duck.ducks[this.id] = this;
         this.state = new StateIdle(this);
         this.model = Duck.MODEL.clone(true);
-        this.position = position ?? new Vector3();
-        this.rotation = new Euler(0, getRandomAngle(), 0);
+        this.position.copy(position ?? new Vector3());
+        this.rotation.set(0, getRandomAngle(), 0);
         // Position remains a reference, so we never have to update it
         this.collision = new Sphere(this.model.position, 1);
         this.beakCollision = new Sphere();

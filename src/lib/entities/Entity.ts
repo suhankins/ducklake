@@ -1,6 +1,6 @@
-import { Euler, Object3D, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
+import { type Object3D } from 'three';
 import type Game from '../Game';
 
 /**
@@ -22,14 +22,8 @@ export default abstract class Entity {
     public get position() {
         return this.model.position;
     }
-    public set position(v: Vector3) {
-        this.model.position.copy(v);
-    }
     public get rotation() {
         return this.model.rotation;
-    }
-    public set rotation(r: Euler) {
-        this.model.rotation.copy(r);
     }
     /**
      * Gets set in destroy. Indicates to list of entities that this entity needs to be gone

@@ -23,7 +23,7 @@ export default class RoamingTarget extends CollidableEntity implements ITarget {
         super(game);
         this.duck = duck;
         this.model = new Object3D();
-        this.position = position ?? new Vector3();
+        this.position.copy(position ?? new Vector3());
         this.collision = new Sphere(this.model.position, 0.7);
     }
 

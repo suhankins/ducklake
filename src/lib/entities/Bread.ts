@@ -44,7 +44,7 @@ export default class Bread extends PhysicsEntity implements ITarget {
         Bread.breads[this.id] = this;
         Bread.breadCount++;
         this.model = Bread.MODEL.clone(true);
-        this.position = position ?? new Vector3();
+        this.position.copy(position ?? new Vector3());
         this.model.rotation.y = getRandomAngle() - Math.PI;
         this.collision = new Sphere(this.model.position, 0.5);
         Bread.checkBreadLimit();
