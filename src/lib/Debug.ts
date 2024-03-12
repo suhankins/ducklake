@@ -9,6 +9,7 @@ export default class Debug {
         this.game = game;
         this.setupMakeDucksHungry();
         this.setupSpawnManyDucks();
+        this.setupMakeDucksQuack();
         this.setupToggleDebugText();
     }
 
@@ -18,6 +19,16 @@ export default class Debug {
             ?.addEventListener('click', () => {
                 Object.values(Duck.ducks).forEach(
                     (duck) => (duck.hunger = -999)
+                );
+            });
+    }
+
+    setupMakeDucksQuack() {
+        document
+            .getElementById('debug-duck-quack')
+            ?.addEventListener('click', () => {
+                Object.values(Duck.ducks).forEach(
+                    (duck) => duck.spawnSpeech()
                 );
             });
     }

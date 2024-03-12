@@ -7,6 +7,7 @@ import {
     getRandomAngle,
     lerpAngle,
 } from '../../utils/MathHelpers';
+import Speech from '../Speech/Speech';
 
 import type ITarget from '../ITarget';
 import type Game from '../../Game';
@@ -90,7 +91,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         this.rotation.set(0, getRandomAngle(), 0);
         // Position remains a reference, so we never have to update it
         this.collision = new Sphere(this.model.position, 1);
-        this.beakCollision = new Sphere(this.position, 0.5);
+        this.beakCollision = new Sphere(this.position.clone(), 0.5);
         this.updateBeak();
     }
 
@@ -137,6 +138,10 @@ export default class Duck extends PhysicsEntity implements ITarget {
         );
     }
 
+    spawnSpeech() {
+        this.game.addEntity(new Speech(this.game, this));
+    }
+
     onReached(reachedBy: Entity) {
         this.state.onReached(reachedBy);
     }
@@ -145,7 +150,8 @@ export default class Duck extends PhysicsEntity implements ITarget {
         return `State: ${this.state.name}
 Time in state: ${this.timeInState.toFixed(2)}
 Target: ${this.target?.name} #${this.target?.id}
-Hunger: ${this.isVeryHungry ? 'VERY HUNGRY' : this.hunger.toFixed(2)}`;
+Hunger: ${this.isVeryHungry ? 'VERY HUNGRY' : this.hunger.toFixed(2)}
+Angle: ${this.rotation.y.toFixed(2)}`;
     }
 
     destroy() {

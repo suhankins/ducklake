@@ -11,7 +11,7 @@ import type Duck from '../Duck';
  * * Duck waits for up to 10 seconds to move randomly on the screen
  */
 export default class StateIdle extends State {
-    name: string = 'idle';
+    name = 'idle';
 
     randomMovementTime: number = Math.random() * 10;
 
@@ -22,6 +22,7 @@ export default class StateIdle extends State {
 
     update(): void {
         if (this.duck.isVeryHungry && Bread.breadsExist) {
+            this.duck.spawnSpeech();
             this.setStateToApproachClosestBread(true);
             return;
         }
@@ -30,6 +31,9 @@ export default class StateIdle extends State {
             if (this.duck.isHungry && Bread.breadsExist) {
                 this.setStateToApproachClosestBread();
                 return;
+            }
+            if (Math.random() > 0.5) {
+                this.duck.spawnSpeech();
             }
             this.setStateToApproachRandomPosition();
         }

@@ -46,6 +46,7 @@ export default class StateRamming extends StateApproachingTarget {
         super(duck, target, state, true);
         this.horizontalTerminalVelocity = StateRamming.TERMINAL_VELOCITY;
         this.rotationSpeed = 0.9;
+        this.duck.spawnSpeech();
     }
 
     update(dt: number): void {

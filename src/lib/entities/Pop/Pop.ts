@@ -13,12 +13,12 @@ export default class Pop extends Entity {
 
     model: CSS2DObject;
 
-    timer = 2;
+    timer = 1;
 
     constructor(game: Game, position: Vector3, bigger?: boolean) {
         super(game);
         const wrapper = document.createElement('div');
-        wrapper.className = `pop-wrapper ${bigger ? 'bigger' : ''}`;
+        wrapper.className = `vfx-wrapper${bigger ? ' bigger' : ''}`;
         wrapper.innerHTML = PopHtml;
 
         this.model = new CSS2DObject(wrapper);
