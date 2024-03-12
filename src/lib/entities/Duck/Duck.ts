@@ -90,7 +90,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         this.rotation.set(0, getRandomAngle(), 0);
         // Position remains a reference, so we never have to update it
         this.collision = new Sphere(this.model.position, 1);
-        this.beakCollision = new Sphere();
+        this.beakCollision = new Sphere(this.position, 0.5);
         this.updateBeak();
     }
 
@@ -109,9 +109,8 @@ export default class Duck extends PhysicsEntity implements ITarget {
      * Updates beak's position and beak collision list
      */
     updateBeak() {
-        this.beakCollision.set(
-            new Vector3(0, 0, 1).applyEuler(this.rotation).add(this.position),
-            0.5
+        this.beakCollision.center.copy(
+            new Vector3(0, 0, 1).applyEuler(this.rotation).add(this.position)
         );
         this.beakCollisionList = [];
         for (let id in Bread.breads) {
