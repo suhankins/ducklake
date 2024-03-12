@@ -28,7 +28,7 @@ export default class Debug {
             .getElementById('debug-duck-quack')
             ?.addEventListener('click', () => {
                 Object.values(Duck.ducks).forEach(
-                    (duck) => duck.spawnSpeech()
+                    (duck) => duck.quack()
                 );
             });
     }

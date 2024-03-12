@@ -22,7 +22,7 @@ export default class StateIdle extends State {
 
     update(): void {
         if (this.duck.isVeryHungry && Bread.breadsExist) {
-            this.duck.spawnSpeech();
+            this.duck.quack();
             this.setStateToApproachClosestBread(true);
             return;
         }
@@ -33,7 +33,7 @@ export default class StateIdle extends State {
                 return;
             }
             if (Math.random() > 0.5) {
-                this.duck.spawnSpeech();
+                this.duck.quack();
             }
             this.setStateToApproachRandomPosition();
         }

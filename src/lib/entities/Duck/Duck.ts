@@ -138,7 +138,8 @@ export default class Duck extends PhysicsEntity implements ITarget {
         );
     }
 
-    spawnSpeech() {
+    quack() {
+        // TODO: Play sound?
         this.game.addEntity(new Speech(this.game, this));
     }
 
