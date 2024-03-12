@@ -69,7 +69,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         return this._state;
     }
     public set state(newState: State) {
-        this.resetTimeInState();
+        this.stateEntered.start();
         this._state = newState;
     }
 
@@ -79,9 +79,6 @@ export default class Duck extends PhysicsEntity implements ITarget {
      */
     public get timeInState() {
         return this.stateEntered.getElapsedTime();
-    }
-    private resetTimeInState() {
-        this.stateEntered.start();
     }
 
     constructor(game: Game, position?: Vector3) {
