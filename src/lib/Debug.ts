@@ -32,11 +32,12 @@ export default class Debug {
     }
 
     setupToggleDebugText() {
-        document
-            .getElementById('debug-text')
-            ?.addEventListener('change', (event) => {
-                const target = event.target as HTMLInputElement;
-                this.game.debugTextEnabled = target.checked;
-            });
+        const debugTextToggle = document.getElementById('debug-text') as HTMLInputElement;
+
+        this.game.debugTextEnabled = debugTextToggle.checked;
+        debugTextToggle.addEventListener('change', (event) => {
+            const target = event.target as HTMLInputElement;
+            this.game.debugTextEnabled = target.checked;
+        });
     }
 }
