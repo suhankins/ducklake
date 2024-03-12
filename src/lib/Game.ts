@@ -20,6 +20,9 @@ import DebugText from './entities/DebugText';
 import DuckSpawner from './entities/Duck/DuckSpawner';
 
 export default class Game {
+    /**
+     * @readonly
+     */
     static HIGHEST_ALLOWED_DELTA: number = 1 / 30;
 
     private webglRenderer = new WebGLRenderer({
@@ -56,13 +59,11 @@ export default class Game {
         return this._debugTextEnabled;
     }
     public set debugTextEnabled(value: boolean) {
-        if (value === true) {
-            this._debugTextEnabled = true;
+        this._debugTextEnabled = value;
+        if (this._debugTextEnabled) {
             Object.values(this.entities).forEach((entity) => {
                 this.addEntity(new DebugText(this, entity));
             });
-        } else {
-            this._debugTextEnabled = false;
         }
     }
 
