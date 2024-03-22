@@ -3,7 +3,7 @@ import PhysicsEntity from './PhysicsEntity';
 import isPositionOutsideScreen from '../utils/isPositionOutsideScreen';
 import Duck from './Duck/Duck';
 import { getRandomAngle } from '../utils/MathHelpers';
-import Pop from './Pop/Pop';
+import Pop from './VFX/Pop/Pop';
 import Ripple from './Ripple';
 import Breadcrumb from './Breadcrumb';
 

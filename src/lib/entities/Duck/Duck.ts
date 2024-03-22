@@ -7,7 +7,7 @@ import {
     getRandomAngle,
     lerpAngle,
 } from '../../utils/MathHelpers';
-import Speech from '../Speech/Speech';
+import Speech from '../VFX/Speech/Speech';
 
 import type ITarget from '../ITarget';
 import type Game from '../../Game';

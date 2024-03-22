@@ -1,5 +1,5 @@
 import Entity from '../Entity';
-import Pop from '../Pop/Pop';
+import Pop from '../VFX/Pop/Pop';
 import Ripple from '../Ripple';
 
 import { Object3D, type Vector3 } from 'three';
