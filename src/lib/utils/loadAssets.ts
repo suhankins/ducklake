@@ -4,8 +4,8 @@ import Duck from '../entities/Duck/Duck';
 
 export default async function loadAssets() {
     return await Promise.all([
-        Duck.loadModel('./Duck.gltf'),
-        Bread.loadModel('./Bread.gltf'),
-        Breadcrumb.loadModel('./Breadcrumb.glb'),
+        Duck.loadModel('/model/Duck.gltf'),
+        Bread.loadModel('/model/Bread.gltf'),
+        Breadcrumb.loadModel('/model/Breadcrumb.glb'),
     ]);
 }
