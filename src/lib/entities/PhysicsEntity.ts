@@ -60,12 +60,10 @@ export default abstract class PhysicsEntity extends CollidableEntity {
         let direction: 'up' | 'down';
         if (this.position.y > 0) {
             direction = 'down';
-            this.velocity.add(new Vector3(0, PhysicsEntity.GRAVITY * dt, 0));
+            this.velocity.setY(this.velocity.y + PhysicsEntity.GRAVITY * dt);
         } else {
             direction = 'up';
-            this.velocity.add(
-                new Vector3(0, PhysicsEntity.WATER_PRESSURE * dt, 0)
-            );
+            this.velocity.setY(this.velocity.y + PhysicsEntity.WATER_PRESSURE * dt);
         }
 
         // Entity will enter water this frame

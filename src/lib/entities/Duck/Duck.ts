@@ -110,9 +110,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
      * Updates beak's position and beak collision list
      */
     updateBeak() {
-        this.beakCollision.center.copy(
-            new Vector3(0, 0, 1).applyEuler(this.rotation).add(this.position)
-        );
+        this.beakCollision.center.set(0, 0, 1).applyEuler(this.rotation).add(this.position);
         this.beakCollisionList = [];
         for (let id in Bread.breads) {
             const bread = Bread.breads[id];

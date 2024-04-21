@@ -1,5 +1,4 @@
 import SpeechHtml from './Speech.html?raw';
-import { Vector3 } from 'three';
 import VFX from '../VFX';
 
 import type Duck from '../../Duck/Duck';
@@ -27,11 +26,10 @@ export default class Speech extends VFX {
     }
 
     updateTransform() {
-        this.position.copy(
-            new Vector3(0, 2, 2)
-                .applyEuler(this.duck.rotation)
-                .add(this.duck.position)
-        );
+        this.position
+            .set(0, 2, 2)
+            .applyEuler(this.duck.rotation)
+            .add(this.duck.position);
         this.element.style.setProperty(
             '--rotation',
             `${-this.duck.rotation.y + Math.PI * 0.75}rad`
