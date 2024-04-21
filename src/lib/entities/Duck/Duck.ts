@@ -46,21 +46,14 @@ export default class Duck extends PhysicsEntity implements ITarget {
     /**
      * Time until duck gets hungry
      */
-    hunger: number = Math.random() * 20;
-    get isHungry() {
+    hunger: number = Math.random() * 20 + 20;
+    get isVeryHungry() {
         return this.hunger < Duck.HUNGRY_THRESHOLD;
     }
-    get isVeryHungry() {
-        return this.hunger < Duck.VERY_HUNGRY_THRESHOLD;
-    }
     /**
-     * Threshold at which duck gets hungry enough to care to find bread
+     * Threshold at which duck will get hungry
      */
     static HUNGRY_THRESHOLD = 0;
-    /**
-     * Threshold at which duck will get VERY hungry
-     */
-    static VERY_HUNGRY_THRESHOLD = -30;
 
     private _state: State = new StateIdle(this);
     /**
@@ -137,7 +130,6 @@ export default class Duck extends PhysicsEntity implements ITarget {
     }
 
     quack() {
-        // TODO: Play sound?
         this.game.addEntity(new Speech(this.game, this));
     }
 

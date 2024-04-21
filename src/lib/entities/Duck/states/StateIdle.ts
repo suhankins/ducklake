@@ -28,12 +28,12 @@ export default class StateIdle extends State {
         }
 
         if (this.duck.timeInState > this.randomMovementTime) {
-            if (this.duck.isHungry && Bread.breadsExist) {
-                this.setStateToApproachClosestBread();
-                return;
-            }
             if (Math.random() > 0.5) {
                 this.duck.quack();
+            }
+            if (Bread.breadsExist) {
+                this.setStateToApproachClosestBread();
+                return;
             }
             this.setStateToApproachRandomPosition();
         }
