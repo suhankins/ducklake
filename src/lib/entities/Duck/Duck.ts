@@ -47,7 +47,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
      * Time until duck gets hungry
      */
     hunger: number = Math.random() * 20 + 20;
-    get isVeryHungry() {
+    get isHungry() {
         return this.hunger < Duck.HUNGRY_THRESHOLD;
     }
     /**
@@ -141,7 +141,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         return `State: ${this.state.name}
 Time in state: ${this.timeInState.toFixed(2)}
 Target: ${this.target?.name} #${this.target?.id}
-Hunger: ${this.isVeryHungry ? 'VERY HUNGRY' : this.hunger.toFixed(2)}
+Hunger: ${this.isHungry ? 'VERY HUNGRY' : this.hunger.toFixed(2)}
 Angle: ${this.rotation.y.toFixed(2)}`;
     }
 

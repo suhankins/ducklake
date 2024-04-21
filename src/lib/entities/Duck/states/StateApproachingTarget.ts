@@ -99,7 +99,7 @@ export default class StateApproachingTarget
         return (
             this.target === null ||
             this.target.shouldBeDeleted ||
-            (!this.isEager && this.duck.isVeryHungry && Bread.breadsExist)
+            (!this.isEager && this.duck.isHungry && Bread.breadsExist)
         );
     }
 
