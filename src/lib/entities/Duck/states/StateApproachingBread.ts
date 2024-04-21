@@ -47,6 +47,6 @@ export default class StateApproachingBread extends StateApproachingTarget {
      * @override
      */
     onTargetReached() {
-        this.duck.hunger = 30 * Math.random();
+        this.duck.hunger = 30 * Math.random() + 30;
     }
 }
