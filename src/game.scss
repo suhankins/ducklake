@@ -20,16 +20,17 @@
     .pop {
         $pop-lines: 8;
         @for $i from 0 to $pop-lines {
-            > :nth-child(#{$i + 1}) {
+            > :nth-of-type(#{$i + 1}) {
                 rotate: math.div(360deg, $pop-lines) * $i;
             }
         }
     }
     .speech {
+        filter: drop-shadow(0 0 4px #00000070);
         $speech-lines: 3;
         rotate: var(--rotation);
         @for $i from 0 to $speech-lines {
-            > :nth-child(#{$i + 1}) {
+            > :nth-of-type(#{$i + 1}) {
                 rotate: -30deg + ($i * 30);
             }
         }
