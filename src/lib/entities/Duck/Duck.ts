@@ -8,6 +8,7 @@ import {
     lerpAngle,
 } from '../../utils/MathHelpers';
 import Speech from '../VFX/Speech/Speech';
+import Thought from '../VFX/Thought/Thought';
 
 import type ITarget from '../ITarget';
 import type Game from '../../Game';
@@ -131,6 +132,10 @@ export default class Duck extends PhysicsEntity implements ITarget {
 
     quack() {
         this.game.addEntity(new Speech(this.game, this));
+    }
+
+    think() {
+        this.game.addEntity(new Thought(this.game, this));
     }
 
     onReached(reachedBy: Entity) {
