@@ -16,6 +16,7 @@
     stroke-width: 3;
     stroke-linecap: round;
     fill: none;
+    filter: drop-shadow(0 0 4px #00000070);
     .pop {
         animation: pop 0.5s cubic-bezier(0.83, 0, 0.17, 1) forwards;
         $pop-lines: 8;
@@ -27,7 +28,6 @@
     }
     .speech {
         animation: pop 0.5s cubic-bezier(0.83, 0, 0.17, 1) forwards;
-        filter: drop-shadow(0 0 4px #00000070);
         $speech-lines: 3;
         rotate: var(--rotation);
         @for $i from 0 to $speech-lines {
