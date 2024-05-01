@@ -59,25 +59,48 @@
         fill: white;
         --part-time: 0.5s;
         --part-delay: -0.1s;
+        --on-screen-for: 5s;
+        --start-disappearing-delay: calc(
+            var(--on-screen-for) - (var(--part-time) * 3 + var(--part-delay))
+        );
         .circle-1 {
-            animation: thought-scaling var(--part-time) var(--easing-function)
-                    forwards,
-                thought-movement var(--part-time) var(--easing-function)
-                    forwards;
+            --disappearing-delay: calc(
+                var(--start-disappearing-delay) +
+                    (var(--part-time) * 2 + var(--part-delay))
+            );
+            animation: var(--part-time) var(--easing-function) 0s 1 normal both
+                    running thought-scaling,
+                var(--part-time) var(--easing-function) 0s 1 normal both running
+                    thought-movement,
+                var(--part-time) var(--easing-function)
+                    var(--disappearing-delay) 1 reverse forwards running
+                    thought-scaling,
+                var(--part-time) var(--easing-function)
+                    var(--disappearing-delay) 1 reverse forwards running
+                    thought-movement;
         }
         .circle-2 {
-            scale: 0;
-            animation: thought-scaling var(--part-time) var(--easing-function)
-                    forwards,
-                thought-movement var(--part-time) var(--easing-function)
-                    forwards;
-            animation-delay: calc(var(--part-time) + var(--part-delay));
+            --delay: calc(var(--part-time) + var(--part-delay));
+            --disappearing-delay: calc(
+                var(--start-disappearing-delay) + var(--part-time) +
+                    var(--part-delay)
+            );
+            animation: var(--part-time) var(--easing-function) var(--delay) 1
+                    normal both running thought-scaling,
+                var(--part-time) var(--easing-function) var(--delay) 1 normal
+                    both running thought-movement,
+                var(--part-time) var(--easing-function) var(--disappearing-delay) 1 reverse
+                    forwards running thought-scaling,
+                var(--part-time) var(--easing-function) var(--disappearing-delay) 1 reverse
+                    forwards running thought-movement;
         }
         .bubble {
-            scale: 0;
-            animation: thought-scaling var(--part-time) var(--easing-function)
-                forwards;
-            animation-delay: calc(var(--part-time) * 2 + var(--part-delay));
+            --delay: calc(var(--part-time) * 2 + var(--part-delay));
+            animation: var(--part-time) var(--easing-function) var(--delay) 1
+                    normal both running thought-scaling,
+                var(--part-time) var(--easing-function)
+                    var(--start-disappearing-delay) 1 reverse forwards running
+                    thought-scaling;
         }
     }
     &.bigger {

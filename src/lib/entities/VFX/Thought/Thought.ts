@@ -9,7 +9,7 @@ export default class Thought extends VFX {
 
     duck: Duck;
 
-    timer = Infinity;
+    timer = 8;
 
     constructor(game: Game, duck: Duck) {
         super(game, ThoughtHtml, ['thought-wrapper']);
@@ -18,6 +18,7 @@ export default class Thought extends VFX {
 
         this.updateTransform();
         this.model.center.set(-0.5, 0.5);
+        this.element.style.setProperty('--on-screen-for', `${this.timer}s`);
     }
 
     update(dt: number): void {
