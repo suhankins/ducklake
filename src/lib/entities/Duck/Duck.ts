@@ -135,7 +135,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
     }
 
     think() {
-        this.game.addEntity(new Thought(this.game, this));
+        this.game.addEntity(new Thought(this.game, 'bread', this));
     }
 
     onReached(reachedBy: Entity) {

@@ -12,8 +12,10 @@ export default class Thought extends VFX {
 
     timer = 8;
 
-    constructor(game: Game, duck: Duck) {
-        super(game, ThoughtHtml, ['thought-wrapper']);
+    constructor(game: Game, subject: string, duck: Duck) {
+        super(game, ThoughtHtml.replaceAll('{{SUBJECT}}', subject), [
+            'thought-wrapper',
+        ]);
 
         this.duck = duck;
 
