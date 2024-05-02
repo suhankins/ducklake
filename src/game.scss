@@ -1,3 +1,4 @@
+@import './thought.scss';
 @keyframes pop {
     from {
         stroke-dasharray: 0 30;
@@ -6,22 +7,6 @@
     to {
         stroke-dasharray: 30 30;
         stroke-dashoffset: 31;
-    }
-}
-@keyframes thought-movement {
-    from {
-        translate: -2px 2px;
-    }
-    to {
-        translate: 0px 0px;
-    }
-}
-@keyframes thought-scaling {
-    from {
-        scale: 0;
-    }
-    to {
-        scale: 1;
     }
 }
 .vfx-wrapper {
@@ -51,57 +36,6 @@
             > :nth-of-type(#{$i + 1}) {
                 rotate: -30deg + ($i * 30);
             }
-        }
-    }
-    &.thought-wrapper {
-        pointer-events: auto; // To allow popping thoughts by clicking
-        filter: drop-shadow(0 0 4px #00000040);
-        stroke-width: 0;
-        fill: white;
-        --part-time: 0.5s;
-        --part-delay: -0.1s;
-        --on-screen-for: 5s;
-        --start-disappearing-delay: calc(
-            var(--on-screen-for) - (var(--part-time) * 3 + var(--part-delay))
-        );
-        .circle-1 {
-            --disappearing-delay: calc(
-                var(--start-disappearing-delay) +
-                    (var(--part-time) * 2 + var(--part-delay))
-            );
-            animation: var(--part-time) var(--easing-function) 0s 1 normal both
-                    running thought-scaling,
-                var(--part-time) var(--easing-function) 0s 1 normal both running
-                    thought-movement,
-                var(--part-time) var(--easing-function)
-                    var(--disappearing-delay) 1 reverse forwards running
-                    thought-scaling,
-                var(--part-time) var(--easing-function)
-                    var(--disappearing-delay) 1 reverse forwards running
-                    thought-movement;
-        }
-        .circle-2 {
-            --delay: calc(var(--part-time) + var(--part-delay));
-            --disappearing-delay: calc(
-                var(--start-disappearing-delay) + var(--part-time) +
-                    var(--part-delay)
-            );
-            animation: var(--part-time) var(--easing-function) var(--delay) 1
-                    normal both running thought-scaling,
-                var(--part-time) var(--easing-function) var(--delay) 1 normal
-                    both running thought-movement,
-                var(--part-time) var(--easing-function) var(--disappearing-delay) 1 reverse
-                    forwards running thought-scaling,
-                var(--part-time) var(--easing-function) var(--disappearing-delay) 1 reverse
-                    forwards running thought-movement;
-        }
-        .bubble {
-            --delay: calc(var(--part-time) * 2 + var(--part-delay));
-            animation: var(--part-time) var(--easing-function) var(--delay) 1
-                    normal both running thought-scaling,
-                var(--part-time) var(--easing-function)
-                    var(--start-disappearing-delay) 1 reverse forwards running
-                    thought-scaling;
         }
     }
     &.bigger {
