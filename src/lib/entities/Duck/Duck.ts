@@ -76,6 +76,19 @@ export default class Duck extends PhysicsEntity implements ITarget {
         return this.stateEntered.getElapsedTime();
     }
 
+    _currentThought: null | Thought = null;
+    public set currentThought(thought: null | Thought) {
+        this._currentThought = thought;
+        this.lastThoughtClock.start();
+    }
+    public get currentThought() {
+        return this._currentThought;
+    }
+    private lastThoughtClock = new Clock();
+    public get timeSinceLastThought() {
+        return this.lastThoughtClock.getElapsedTime();
+    }
+
     constructor(game: Game, position?: Vector3) {
         super(game);
         Duck.ducks[this.id] = this;
@@ -104,7 +117,10 @@ export default class Duck extends PhysicsEntity implements ITarget {
      * Updates beak's position and beak collision list
      */
     updateBeak() {
-        this.beakCollision.center.set(0, 0, 1).applyEuler(this.rotation).add(this.position);
+        this.beakCollision.center
+            .set(0, 0, 1)
+            .applyEuler(this.rotation)
+            .add(this.position);
         this.beakCollisionList = [];
         for (let id in Bread.breads) {
             const bread = Bread.breads[id];
@@ -134,8 +150,14 @@ export default class Duck extends PhysicsEntity implements ITarget {
         this.game.addEntity(new Speech(this.game, this));
     }
 
-    think() {
-        this.game.addEntity(new Thought(this.game, 'bread', this));
+    think(subject: string) {
+        this.currentThought = new Thought(this.game, subject, this)
+        this.game.addEntity(this.currentThought);
+    }
+
+    onThoughtDestroyed(prematurely: boolean) {
+        this.currentThought = null;
+        this.state.onThoughtDestoyed(prematurely);
     }
 
     onReached(reachedBy: Entity) {
@@ -147,7 +169,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
 Time in state: ${this.timeInState.toFixed(2)}
 Target: ${this.target?.name} #${this.target?.id}
 Hunger: ${this.isHungry ? 'VERY HUNGRY' : this.hunger.toFixed(2)}
-Angle: ${this.rotation.y.toFixed(2)}`;
+Last thought: ${this.timeSinceLastThought.toFixed(2)}`;
     }
 
     destroy() {

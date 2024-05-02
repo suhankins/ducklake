@@ -39,7 +39,9 @@ export default class Thought extends VFX {
     }
 
     destroy(): void {
-        if (this.timer > 0) {
+        const prematurely = this.timer > 0;
+        this.duck.onThoughtDestroyed(prematurely);
+        if (prematurely) {
             const pop = new Pop(this.game, this.position);
             pop.model.center.set(-0.9, 0.8);
             this.game.addEntity(pop);

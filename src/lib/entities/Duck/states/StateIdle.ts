@@ -21,10 +21,20 @@ export default class StateIdle extends State {
     }
 
     update(): void {
-        if (this.duck.isHungry && Bread.breadsExist) {
-            this.duck.quack();
-            this.setStateToApproachClosestBread(true);
-            return;
+        if (this.duck.isHungry) {
+            if (Bread.breadsExist) {
+                this.duck.quack();
+                if (this.duck.currentThought !== null) {
+                    this.duck.currentThought.destroy();
+                }
+                this.setStateToApproachClosestBread(true);
+                return;
+            } else if (
+                this.duck.currentThought === null &&
+                this.duck.timeSinceLastThought > 20
+            ) {
+                this.duck.think('bread');
+            }
         }
 
         if (this.duck.timeInState > this.randomMovementTime) {

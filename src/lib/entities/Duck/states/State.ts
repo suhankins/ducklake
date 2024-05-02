@@ -49,4 +49,6 @@ export default abstract class State {
     abstract update(dt: number): void;
 
     onReached(_reachedBy: Entity) {}
+
+    onThoughtDestoyed(_prematurely: boolean) {}
 }
