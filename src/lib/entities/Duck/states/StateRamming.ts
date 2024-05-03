@@ -1,4 +1,5 @@
 import StateApproachingTarget from './StateApproachingTarget';
+import StateIdle from './StateIdle';
 
 import type Duck from '../Duck';
 import type INextStateFactory from './INextStateFactory';
@@ -52,7 +53,7 @@ export default class StateRamming extends StateApproachingTarget {
     update(dt: number): void {
         if (this.duck.timeInState > StateRamming.TIRED_OF_CHASING_IN_SECONDS) {
             // TODO: Disappointed state
-            this.duck.state = this.nextStateFactory();
+            this.duck.state = new StateIdle(this.duck);
             return;
         }
         super.update(dt);
