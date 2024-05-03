@@ -29,9 +29,7 @@ export default class Debug {
         document
             .getElementById('debug-duck-quack')
             ?.addEventListener('click', () => {
-                Object.values(Duck.ducks).forEach(
-                    (duck) => duck.quack()
-                );
+                Object.values(Duck.ducks).forEach((duck) => duck.quack());
             });
     }
 
@@ -39,9 +37,7 @@ export default class Debug {
         document
             .getElementById('debug-duck-laugh')
             ?.addEventListener('click', () => {
-                Object.values(Duck.ducks).forEach(
-                    (duck) => duck.laugh()
-                );
+                Object.values(Duck.ducks).forEach((duck) => duck.laugh());
             });
     }
 
@@ -49,8 +45,8 @@ export default class Debug {
         document
             .getElementById('debug-duck-think-bread')
             ?.addEventListener('click', () => {
-                Object.values(Duck.ducks).forEach(
-                    (duck) => duck.think('bread')
+                Object.values(Duck.ducks).forEach((duck) =>
+                    duck.think('bread')
                 );
             });
     }
@@ -65,7 +61,9 @@ export default class Debug {
     }
 
     setupToggleDebugText() {
-        const debugTextToggle = document.getElementById('debug-text') as HTMLInputElement;
+        const debugTextToggle = document.getElementById(
+            'debug-text'
+        ) as HTMLInputElement;
 
         this.game.debugTextEnabled = debugTextToggle.checked;
         debugTextToggle.addEventListener('change', (event) => {

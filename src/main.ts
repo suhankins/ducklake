@@ -2,7 +2,7 @@ import Debug from './lib/Debug';
 import Game from './lib/Game';
 import './style.scss';
 import WebGL from 'three/examples/jsm/capabilities/WebGL';
-import { registerSW } from "virtual:pwa-register";
+import { registerSW } from 'virtual:pwa-register';
 
 // Checking if WebGL is supported
 if (WebGL.isWebGLAvailable()) {

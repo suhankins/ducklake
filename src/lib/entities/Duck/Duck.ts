@@ -155,12 +155,12 @@ export default class Duck extends PhysicsEntity implements ITarget {
     }
 
     think(subject: string) {
-        this.currentEmote = new Thought(this.game, subject, this)
+        this.currentEmote = new Thought(this.game, subject, this);
         this.game.addEntity(this.currentEmote);
     }
 
     laugh() {
-        this.currentEmote = new Laughter(this.game, this)
+        this.currentEmote = new Laughter(this.game, this);
         this.game.addEntity(this.currentEmote);
     }
 

@@ -19,7 +19,7 @@
     --easing-function: cubic-bezier(0.83, 0, 0.17, 1);
     .pop {
         stroke-width: 3;
-        fill: none;    
+        fill: none;
         animation: pop 0.5s var(--easing-function) forwards;
         $pop-lines: 8;
         @for $i from 0 to $pop-lines {
@@ -30,7 +30,7 @@
     }
     .speech {
         stroke-width: 3;
-        fill: none;    
+        fill: none;
         filter: drop-shadow(0 0 4px #00000070);
         animation: pop 0.5s var(--easing-function) forwards;
         $speech-lines: 3;
