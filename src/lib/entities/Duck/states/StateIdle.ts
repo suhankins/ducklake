@@ -15,9 +15,8 @@ export default class StateIdle extends State {
 
     randomMovementTime: number = Math.random() * 10;
 
-    constructor(duck: Duck, dontMove: boolean = false) {
+    constructor(duck: Duck) {
         super(duck);
-        if (dontMove) this.randomMovementTime = 9999999999999;
     }
 
     update(): void {
