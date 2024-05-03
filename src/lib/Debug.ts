@@ -11,6 +11,8 @@ export default class Debug {
         this.setupSpawnManyDucks();
         this.setupMakeDucksQuack();
         this.setupToggleDebugText();
+        this.setupMakeDucksLaugh();
+        this.setupMakeDucksThinkBread();
     }
 
     setupMakeDucksHungry() {
@@ -29,6 +31,26 @@ export default class Debug {
             ?.addEventListener('click', () => {
                 Object.values(Duck.ducks).forEach(
                     (duck) => duck.quack()
+                );
+            });
+    }
+
+    setupMakeDucksLaugh() {
+        document
+            .getElementById('debug-duck-laugh')
+            ?.addEventListener('click', () => {
+                Object.values(Duck.ducks).forEach(
+                    (duck) => duck.laugh()
+                );
+            });
+    }
+
+    setupMakeDucksThinkBread() {
+        document
+            .getElementById('debug-duck-think-bread')
+            ?.addEventListener('click', () => {
+                Object.values(Duck.ducks).forEach(
+                    (duck) => duck.think('bread')
                 );
             });
     }
