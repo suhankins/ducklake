@@ -55,6 +55,7 @@
                 reverse forwards running thought-movement;
     }
     .bubble {
+        transform-origin: bottom left;
         --delay: calc(var(--part-time) * 2 + var(--part-delay));
         animation: var(--part-time) var(--easing-function) var(--delay) 1 normal
                 both running thought-scaling,
