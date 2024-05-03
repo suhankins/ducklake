@@ -14,6 +14,7 @@ import type ITarget from '../ITarget';
 import type Game from '../../Game';
 import type Entity from '../Entity';
 import type State from './states/State';
+import Laughter from '../VFX/Laughter/Laughter';
 
 export default class Duck extends PhysicsEntity implements ITarget {
     name = 'duck';
@@ -76,17 +77,20 @@ export default class Duck extends PhysicsEntity implements ITarget {
         return this.stateEntered.getElapsedTime();
     }
 
-    _currentThought: null | Thought = null;
-    public set currentThought(thought: null | Thought) {
-        this._currentThought = thought;
-        this.lastThoughtClock.start();
+    _currentEmote: null | Entity = null;
+    public set currentEmote(thought: null | Entity) {
+        if (this._currentEmote !== null) {
+            this._currentEmote.destroy();
+        }
+        this._currentEmote = thought;
+        this.lastEmoteClock.start();
     }
-    public get currentThought() {
-        return this._currentThought;
+    public get currentEmote() {
+        return this._currentEmote;
     }
-    private lastThoughtClock = new Clock();
-    public get timeSinceLastThought() {
-        return this.lastThoughtClock.getElapsedTime();
+    private lastEmoteClock = new Clock();
+    public get timeSinceLastEmote() {
+        return this.lastEmoteClock.getElapsedTime();
     }
 
     constructor(game: Game, position?: Vector3) {
@@ -151,12 +155,17 @@ export default class Duck extends PhysicsEntity implements ITarget {
     }
 
     think(subject: string) {
-        this.currentThought = new Thought(this.game, subject, this)
-        this.game.addEntity(this.currentThought);
+        this.currentEmote = new Thought(this.game, subject, this)
+        this.game.addEntity(this.currentEmote);
+    }
+
+    laugh() {
+        this.currentEmote = new Laughter(this.game, this)
+        this.game.addEntity(this.currentEmote);
     }
 
     onThoughtDestroyed(prematurely: boolean) {
-        this.currentThought = null;
+        this.currentEmote = null;
         this.state.onThoughtDestoyed(prematurely);
     }
 
@@ -169,7 +178,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
 Time in state: ${this.timeInState.toFixed(2)}
 Target: ${this.target?.name} #${this.target?.id}
 Hunger: ${this.isHungry ? 'VERY HUNGRY' : this.hunger.toFixed(2)}
-Last thought: ${this.timeSinceLastThought.toFixed(2)}`;
+Last emote: ${this.timeSinceLastEmote.toFixed(2)}`;
     }
 
     destroy() {

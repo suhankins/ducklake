@@ -24,14 +24,14 @@ export default class StateIdle extends State {
         if (this.duck.isHungry) {
             if (Bread.breadsExist) {
                 this.duck.quack();
-                if (this.duck.currentThought !== null) {
-                    this.duck.currentThought.destroy();
+                if (this.duck.currentEmote !== null) {
+                    this.duck.currentEmote.destroy();
                 }
                 this.setStateToApproachClosestBread(true);
                 return;
             } else if (
-                this.duck.currentThought === null &&
-                this.duck.timeSinceLastThought > 20
+                this.duck.currentEmote === null &&
+                this.duck.timeSinceLastEmote > 20
             ) {
                 this.duck.think('bread');
             }

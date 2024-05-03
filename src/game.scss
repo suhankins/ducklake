@@ -1,4 +1,5 @@
 @import './thought.scss';
+@import './laughter.scss';
 @keyframes pop {
     from {
         stroke-dasharray: 0 30;
@@ -14,11 +15,11 @@
     user-select: none;
     translate: -50% -50%;
     stroke: #fefefe;
-    stroke-width: 3;
     stroke-linecap: round;
-    fill: none;
     --easing-function: cubic-bezier(0.83, 0, 0.17, 1);
     .pop {
+        stroke-width: 3;
+        fill: none;    
         animation: pop 0.5s var(--easing-function) forwards;
         $pop-lines: 8;
         @for $i from 0 to $pop-lines {
@@ -28,6 +29,8 @@
         }
     }
     .speech {
+        stroke-width: 3;
+        fill: none;    
         filter: drop-shadow(0 0 4px #00000070);
         animation: pop 0.5s var(--easing-function) forwards;
         $speech-lines: 3;

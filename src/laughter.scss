@@ -1,0 +1,24 @@
+@keyframes laugh {
+    from {
+        rotate: 0deg;
+    }
+    to {
+        rotate: 40deg;
+    }
+}
+.laugh {
+    --laugh-color: #ffcc00;
+    .line {
+        fill: none;
+        stroke: var(--laugh-color);
+        stroke-width: 0.8;
+    }
+    .box {
+        fill: var(--laugh-color);
+        stroke: none;
+    }
+    .laughter-1 {
+        transform-origin: bottom left;
+        animation: 0.5s steps(2) 0s infinite normal both running laugh;
+    }
+}

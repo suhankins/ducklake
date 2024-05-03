@@ -17,12 +17,10 @@ export default class StateLaugh extends State implements IStateGoesBackToIdle {
     constructor(duck: Duck, state: INextStateFactory) {
         super(duck);
         this.nextStateFactory = state;
-        // TODO: Create a new VFX for laughter. Speech doesn't cut it.
-        //this.duck.spawnSpeech(true);
+        this.duck.laugh();
     }
 
     update() {
-        // TODO: Display laugh icon and play sound
         if (this.duck.timeInState > StateLaugh.LAUGH_FOR_SECONDS) {
             this.duck.state = this.nextStateFactory();
         }
