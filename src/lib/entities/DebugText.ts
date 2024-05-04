@@ -1,5 +1,6 @@
 import Entity from './Entity';
 import { CSS2DObject } from 'three/examples/jsm/Addons';
+import formatEntityName from '../utils/formatEntityName';
 
 import type Game from '../Game';
 
@@ -27,7 +28,7 @@ export default class DebugText extends Entity {
 
         this.model.position.copy(this.entity.position);
 
-        this.element.innerHTML = `${this.entity.name} #${this.entity.id}
+        this.element.innerHTML = `${formatEntityName(this.entity)}
 ${this.entity.getDebugString()}`;
     }
 }

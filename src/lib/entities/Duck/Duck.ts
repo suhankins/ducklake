@@ -9,12 +9,13 @@ import {
 } from '../../utils/MathHelpers';
 import Speech from '../VFX/Speech/Speech';
 import Thought from '../VFX/Thought/Thought';
+import Laughter from '../VFX/Laughter/Laughter';
+import formatEntityName from '../../utils/formatEntityName';
 
 import type ITarget from '../ITarget';
 import type Game from '../../Game';
 import type Entity from '../Entity';
 import type State from './states/State';
-import Laughter from '../VFX/Laughter/Laughter';
 
 export default class Duck extends PhysicsEntity implements ITarget {
     name = 'duck';
@@ -176,9 +177,10 @@ export default class Duck extends PhysicsEntity implements ITarget {
     getDebugString(): string {
         return `State: ${this.state.name}
 Time in state: ${this.timeInState.toFixed(2)}
-Target: ${this.target?.name} #${this.target?.id}
+Target: ${formatEntityName(this.target)}
 Hunger: ${this.isHungry ? 'VERY HUNGRY' : this.hunger.toFixed(2)}
-Last emote: ${this.timeSinceLastEmote.toFixed(2)}`;
+Last emote: ${this.timeSinceLastEmote.toFixed(2)}
+Current emote: ${formatEntityName(this.currentEmote)}`;
     }
 
     destroy() {

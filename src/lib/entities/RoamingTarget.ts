@@ -1,5 +1,6 @@
 import { Object3D, Sphere, Vector3 } from 'three';
 import CollidableEntity from './CollidableEntity';
+import formatEntityName from '../utils/formatEntityName';
 
 import type Duck from './Duck/Duck';
 import type ITarget from './ITarget';
@@ -36,6 +37,6 @@ export default class RoamingTarget extends CollidableEntity implements ITarget {
     }
 
     getDebugString(): string {
-        return `Targetted by ${this.duck.name} #${this.duck.id}`;
+        return `Targetted by ${formatEntityName(this.duck)}`;
     }
 }
