@@ -1,0 +1,13 @@
+@keyframes anger {
+    from {
+        scale: 0;
+    }
+    to {
+        scale: 1;
+    }
+}
+.anger {
+    stroke: #ff2222;
+    animation: anger 0.2s var(--easing-function) 0s 1 normal backwards,
+        anger 0.2s var(--easing-function) calc(var(--on-screen-for) - 0.2s) 1 reverse forwards;
+}

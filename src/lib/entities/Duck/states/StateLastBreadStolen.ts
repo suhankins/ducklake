@@ -3,6 +3,7 @@ import StateLaugh from './StateLaugh';
 import StateRamming from './StateRamming';
 import Bread from '../../Bread';
 import StateApproachingBread from './StateApproachingBread';
+import Thought from '../../VFX/Thought/Thought';
 
 import type INextStateFactory from './INextStateFactory';
 import type Duck from '../Duck';
@@ -24,10 +25,16 @@ export default class StateLastBreadStolen
     nextStateFactory: INextStateFactory;
     breadEatenBy: Duck;
 
+    thought: Thought | null = null;
+
     /**
      * @constant
      */
-    static DISPLAY_ICON_FOR_SECONDS = 5;
+    static DISPLAY_ICON_FOR_SECONDS = 8;
+    /**
+     * @constant
+     */
+    static DISPLAY_THOUGHT_AFTER = 2;
 
     constructor(
         duck: Duck,
@@ -38,10 +45,10 @@ export default class StateLastBreadStolen
         this.nextStateFactory = nextStateFactory;
         this.breadEatenBy = breadEatenBy;
         this.duck.target = this.breadEatenBy;
+        this.duck.getAngry(StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS);
     }
 
     update(dt: number) {
-        // TODO: Display an angry bubble
         if (Bread.breadsExist) {
             this.duck.quack();
             this.duck.state = new StateApproachingBread(
@@ -50,9 +57,26 @@ export default class StateLastBreadStolen
                 this.nextStateFactory,
                 true
             );
+            this.duck.currentEmote?.destroy();
+            this.thought?.destroy();
             return;
         }
         this.duck.rotateTowardsTarget(dt);
+
+        if (
+            !this.thought &&
+            this.duck.timeInState > StateLastBreadStolen.DISPLAY_THOUGHT_AFTER
+        ) {
+            this.thought = new Thought(
+                this.game,
+                'duckWithBread',
+                this.duck,
+                StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS -
+                    this.duck.timeInState
+            );
+            this.game.addEntity(this.thought);
+        }
+
         if (
             this.duck.timeInState <
             StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS
@@ -72,7 +96,16 @@ export default class StateLastBreadStolen
                 () => new StateLaugh(this.duck, this.nextStateFactory)
             );
         } else {
+            // TODO: Disappointed state
             this.duck.state = this.nextStateFactory();
         }
+    }
+
+    onThoughtDestoyed(prematurely: boolean): void {
+        if (!prematurely) {
+            return;
+        }
+        // TODO: Surprised state
+        this.duck.state = this.nextStateFactory();
     }
 }

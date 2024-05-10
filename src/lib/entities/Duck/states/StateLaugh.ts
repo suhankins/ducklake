@@ -17,7 +17,7 @@ export default class StateLaugh extends State implements IStateGoesBackToIdle {
     constructor(duck: Duck, state: INextStateFactory) {
         super(duck);
         this.nextStateFactory = state;
-        this.duck.laugh();
+        this.duck.laugh(StateLaugh.LAUGH_FOR_SECONDS);
     }
 
     update() {

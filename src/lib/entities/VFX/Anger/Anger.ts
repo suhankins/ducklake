@@ -1,18 +1,18 @@
-import LaughterHtml from './Laughter.html?raw';
+import AngerHtml from './Anger.html?raw';
 import VFX from '../VFX';
 
 import type Duck from '../../Duck/Duck';
 import type Game from '../../../Game';
 
-export default class Laughter extends VFX {
-    name = 'laughter';
+export default class Anger extends VFX {
+    name = 'anger';
 
     duck: Duck;
 
-    timer = 3;
+    timer = 8;
 
     constructor(game: Game, duck: Duck, timer?: number) {
-        super(game, LaughterHtml);
+        super(game, AngerHtml);
 
         this.duck = duck;
         if (timer) {
@@ -20,7 +20,9 @@ export default class Laughter extends VFX {
         }
 
         this.updateTransform();
-        this.model.center.set(-0.5, 0.5);
+        this.model.center.set(0.5, 0.5);
+
+        this.element.style.setProperty('--on-screen-for', `${this.timer}s`);
     }
 
     update(dt: number): void {
@@ -30,7 +32,7 @@ export default class Laughter extends VFX {
 
     updateTransform() {
         this.position
-            .set(0, 2, 1.5)
+            .set(0, 2.25, 1.5)
             .applyEuler(this.duck.rotation)
             .add(this.duck.position);
     }

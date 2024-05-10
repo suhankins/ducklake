@@ -1,9 +1,9 @@
 import ThoughtHtml from './Thought.html?raw';
 import VFX from '../VFX';
+import Pop from '../Pop/Pop';
 
 import type Duck from '../../Duck/Duck';
 import type Game from '../../../Game';
-import Pop from '../Pop/Pop';
 
 export default class Thought extends VFX {
     name = 'thought';
@@ -12,12 +12,15 @@ export default class Thought extends VFX {
 
     timer = 8;
 
-    constructor(game: Game, subject: string, duck: Duck) {
+    constructor(game: Game, subject: string, duck: Duck, timer?: number) {
         super(game, ThoughtHtml.replaceAll('{{SUBJECT}}', subject), [
             'thought-wrapper',
         ]);
 
         this.duck = duck;
+        if (timer) {
+            this.timer = timer;
+        }
 
         this.updateTransform();
         this.model.center.set(-0.5, 0.5);
