@@ -1,4 +1,5 @@
 import State from './State';
+import Laughter from '../../VFX/Laughter/Laughter';
 
 import type INextStateFactory from './INextStateFactory';
 import type IStateGoesBackToIdle from './IStateEntersNextState';
@@ -17,7 +18,10 @@ export default class StateLaugh extends State implements IStateGoesBackToIdle {
     constructor(duck: Duck, state: INextStateFactory) {
         super(duck);
         this.nextStateFactory = state;
-        this.duck.laugh(StateLaugh.LAUGH_FOR_SECONDS);
+
+        this.duck.emote(
+            new Laughter(this.game, this.duck, StateLaugh.LAUGH_FOR_SECONDS)
+        );
     }
 
     update() {

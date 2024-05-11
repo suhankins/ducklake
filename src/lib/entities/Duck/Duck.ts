@@ -8,10 +8,7 @@ import {
     lerpAngle,
 } from '../../utils/MathHelpers';
 import Speech from '../VFX/Speech/Speech';
-import Thought from '../VFX/Thought/Thought';
-import Laughter from '../VFX/Laughter/Laughter';
 import formatEntityName from '../../utils/formatEntityName';
-import Anger from '../VFX/Anger/Anger';
 
 import type ITarget from '../ITarget';
 import type Game from '../../Game';
@@ -79,7 +76,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         return this.stateEntered.getElapsedTime();
     }
 
-    _currentEmote: null | Entity = null;
+    private _currentEmote: null | Entity = null;
     public set currentEmote(thought: null | Entity) {
         if (this._currentEmote !== null) {
             this._currentEmote.destroy();
@@ -156,19 +153,9 @@ export default class Duck extends PhysicsEntity implements ITarget {
         this.game.addEntity(new Speech(this.game, this));
     }
 
-    think(subject: string, timer?: number) {
-        this.currentEmote = new Thought(this.game, subject, this, timer);
-        this.game.addEntity(this.currentEmote);
-    }
-
-    laugh(timer?: number) {
-        this.currentEmote = new Laughter(this.game, this, timer);
-        this.game.addEntity(this.currentEmote);
-    }
-
-    getAngry(timer?: number) {
-        this.currentEmote = new Anger(this.game, this, timer);
-        this.game.addEntity(this.currentEmote);
+    emote(emotion: Entity) {
+        this.currentEmote = emotion;
+        this.game.addEntity(emotion);
     }
 
     onThoughtDestroyed(prematurely: boolean) {

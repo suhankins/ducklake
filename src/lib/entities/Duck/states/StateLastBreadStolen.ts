@@ -4,6 +4,7 @@ import StateRamming from './StateRamming';
 import Bread from '../../Bread';
 import StateApproachingBread from './StateApproachingBread';
 import Thought from '../../VFX/Thought/Thought';
+import Anger from '../../VFX/Anger/Anger';
 
 import type INextStateFactory from './INextStateFactory';
 import type Duck from '../Duck';
@@ -45,7 +46,14 @@ export default class StateLastBreadStolen
         this.nextStateFactory = nextStateFactory;
         this.breadEatenBy = breadEatenBy;
         this.duck.target = this.breadEatenBy;
-        this.duck.getAngry(StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS);
+
+        this.duck.emote(
+            new Anger(
+                this.game,
+                this.duck,
+                StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS
+            )
+        );
     }
 
     update(dt: number) {
@@ -67,14 +75,15 @@ export default class StateLastBreadStolen
             !this.thought &&
             this.duck.timeInState > StateLastBreadStolen.DISPLAY_THOUGHT_AFTER
         ) {
-            this.thought = new Thought(
-                this.game,
-                'duckWithBread',
-                this.duck,
-                StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS -
-                    this.duck.timeInState
+            this.duck.emote(
+                new Thought(
+                    this.game,
+                    'duckWithBread',
+                    this.duck,
+                    StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS -
+                        this.duck.timeInState
+                )
             );
-            this.game.addEntity(this.thought);
         }
 
         if (

@@ -1,4 +1,5 @@
 import Duck from './entities/Duck/Duck';
+import Thought from './entities/VFX/Thought/Thought';
 
 import type Game from './Game';
 
@@ -11,7 +12,6 @@ export default class Debug {
         this.setupSpawnManyDucks();
         this.setupMakeDucksQuack();
         this.setupToggleDebugText();
-        this.setupMakeDucksLaugh();
         this.setupMakeDucksThinkBread();
     }
 
@@ -33,20 +33,12 @@ export default class Debug {
             });
     }
 
-    setupMakeDucksLaugh() {
-        document
-            .getElementById('debug-duck-laugh')
-            ?.addEventListener('click', () => {
-                Object.values(Duck.ducks).forEach((duck) => duck.laugh());
-            });
-    }
-
     setupMakeDucksThinkBread() {
         document
             .getElementById('debug-duck-think-bread')
             ?.addEventListener('click', () => {
                 Object.values(Duck.ducks).forEach((duck) =>
-                    duck.think('bread')
+                    duck.emote(new Thought(this.game, 'bread', duck))
                 );
             });
     }

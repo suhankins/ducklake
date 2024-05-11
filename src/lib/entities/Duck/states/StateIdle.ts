@@ -4,6 +4,7 @@ import StateApproachingTarget from './StateApproachingTarget';
 import getRandomPosition from '../../../utils/getRandomPosition';
 import RoamingTarget from '../../RoamingTarget';
 import StateApproachingBread from './StateApproachingBread';
+import Thought from '../../VFX/Thought/Thought';
 
 import type Duck from '../Duck';
 
@@ -32,7 +33,7 @@ export default class StateIdle extends State {
                 this.duck.currentEmote === null &&
                 this.duck.timeSinceLastEmote > 20
             ) {
-                this.duck.think('bread');
+                this.duck.emote(new Thought(this.game, 'bread', this.duck));
             }
         }
 
