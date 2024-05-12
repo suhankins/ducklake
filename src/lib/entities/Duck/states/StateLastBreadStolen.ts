@@ -86,12 +86,14 @@ export default class StateLastBreadStolen
         }
 
         if (
-            this.duck.timeInState <
+            this.duck.timeInState >
             StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS
         ) {
-            return;
+            this.onTimeOut();
         }
+    }
 
+    onTimeOut() {
         if (
             StateRamming.willTheTargetBeReached(
                 this.position,
@@ -107,7 +109,7 @@ export default class StateLastBreadStolen
             // TODO: Disappointed state
             this.duck.state = this.nextStateFactory();
         }
-    }
+}
 
     onThoughtDestoyed(prematurely: boolean): void {
         if (!prematurely) {
