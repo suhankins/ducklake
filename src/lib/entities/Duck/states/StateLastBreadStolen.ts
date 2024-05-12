@@ -75,15 +75,14 @@ export default class StateLastBreadStolen
             !this.thought &&
             this.duck.timeInState > StateLastBreadStolen.DISPLAY_THOUGHT_AFTER
         ) {
-            this.duck.emote(
-                new Thought(
-                    this.game,
-                    'duckWithBread',
-                    this.duck,
-                    StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS -
-                        this.duck.timeInState
-                )
+            this.thought = new Thought(
+                this.game,
+                'duckWithBread',
+                this.duck,
+                StateLastBreadStolen.DISPLAY_ICON_FOR_SECONDS -
+                    this.duck.timeInState
             );
+            this.game.addEntity(this.thought);
         }
 
         if (
