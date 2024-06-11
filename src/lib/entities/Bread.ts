@@ -79,7 +79,6 @@ export default class Bread extends PhysicsEntity implements ITarget {
 
     onReached(reachedBy: Entity) {
         if (reachedBy instanceof Duck) {
-            // TODO: Play sound
             this.spawnBreadcrumb();
             this.spawnBreadcrumb();
             this.spawnBreadcrumb();
