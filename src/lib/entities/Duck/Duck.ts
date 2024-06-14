@@ -83,6 +83,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
         }
         this._currentEmote = thought;
         this.lastEmoteClock.start();
+        console.log(new Error().stack)
     }
     public get currentEmote() {
         return this._currentEmote;
@@ -159,7 +160,6 @@ export default class Duck extends PhysicsEntity implements ITarget {
     }
 
     onThoughtDestroyed(prematurely: boolean) {
-        this.currentEmote = null;
         this.state.onThoughtDestoyed(prematurely);
     }
 

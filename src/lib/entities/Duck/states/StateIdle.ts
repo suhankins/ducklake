@@ -67,4 +67,8 @@ export default class StateIdle extends State {
             isEager
         );
     }
+
+    onThoughtDestoyed(): void {
+        this.duck.currentEmote = null;
+    }
 }

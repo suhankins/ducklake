@@ -11,6 +11,14 @@
         stroke-dashoffset: 31;
     }
 }
+@keyframes slide-down {
+    from {
+        translate: 0 0px;
+    }
+    to {
+        translate: 0 16px;
+    }
+}
 .vfx-wrapper {
     pointer-events: none;
     user-select: none;
@@ -41,6 +49,11 @@
                 rotate: -30deg + ($i * 30);
             }
         }
+    }
+    .drop {
+        animation: slide-down 2s ease-out forwards;
+        stroke: none;
+        fill: #a4c4f0;
     }
     &.bigger {
         stroke-width: 2;

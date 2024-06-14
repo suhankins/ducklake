@@ -4,6 +4,7 @@ import StateIdle from './StateIdle';
 import type Duck from '../Duck';
 import type INextStateFactory from './INextStateFactory';
 import type { Vector3 } from 'three';
+import StateDisappointed from './StateDisappointed';
 
 /**
  * Duck will "attack" another duck but very quickly ramming it.
@@ -52,8 +53,10 @@ export default class StateRamming extends StateApproachingTarget {
 
     update(dt: number): void {
         if (this.duck.timeInState > StateRamming.TIRED_OF_CHASING_IN_SECONDS) {
-            // TODO: Disappointed state
-            this.duck.state = new StateIdle(this.duck);
+            this.duck.state = this.duck.state = new StateDisappointed(
+                this.duck,
+                () => new StateIdle(this.duck)
+            );
             return;
         }
         super.update(dt);

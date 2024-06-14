@@ -9,6 +9,7 @@ import Anger from '../../VFX/Anger/Anger';
 import type INextStateFactory from './INextStateFactory';
 import type Duck from '../Duck';
 import type IStateGoesBackToIdle from './IStateEntersNextState';
+import StateDisappointed from './StateDisappointed';
 
 /**
  * State duck should enter when it is very hungry
@@ -106,12 +107,15 @@ export default class StateLastBreadStolen
                 () => new StateLaugh(this.duck, this.nextStateFactory)
             );
         } else {
-            // TODO: Disappointed state
-            this.duck.state = this.nextStateFactory();
+            this.duck.state = new StateDisappointed(
+                this.duck,
+                this.nextStateFactory
+            );
         }
-}
+    }
 
     onThoughtDestoyed(prematurely: boolean): void {
+        this.duck.currentEmote = null;
         if (!prematurely) {
             return;
         }
