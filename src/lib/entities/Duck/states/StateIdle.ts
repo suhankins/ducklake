@@ -5,6 +5,7 @@ import getRandomPosition from '../../../utils/getRandomPosition';
 import RoamingTarget from '../../RoamingTarget';
 import StateApproachingBread from './StateApproachingBread';
 import Thought from '../../VFX/Thought/Thought';
+import { randomRange } from '../../../utils/MathHelpers';
 
 import type Duck from '../Duck';
 
@@ -55,7 +56,9 @@ export default class StateIdle extends State {
             this.game.addEntity(
                 new RoamingTarget(this.game, this.duck, getRandomPosition())
             ),
-            () => new StateIdle(this.duck)
+            () => new StateIdle(this.duck),
+            false,
+            randomRange(3, 10)
         );
     }
 

@@ -22,6 +22,7 @@ export default class StateApproachingTarget
     name: string = 'approaching target';
 
     isEager: boolean;
+    abandonTimer: number;
 
     nextStateFactory: INextStateFactory;
 
@@ -41,17 +42,20 @@ export default class StateApproachingTarget
      * @param target Target that duck should approach
      * @param state state to which duck should transition after reaching target
      * @param isEager should duck approach target qucikly
+     * @param abandonTimer after how much time should duck give up
      */
     constructor(
         duck: Duck,
         target: ITarget,
         state: INextStateFactory,
-        isEager: boolean = false
+        isEager: boolean = false,
+        abandonTimer: number = Infinity
     ) {
         super(duck);
         this.target = target;
         this.nextStateFactory = state;
         this.isEager = isEager;
+        this.abandonTimer = abandonTimer;
         if (isEager) {
             this.acceleration = StateApproachingTarget.CHASE_ACCELERATION;
             this.horizontalTerminalVelocity =
@@ -66,6 +70,7 @@ export default class StateApproachingTarget
     }
 
     update(dt: number): void {
+        this.abandonTimer -= dt;
         if (this.checkForStateTransition()) {
             this.enterNextState();
             return;
@@ -99,7 +104,8 @@ export default class StateApproachingTarget
         return (
             this.target === null ||
             this.target.shouldBeDeleted ||
-            (!this.isEager && this.duck.isHungry && Bread.breadsExist)
+            (!this.isEager && this.duck.isHungry && Bread.breadsExist) ||
+            this.abandonTimer < 0
         );
     }
 
