@@ -5,6 +5,9 @@ import Ripple from '../Ripple';
 import { Object3D, type Vector3 } from 'three';
 import type Game from '../../Game';
 
+/**
+ * Entity that spawns a duck with a delay and then self-destructs
+ */
 export default class DuckSpawner extends Entity {
     name = 'duck spawner';
 
