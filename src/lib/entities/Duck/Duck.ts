@@ -36,6 +36,9 @@ export default class Duck extends PhysicsEntity implements ITarget {
 
     // Beak
     beakCollision: Sphere;
+    /**
+     * Objects beak collided with during last frame
+     */
     beakCollisionList: Bread[] = [];
 
     // Behaviour
@@ -64,19 +67,22 @@ export default class Duck extends PhysicsEntity implements ITarget {
         return this._state;
     }
     public set state(newState: State) {
-        this.stateEntered.start();
+        this.stateEnteredTimeStamp.start();
         this._state = newState;
     }
 
-    private stateEntered: Clock = new Clock();
+    private stateEnteredTimeStamp: Clock = new Clock();
     /**
      * Time which duck has spent in the current state.
      */
     public get timeInState() {
-        return this.stateEntered.getElapsedTime();
+        return this.stateEnteredTimeStamp.getElapsedTime();
     }
 
     private _currentEmote: null | Entity = null;
+    /**
+     * Entity representing duck's current emotion (usually VFX)
+     */
     public set currentEmote(thought: null | Entity) {
         if (this._currentEmote !== null) {
             this._currentEmote.destroy();

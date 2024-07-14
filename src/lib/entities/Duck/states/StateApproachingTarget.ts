@@ -6,6 +6,8 @@ import Bread from '../../Bread';
 import type INextStateFactory from './INextStateFactory';
 import type ITarget from '../../ITarget';
 import type IStateGoesBackToIdle from './IStateEntersNextState';
+import Entity from '../../Entity';
+import StateShocked from './StateShocked';
 
 /**
  * Duck moves towards its target
@@ -120,6 +122,15 @@ export default class StateApproachingTarget
             ),
             this.acceleration * dt
         );
+    }
+
+    onReached(reachedBy: Entity): void {
+        if (reachedBy instanceof Duck && reachedBy.state.name === 'ramming') {
+            this.duck.state = new StateShocked(
+                this.duck,
+                this.nextStateFactory
+            );
+        }
     }
 
     enterNextState() {

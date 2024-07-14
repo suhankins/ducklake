@@ -12,6 +12,7 @@ import StateDisappointed from './StateDisappointed';
  * I hope it doesn't look like bullying or ducks fighting. It's all in good fun.
  */
 export default class StateRamming extends StateApproachingTarget {
+    name = 'ramming';
     /**
      * Time after which duck should give up on chasing
      * @constant

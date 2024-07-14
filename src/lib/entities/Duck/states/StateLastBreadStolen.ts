@@ -10,6 +10,7 @@ import type INextStateFactory from './INextStateFactory';
 import type Duck from '../Duck';
 import type IStateGoesBackToIdle from './IStateEntersNextState';
 import StateDisappointed from './StateDisappointed';
+import StateShocked from './StateShocked';
 
 /**
  * State duck should enter when it is very hungry
@@ -119,7 +120,6 @@ export default class StateLastBreadStolen
         if (!prematurely) {
             return;
         }
-        // TODO: Surprised state
-        this.duck.state = this.nextStateFactory();
+        this.duck.state = new StateShocked(this.duck, this.nextStateFactory);
     }
 }

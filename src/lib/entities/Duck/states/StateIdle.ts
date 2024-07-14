@@ -6,8 +6,10 @@ import RoamingTarget from '../../RoamingTarget';
 import StateApproachingBread from './StateApproachingBread';
 import Thought from '../../VFX/Thought/Thought';
 import { randomRange } from '../../../utils/MathHelpers';
+import Duck from '../Duck';
 
-import type Duck from '../Duck';
+import type Entity from '../../Entity';
+import StateShocked from './StateShocked';
 
 /**
  * * Duck waits for up to 10 seconds to move randomly on the screen
@@ -69,6 +71,15 @@ export default class StateIdle extends State {
             () => new StateIdle(this.duck),
             isEager
         );
+    }
+
+    onReached(reachedBy: Entity): void {
+        if (reachedBy instanceof Duck && reachedBy.state.name === 'ramming') {
+            this.duck.state = new StateShocked(
+                this.duck,
+                () => new StateIdle(this.duck)
+            );
+        }
     }
 
     onThoughtDestoyed(): void {

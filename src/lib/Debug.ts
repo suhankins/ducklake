@@ -1,6 +1,7 @@
 import Duck from './entities/Duck/Duck';
 import StateDisappointed from './entities/Duck/states/StateDisappointed';
 import StateIdle from './entities/Duck/states/StateIdle';
+import StateShocked from './entities/Duck/states/StateShocked';
 import Thought from './entities/VFX/Thought/Thought';
 
 import type Game from './Game';
@@ -16,6 +17,7 @@ export default class Debug {
         this.setupToggleDebugText();
         this.setupMakeDucksThinkBread();
         this.setupDisappointDucks();
+        this.setupShockDucks();
     }
 
     setupMakeDucksHungry() {
@@ -53,6 +55,20 @@ export default class Debug {
                 Object.values(Duck.ducks).forEach(
                     (duck) =>
                         (duck.state = new StateDisappointed(
+                            duck,
+                            () => new StateIdle(duck)
+                        ))
+                );
+            });
+    }
+
+    setupShockDucks() {
+        document
+            .getElementById('debug-shock-ducks')
+            ?.addEventListener('click', () => {
+                Object.values(Duck.ducks).forEach(
+                    (duck) =>
+                        (duck.state = new StateShocked(
                             duck,
                             () => new StateIdle(duck)
                         ))

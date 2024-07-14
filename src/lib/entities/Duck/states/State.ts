@@ -1,5 +1,6 @@
+import Duck from '../Duck';
+
 import type Entity from '../../Entity';
-import type Duck from '../Duck';
 
 /**
  * State that controls duck's behaviour
@@ -48,7 +49,13 @@ export default abstract class State {
      */
     abstract update(dt: number): void;
 
+    /**
+     * Called when duck is reached by something targetting it
+     */
     onReached(_reachedBy: Entity) {}
 
+    /**
+     * Called by thought bubbles when they get destroyed
+     */
     onThoughtDestoyed(_prematurely: boolean) {}
 }
