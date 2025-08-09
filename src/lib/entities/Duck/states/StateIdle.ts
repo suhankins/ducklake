@@ -82,7 +82,7 @@ export default class StateIdle extends State {
         }
     }
 
-    onThoughtDestoyed(): void {
+    onThoughtDestroyed(): void {
         this.duck.currentEmote = null;
     }
 }

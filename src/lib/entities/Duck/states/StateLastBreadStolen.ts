@@ -115,7 +115,7 @@ export default class StateLastBreadStolen
         }
     }
 
-    onThoughtDestoyed(prematurely: boolean): void {
+    onThoughtDestroyed(prematurely: boolean): void {
         this.duck.currentEmote = null;
         if (!prematurely) {
             return;

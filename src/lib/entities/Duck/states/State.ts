@@ -57,5 +57,5 @@ export default abstract class State {
     /**
      * Called by thought bubbles when they get destroyed
      */
-    onThoughtDestoyed(_prematurely: boolean) {}
+    onThoughtDestroyed(_prematurely: boolean) {}
 }

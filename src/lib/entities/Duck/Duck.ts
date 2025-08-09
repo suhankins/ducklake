@@ -165,7 +165,7 @@ export default class Duck extends PhysicsEntity implements ITarget {
     }
 
     onThoughtDestroyed(prematurely: boolean) {
-        this.state.onThoughtDestoyed(prematurely);
+        this.state.onThoughtDestroyed(prematurely);
     }
 
     onReached(reachedBy: Entity) {
